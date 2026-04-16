@@ -4,10 +4,13 @@ config.py — Constants and static data for Nonbank SEO & GEO Intelligence Agent
 Product profile, competitor matrix, content pillars, keyword seeds,
 article briefs, outlet queries, and subreddit lists.
 
-Nonbank (nonbank.io) — non-custodial wallet + integrated Visa card (NON×CARD)
-+ unified portfolio (banks, exchanges, hardware wallets, DeFi wallets in one app).
-Key differentiators: gasless fees, built-in AML, card from self-custody.
-Target markets: Global English (US/UK/EU), LATAM (ES/PT), MENA/UAE/Turkey.
+Nonbank (nonbank.io) — DeFi wallet with seamlessly integrated custodial Visa card
+(NON×CARD, Kolo issuer under the hood, 100+ countries).
+HYBRID model: non-custodial wallet + custodial card in one app.
+Key differentiators: gasless fees, built-in AML, seamless DeFi-to-card bridge.
+Note: portfolio integrations (exchanges, banks) are NOT live yet — current
+features are: DeFi wallet, proxy addresses, watch wallets, card (Kolo).
+All content is EN-global (wallet is borderless DeFi).
 """
 from __future__ import annotations
 
@@ -21,14 +24,15 @@ PRODUCT_PROFILE = {
     "domain": "nonbank.io",
     "tagline": "Rule your Crypto and Banks in one App",
     "description": (
-        "Non-custodial wallet with an integrated Visa card (NON×CARD) and "
-        "unified portfolio manager. Connect banks, exchanges, hardware wallets, "
-        "and DeFi wallets — spend directly from self-custody."
+        "DeFi wallet with a seamlessly integrated custodial Visa card (NON×CARD). "
+        "Hybrid model: non-custodial wallet where users hold keys + custodial card "
+        "(Kolo issuer) available in 100+ countries. Gasless transactions, built-in "
+        "AML screening, proxy addresses, and watch wallets."
     ),
     "card_name": "NON×CARD",
     "card_network": "Visa",
-    "card_status": "Live",
-    "custody_model": "Non-custodial (user holds keys)",
+    "card_status": "Live (100+ countries)",
+    "custody_model": "Hybrid — DeFi wallet (non-custodial) + card (custodial, Kolo issuer)",
 
     # ── Core differentiators ─────────────────────────────────────
     "differentiators": [
@@ -45,16 +49,16 @@ PRODUCT_PROFILE = {
             "seo_angle": "Compliance-first self-custody — unlike MetaMask or Gnosis Pay",
         },
         {
-            "id": "card_self_custody",
-            "label": "Card from Self-Custody",
-            "description": "NON×CARD spends directly from non-custodial wallet — no exchange deposit needed",
-            "seo_angle": "Spend your crypto IRL without handing keys to a custodian",
+            "id": "hybrid_defi_card",
+            "label": "DeFi Wallet + Seamless Card",
+            "description": "Hybrid model: DeFi wallet (non-custodial) with integrated custodial Visa card — issue in 100+ countries, no separate app",
+            "seo_angle": "Unlike Gnosis Pay (fully on-chain) or Crypto.com (fully custodial), Nonbank bridges DeFi and card spending seamlessly",
         },
         {
-            "id": "unified_portfolio",
-            "label": "Unified Portfolio",
-            "description": "Connect 12+ banks, hardware wallets (Ledger/Trezor), and 2+ exchanges in one app",
-            "seo_angle": "Replace 5 apps with one dashboard",
+            "id": "proxy_watch",
+            "label": "Proxy Addresses & Watch Wallets",
+            "description": "Monitor any wallet via watch-only addresses; proxy addresses for privacy. Portfolio integrations (exchanges/banks) planned.",
+            "seo_angle": "Track your whole portfolio without exposing keys — unique for a wallet with a card",
         },
         {
             "id": "non_id",
@@ -124,30 +128,30 @@ COMPETITORS = [
         "name": "Nonbank",
         "domain": "nonbank.io",
         "is_self": True,
-        "Custody Model": "Non-custodial (user keys)",
+        "Custody Model": "Hybrid — DeFi wallet (non-custodial) + card (custodial)",
         "Card Network": "Visa (NON×CARD)",
-        "Card Status": "Live",
+        "Card Status": "Live (100+ countries)",
         "Supported Chains": "TRON, EVM planned",
         "Gasless Fees": "Yes — fees from purchase",
         "Built-in AML": "Yes — AML Watchtower",
-        "Multi-Account (banks+exchanges+wallets)": "Yes — 12+ banks, 2+ exchanges, hardware wallets",
+        "Multi-Account (banks+exchanges+wallets)": "Watch wallets + proxy addresses (exchange/bank integrations planned)",
         "DeFi Identity / Username": "NON ID (mint as NFT)",
         "Cashback / Rewards": "Nons (gamified rewards)",
-        "KYC Required": "Yes",
+        "KYC Required": "Yes (card)",
         "Mobile App": "iOS + Android",
-        "Hardware Wallet Support": "Yes (Ledger, Trezor)",
-        "Key Regions": "Global",
+        "Hardware Wallet Support": "Watch wallets (full HW integration planned)",
+        "Key Regions": "Global (card: 100+ countries)",
         "Pricing": "0% transfer fees",
-        "Unique Angle": "Gasless + AML + card from self-custody + unified portfolio",
+        "Unique Angle": "Hybrid DeFi+card: gasless fees + AML + seamless card in DeFi wallet",
     },
     {
         "name": "Gnosis Pay",
         "domain": "gnosispay.com",
         "is_self": False,
-        "Custody Model": "Non-custodial (Safe smart account)",
+        "Custody Model": "Fully on-chain (Safe smart account — card spends from chain)",
         "Card Network": "Visa",
-        "Card Status": "Live (EU/UK)",
-        "Supported Chains": "Gnosis Chain",
+        "Card Status": "Live (EU/UK only)",
+        "Supported Chains": "Gnosis Chain only",
         "Gasless Fees": "No — needs xDAI for gas",
         "Built-in AML": "No",
         "Multi-Account (banks+exchanges+wallets)": "No — Gnosis Chain only",
@@ -229,18 +233,18 @@ COMPETITORS = [
 
 CONTENT_PILLARS = [
     {
-        "id": "non_custodial_card",
-        "label": "Non-Custodial Crypto Card",
-        "description": "Card spending from self-custody — Nonbank vs Gnosis Pay vs custodial cards",
-        "differentiator": "card_self_custody",
+        "id": "defi_wallet_card",
+        "label": "DeFi Wallet with Integrated Card",
+        "description": "Hybrid model: DeFi wallet + seamlessly integrated Visa card (100+ countries). Unlike Gnosis Pay (fully on-chain, EU/UK only) or Crypto.com (fully custodial).",
+        "differentiator": "hybrid_defi_card",
         "priority": "High",
         "seed_keywords": [
-            "non-custodial crypto card",
-            "self-custody visa card",
-            "spend crypto without exchange",
-            "non-custodial card vs gnosis pay",
-            "best non-custodial crypto card 2026",
-            "crypto card without giving up keys",
+            "DeFi wallet with card",
+            "crypto wallet with visa card",
+            "best crypto card 2026",
+            "DeFi wallet vs gnosis pay",
+            "crypto card 100 countries",
+            "crypto wallet card integration",
         ],
     },
     {
@@ -274,18 +278,18 @@ CONTENT_PILLARS = [
         ],
     },
     {
-        "id": "unified_portfolio",
-        "label": "All-in-One Crypto Portfolio",
-        "description": "Connect banks + exchanges + hardware wallets + DeFi in one app",
-        "differentiator": "unified_portfolio",
+        "id": "watch_proxy",
+        "label": "Watch Wallets & Proxy Addresses",
+        "description": "Track any wallet without exposing keys (watch-only). Proxy addresses for privacy. Unique for a wallet that also has a card.",
+        "differentiator": "proxy_watch",
         "priority": "Medium",
         "seed_keywords": [
-            "all-in-one crypto portfolio app",
-            "connect bank and crypto wallet",
-            "unified crypto dashboard",
-            "manage crypto and bank in one app",
-            "portfolio tracker with card",
-            "crypto bank integration app",
+            "crypto watch wallet",
+            "proxy address crypto",
+            "portfolio tracker wallet",
+            "watch-only wallet with card",
+            "crypto privacy proxy address",
+            "track multiple wallets one app",
         ],
     },
     {
@@ -310,18 +314,23 @@ CONTENT_PILLARS = [
 # ═══════════════════════════════════════════════════════════════════════════════
 
 BRIEFS = [
-    {"#": 1,  "Title": "Best Non-Custodial Crypto Card 2026: Nonbank vs Gnosis Pay vs COCA",  "Lang": "EN", "Market": "Global", "KW": "non-custodial crypto card",          "Words": 1500, "Priority": "High",   "Pillar": "non_custodial_card"},
-    {"#": 2,  "Title": "Gasless Crypto: How to Send USDT Without Paying Gas Fees",             "Lang": "EN", "Market": "Global", "KW": "gasless crypto transactions",         "Words": 1300, "Priority": "High",   "Pillar": "gasless"},
-    {"#": 3,  "Title": "Self-Custody + AML: Why Your Wallet Needs Built-in Compliance",        "Lang": "EN", "Market": "Global", "KW": "AML crypto wallet",                   "Words": 1200, "Priority": "Medium", "Pillar": "aml_compliance"},
-    {"#": 4,  "Title": "One App for Banks, Exchanges & Wallets: Nonbank Unified Portfolio",    "Lang": "EN", "Market": "Global", "KW": "all-in-one crypto portfolio app",     "Words": 1200, "Priority": "Medium", "Pillar": "unified_portfolio"},
-    {"#": 5,  "Title": "Nonbank vs Gnosis Pay: Non-Custodial Card Comparison 2026",            "Lang": "EN", "Market": "Global", "KW": "gnosis pay alternative",              "Words": 1500, "Priority": "High",   "Pillar": "non_custodial_card"},
-    {"#": 6,  "Title": "Nonbank vs MetaMask: Wallet Feature Comparison 2026",                  "Lang": "EN", "Market": "Global", "KW": "metamask alternative wallet",         "Words": 1400, "Priority": "High",   "Pillar": "non_custodial_card"},
-    {"#": 7,  "Title": "Nonbank vs Bleap vs COCA: Which Non-Custodial Card Wins?",             "Lang": "EN", "Market": "Global", "KW": "bleap vs coca vs nonbank",            "Words": 1400, "Priority": "High",   "Pillar": "non_custodial_card"},
-    {"#": 8,  "Title": "Spend Crypto Without Gas: How Nonbank's Gasless Fees Work",            "Lang": "EN", "Market": "Global", "KW": "send crypto without gas fees",        "Words": 1200, "Priority": "High",   "Pillar": "gasless"},
-    {"#": 9,  "Title": "Why Non-Custodial Cards Beat Crypto.com and Binance Card",             "Lang": "EN", "Market": "Global", "KW": "custodial vs non-custodial card",     "Words": 1400, "Priority": "High",   "Pillar": "non_custodial_card"},
-    {"#": 10, "Title": "NON ID: One DeFi Identity for All Your Wallets and Cards",             "Lang": "EN", "Market": "Global", "KW": "DeFi identity wallet",                "Words": 1000, "Priority": "Medium", "Pillar": "defi_identity"},
-    {"#": 11, "Title": "Crypto Wallet AML Screening: How Nonbank Blocks Sanctioned Wallets",   "Lang": "EN", "Market": "Global", "KW": "sanctioned wallet checker",           "Words": 1200, "Priority": "Medium", "Pillar": "aml_compliance"},
-    {"#": 12, "Title": "Is Gasless Crypto the Future? Meta-Transactions Explained",            "Lang": "EN", "Market": "Global", "KW": "meta-transactions crypto",            "Words": 1000, "Priority": "Medium", "Pillar": "gasless"},
+    # ── Pillar: DeFi Wallet + Card (hybrid model) ────────────────
+    {"#": 1,  "Title": "Best Crypto Wallet with Card 2026: DeFi Meets Visa",                  "Lang": "EN", "Market": "Global", "KW": "crypto wallet with visa card",        "Words": 1500, "Priority": "High",   "Pillar": "defi_wallet_card"},
+    {"#": 2,  "Title": "Nonbank vs Gnosis Pay: Hybrid DeFi+Card vs Fully On-Chain",           "Lang": "EN", "Market": "Global", "KW": "gnosis pay alternative",              "Words": 1500, "Priority": "High",   "Pillar": "defi_wallet_card"},
+    {"#": 3,  "Title": "Nonbank vs MetaMask: DeFi Wallet Comparison 2026",                    "Lang": "EN", "Market": "Global", "KW": "metamask alternative wallet",         "Words": 1400, "Priority": "High",   "Pillar": "defi_wallet_card"},
+    {"#": 4,  "Title": "Nonbank vs Bleap vs COCA: Which Crypto Card Wins in 2026?",           "Lang": "EN", "Market": "Global", "KW": "bleap vs coca crypto card",           "Words": 1400, "Priority": "High",   "Pillar": "defi_wallet_card"},
+    {"#": 5,  "Title": "Why a Hybrid DeFi Wallet Beats Fully Custodial Crypto Cards",         "Lang": "EN", "Market": "Global", "KW": "custodial vs DeFi wallet card",       "Words": 1300, "Priority": "High",   "Pillar": "defi_wallet_card"},
+    # ── Pillar: Gasless ──────────────────────────────────────────
+    {"#": 6,  "Title": "Gasless Crypto: How to Send USDT Without Paying Gas Fees",             "Lang": "EN", "Market": "Global", "KW": "gasless crypto transactions",         "Words": 1300, "Priority": "High",   "Pillar": "gasless"},
+    {"#": 7,  "Title": "Spend Crypto Without Gas: How Nonbank's Gasless Fees Work",            "Lang": "EN", "Market": "Global", "KW": "send crypto without gas fees",        "Words": 1200, "Priority": "High",   "Pillar": "gasless"},
+    {"#": 8,  "Title": "Is Gasless Crypto the Future? Meta-Transactions Explained",            "Lang": "EN", "Market": "Global", "KW": "meta-transactions crypto",            "Words": 1000, "Priority": "Medium", "Pillar": "gasless"},
+    # ── Pillar: AML ──────────────────────────────────────────────
+    {"#": 9,  "Title": "DeFi Wallet + AML: Why Built-in Compliance Matters",                   "Lang": "EN", "Market": "Global", "KW": "AML crypto wallet",                   "Words": 1200, "Priority": "Medium", "Pillar": "aml_compliance"},
+    {"#": 10, "Title": "Crypto Wallet AML Screening: How Nonbank Blocks Sanctioned Wallets",   "Lang": "EN", "Market": "Global", "KW": "sanctioned wallet checker",           "Words": 1200, "Priority": "Medium", "Pillar": "aml_compliance"},
+    # ── Pillar: Watch + Proxy ────────────────────────────────────
+    {"#": 11, "Title": "Watch Wallets Explained: Track Crypto Without Exposing Keys",          "Lang": "EN", "Market": "Global", "KW": "crypto watch wallet",                 "Words": 1000, "Priority": "Medium", "Pillar": "watch_proxy"},
+    # ── Pillar: DeFi Identity ────────────────────────────────────
+    {"#": 12, "Title": "NON ID: One DeFi Identity for All Your Wallets and Cards",             "Lang": "EN", "Market": "Global", "KW": "DeFi identity wallet",                "Words": 1000, "Priority": "Medium", "Pillar": "defi_identity"},
 ]
 
 

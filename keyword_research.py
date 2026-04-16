@@ -154,12 +154,13 @@ def score_keyword(kw: Keyword) -> float:
 # Categories: differentiator-led, competitor comparison, market-specific, long-tail.
 
 SEED_KEYWORDS: list[dict] = [
-    # ── DIFFERENTIATOR 1: NON-CUSTODIAL CARD ─────────────────────────────
-    {"q": "non-custodial crypto card", "lang": "en", "market": "global"},
-    {"q": "best non-custodial crypto card 2026", "lang": "en", "market": "global"},
-    {"q": "self-custody visa card", "lang": "en", "market": "global"},
-    {"q": "spend crypto without exchange deposit", "lang": "en", "market": "global"},
-    {"q": "crypto card without giving up keys", "lang": "en", "market": "global"},
+    # ── PILLAR 1: DeFi WALLET + CARD (HYBRID) ───────────────────────────
+    {"q": "DeFi wallet with card", "lang": "en", "market": "global"},
+    {"q": "crypto wallet with visa card", "lang": "en", "market": "global"},
+    {"q": "best crypto card 2026", "lang": "en", "market": "global"},
+    {"q": "crypto wallet card integration", "lang": "en", "market": "global"},
+    {"q": "DeFi wallet vs gnosis pay", "lang": "en", "market": "global"},
+    {"q": "crypto card 100 countries", "lang": "en", "market": "global"},
 
     # ── DIFFERENTIATOR 2: GASLESS FEES ───────────────────────────────────
     {"q": "gasless crypto transactions", "lang": "en", "market": "global"},
@@ -174,11 +175,11 @@ SEED_KEYWORDS: list[dict] = [
     {"q": "sanctioned wallet checker", "lang": "en", "market": "global"},
     {"q": "compliant non-custodial wallet", "lang": "en", "market": "global"},
 
-    # ── UNIFIED PORTFOLIO ────────────────────────────────────────────────
-    {"q": "all-in-one crypto portfolio app", "lang": "en", "market": "global"},
-    {"q": "connect bank and crypto wallet", "lang": "en", "market": "global"},
-    {"q": "manage crypto and bank in one app", "lang": "en", "market": "global"},
-    {"q": "portfolio tracker with card", "lang": "en", "market": "global"},
+    # ── WATCH WALLETS & PROXY ADDRESSES ──────────────────────────────────
+    {"q": "crypto watch wallet", "lang": "en", "market": "global"},
+    {"q": "proxy address crypto", "lang": "en", "market": "global"},
+    {"q": "portfolio tracker wallet", "lang": "en", "market": "global"},
+    {"q": "track multiple wallets one app", "lang": "en", "market": "global"},
 
     # ── COMPETITOR COMPARISONS ───────────────────────────────────────────
     {"q": "Nonbank vs Gnosis Pay", "lang": "en", "market": "global"},
