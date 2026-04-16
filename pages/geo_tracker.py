@@ -56,12 +56,12 @@ def page_geo_tracker():
         with col2:
             selected_markets = st.multiselect(
                 "Target Markets", options=list(TARGET_MARKETS.keys()),
-                default=["UAE", "UK", "Italy", "Spain", "Georgia"],
+                default=list(TARGET_MARKETS.keys()),
             )
 
         col3, col4 = st.columns(2)
         with col3:
-            selected_langs = st.multiselect("Languages", options=["en", "ru", "it", "es", "pl"], default=["en", "ru"])
+            selected_langs = st.multiselect("Languages", options=["en"], default=["en"])
         with col4:
             count_per_cat = st.slider("Prompts per category", 3, 20, 8)
 
