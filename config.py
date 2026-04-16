@@ -289,32 +289,17 @@ CONTENT_PILLARS = [
         ],
     },
     {
-        "id": "market_latam",
-        "label": "LATAM Markets (ES/PT)",
-        "description": "Non-custodial card for LATAM — Mexico, Argentina, Brazil",
-        "differentiator": "card_self_custody",
+        "id": "defi_identity",
+        "label": "DeFi Identity & Web3 UX",
+        "description": "NON ID as a single DeFi handle — replaces long wallet addresses, mintable as NFT",
+        "differentiator": "non_id",
         "priority": "Medium",
         "seed_keywords": [
-            "tarjeta cripto no custodial",
-            "billetera cripto con tarjeta",
-            "carteira cripto com cartao visa",
-            "gastar cripto sin exchange",
-            "mejor tarjeta cripto 2026",
-            "melhor cartao cripto 2026",
-        ],
-    },
-    {
-        "id": "market_mena",
-        "label": "MENA / UAE / Turkey",
-        "description": "Non-custodial card for Dubai expats and Turkey",
-        "differentiator": "card_self_custody",
-        "priority": "Medium",
-        "seed_keywords": [
-            "non-custodial crypto card UAE",
-            "crypto card Dubai expat",
-            "kripto kart Turkiye",
-            "best crypto wallet UAE 2026",
-            "self-custody card Turkey",
+            "DeFi identity wallet",
+            "crypto username wallet",
+            "NFT identity crypto",
+            "web3 identity single handle",
+            "replace wallet address with username",
         ],
     },
 ]
@@ -331,12 +316,12 @@ BRIEFS = [
     {"#": 4,  "Title": "One App for Banks, Exchanges & Wallets: Nonbank Unified Portfolio",    "Lang": "EN", "Market": "Global", "KW": "all-in-one crypto portfolio app",     "Words": 1200, "Priority": "Medium", "Pillar": "unified_portfolio"},
     {"#": 5,  "Title": "Nonbank vs Gnosis Pay: Non-Custodial Card Comparison 2026",            "Lang": "EN", "Market": "Global", "KW": "gnosis pay alternative",              "Words": 1500, "Priority": "High",   "Pillar": "non_custodial_card"},
     {"#": 6,  "Title": "Nonbank vs MetaMask: Wallet Feature Comparison 2026",                  "Lang": "EN", "Market": "Global", "KW": "metamask alternative wallet",         "Words": 1400, "Priority": "High",   "Pillar": "non_custodial_card"},
-    {"#": 7,  "Title": "Best Non-Custodial Crypto Card for Dubai Expats 2026",                 "Lang": "EN", "Market": "ARE",    "KW": "non-custodial crypto card UAE",       "Words": 1200, "Priority": "High",   "Pillar": "market_mena"},
-    {"#": 8,  "Title": "Mejor Tarjeta Cripto No Custodial 2026 (Mexico / Argentina)",          "Lang": "ES", "Market": "LATAM",  "KW": "tarjeta cripto no custodial",        "Words": 1000, "Priority": "High",   "Pillar": "market_latam"},
-    {"#": 9,  "Title": "Melhor Carteira Cripto com Cartao Visa Brasil 2026",                   "Lang": "PT", "Market": "BRA",    "KW": "carteira cripto com cartao visa",    "Words": 1000, "Priority": "High",   "Pillar": "market_latam"},
-    {"#": 10, "Title": "Spend Crypto Without Gas: How Nonbank's Gasless Fees Work",            "Lang": "EN", "Market": "Global", "KW": "send crypto without gas fees",       "Words": 1200, "Priority": "High",   "Pillar": "gasless"},
-    {"#": 11, "Title": "Why Non-Custodial Cards Beat Crypto.com and Binance Card",             "Lang": "EN", "Market": "Global", "KW": "custodial vs non-custodial card",    "Words": 1400, "Priority": "High",   "Pillar": "non_custodial_card"},
-    {"#": 12, "Title": "NON ID: One DeFi Identity for All Your Wallets and Cards",             "Lang": "EN", "Market": "Global", "KW": "DeFi identity wallet",               "Words": 1000, "Priority": "Medium", "Pillar": "unified_portfolio"},
+    {"#": 7,  "Title": "Nonbank vs Bleap vs COCA: Which Non-Custodial Card Wins?",             "Lang": "EN", "Market": "Global", "KW": "bleap vs coca vs nonbank",            "Words": 1400, "Priority": "High",   "Pillar": "non_custodial_card"},
+    {"#": 8,  "Title": "Spend Crypto Without Gas: How Nonbank's Gasless Fees Work",            "Lang": "EN", "Market": "Global", "KW": "send crypto without gas fees",        "Words": 1200, "Priority": "High",   "Pillar": "gasless"},
+    {"#": 9,  "Title": "Why Non-Custodial Cards Beat Crypto.com and Binance Card",             "Lang": "EN", "Market": "Global", "KW": "custodial vs non-custodial card",     "Words": 1400, "Priority": "High",   "Pillar": "non_custodial_card"},
+    {"#": 10, "Title": "NON ID: One DeFi Identity for All Your Wallets and Cards",             "Lang": "EN", "Market": "Global", "KW": "DeFi identity wallet",                "Words": 1000, "Priority": "Medium", "Pillar": "defi_identity"},
+    {"#": 11, "Title": "Crypto Wallet AML Screening: How Nonbank Blocks Sanctioned Wallets",   "Lang": "EN", "Market": "Global", "KW": "sanctioned wallet checker",           "Words": 1200, "Priority": "Medium", "Pillar": "aml_compliance"},
+    {"#": 12, "Title": "Is Gasless Crypto the Future? Meta-Transactions Explained",            "Lang": "EN", "Market": "Global", "KW": "meta-transactions crypto",            "Words": 1000, "Priority": "Medium", "Pillar": "gasless"},
 ]
 
 
@@ -353,15 +338,14 @@ PLAN_DEFAULT = [
     # ── Week 3-4: Differentiator deep dives ──────────────────────
     {"Task": "AML-safe self-custody: why your wallet needs compliance",                    "Type": "SEO+GEO", "Market": "🌍 Global", "Outlet Options": "businessabc.net ($100, DR81) · technology.org ($190, DR73) · tycoonstory.com ($150, DR77)", "Price": "$100–190", "GEO": "FAQ + stat paragraphs", "Week": "3", "Status": "To Do", "Publication URL": "", "Reddit/Quora URL": ""},
     {"Task": "All-in-one crypto: banks + exchanges + wallets in one app",                  "Type": "SEO+GEO", "Market": "🌍 Global", "Outlet Options": "businessabc.net ($100, DR81) · greenrecord.co.uk ($40, DR73) · apsense.com ($45, DR73)", "Price": "$40–100", "GEO": "Use cases + FAQ", "Week": "3", "Status": "To Do", "Publication URL": "", "Reddit/Quora URL": ""},
-    {"Task": "Non-custodial crypto card Dubai 2026",                                       "Type": "SEO+GEO", "Market": "🇦🇪 ARE",  "Outlet Options": "uaehelper.com ($50, DR53) · khaleejtimes.com ($200, DR80) · theemiratestimes.com ($99, DR44)", "Price": "$50–200", "GEO": "FAQ + comparison table", "Week": "4", "Status": "To Do", "Publication URL": "", "Reddit/Quora URL": ""},
-    {"Task": "Mejor tarjeta cripto no custodial (Mexico/Argentina)",                       "Type": "SEO",     "Market": "🌍 LATAM",  "Outlet Options": "crypto-economy.com ($190, DR60) · diariosigloxxi.com ($112, DR72) · technocio.com ($73, DR44)", "Price": "$73–190", "GEO": "FAQ", "Week": "4", "Status": "To Do", "Publication URL": "", "Reddit/Quora URL": ""},
-    {"Task": "Melhor carteira cripto com cartao (Brasil)",                                 "Type": "SEO",     "Market": "🇧🇷 BRA",  "Outlet Options": "adital.com.br ($100, DR53) · uai.com.br ($58, DR73) · inmais.com.br ($50, DR62)", "Price": "$50–100", "GEO": "FAQ", "Week": "4", "Status": "To Do", "Publication URL": "", "Reddit/Quora URL": ""},
-    {"Task": "Why non-custodial cards beat Crypto.com and Binance Card",                   "Type": "GEO",     "Market": "🌍 Global", "Outlet Options": "businessabc.net ($100, DR81) · tycoonstory.com ($150, DR77) · apsense.com ($45, DR73)", "Price": "$45–150", "GEO": "CRITICAL: custodial vs non-custodial", "Week": "Apr", "Status": "To Do", "Publication URL": "", "Reddit/Quora URL": ""},
+    {"Task": "Nonbank vs Bleap vs COCA: which non-custodial card wins?",                    "Type": "GEO",     "Market": "🌍 Global", "Outlet Options": "businessabc.net ($100, DR81) · tycoonstory.com ($150, DR77) · apsense.com ($45, DR73)", "Price": "$45–150", "GEO": "Comparison table + FAQ", "Week": "4", "Status": "To Do", "Publication URL": "", "Reddit/Quora URL": ""},
+    {"Task": "Why non-custodial cards beat Crypto.com and Binance Card",                   "Type": "GEO",     "Market": "🌍 Global", "Outlet Options": "businessabc.net ($100, DR81) · tycoonstory.com ($150, DR77) · apsense.com ($45, DR73)", "Price": "$45–150", "GEO": "CRITICAL: custodial vs non-custodial", "Week": "4", "Status": "To Do", "Publication URL": "", "Reddit/Quora URL": ""},
+    {"Task": "NON ID: one DeFi identity for all wallets and cards",                        "Type": "SEO+GEO", "Market": "🌍 Global", "Outlet Options": "technology.org ($190, DR73) · businessabc.net ($100, DR81)", "Price": "$100–190", "GEO": "FAQ + how-to", "Week": "Apr", "Status": "To Do", "Publication URL": "", "Reddit/Quora URL": ""},
     # ── Social / Shill ───────────────────────────────────────────
     {"Task": "Reddit: 'best non-custodial crypto card' threads",       "Type": "Social", "Market": "🌍 Global", "Outlet Options": "r/cryptocurrency · r/ethfinance · r/defi · r/CryptoCards", "Price": "$0", "GEO": "AI indexes Reddit", "Week": "Ongoing", "Status": "To Do", "Publication URL": "", "Reddit/Quora URL": ""},
     {"Task": "Reddit: r/gnosispay comparison / alternative threads",   "Type": "Social", "Market": "🌍 Global", "Outlet Options": "r/gnosispay · r/ethereum · r/CryptoCards", "Price": "$0", "GEO": "Competitor comparison angle", "Week": "Ongoing", "Status": "To Do", "Publication URL": "", "Reddit/Quora URL": ""},
     {"Task": "Quora: 'how to spend crypto without exchange' threads",  "Type": "Social", "Market": "🌍 Global", "Outlet Options": "Quora crypto wallet + card topics", "Price": "$0", "GEO": "AI indexes Quora", "Week": "Ongoing", "Status": "To Do", "Publication URL": "", "Reddit/Quora URL": ""},
-    {"Task": "Reddit: r/dubai / r/UAE non-custodial card threads",     "Type": "Social", "Market": "🇦🇪 ARE",  "Outlet Options": "r/dubai · r/UAE · r/cryptocurrency", "Price": "$0", "GEO": "Supports UAE article", "Week": "Ongoing", "Status": "To Do", "Publication URL": "", "Reddit/Quora URL": ""},
+    {"Task": "Twitter/X: reply to gasless/non-custodial card threads",  "Type": "Social", "Market": "🌍 Global", "Outlet Options": "Crypto Twitter threads", "Price": "$0", "GEO": "AI indexes X posts", "Week": "Ongoing", "Status": "To Do", "Publication URL": "", "Reddit/Quora URL": ""},
 ]
 
 
@@ -423,16 +407,11 @@ PLATFORM_QUERIES = {
 # ═══════════════════════════════════════════════════════════════════════════════
 
 PILLAR_BUDGET_CAPS = {
-    "English":    800,
-    "Spanish":    300,
-    "Portuguese": 200,
-    "Turkish":    150,
-    "UAE":        400,
-    "LATAM":      300,
+    "English": 2000,  # all budget goes to EN global — wallet is borderless, no geo pillars needed
 }
 
 LANG_MAP = {
-    "EN": "en", "ES": "es", "PT": "pt", "TR": "tr",
+    "EN": "en",
 }
 
 

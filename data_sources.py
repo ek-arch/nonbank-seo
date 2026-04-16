@@ -61,36 +61,43 @@ DATA = {
         "mid":          {"revenue": 0, "cost": 2000, "roi": 0.0},
         "optimistic":   {"revenue": 0, "cost": 2000, "roi": 0.0},
     },
-    # Card issuance allowance. Non-custodial wallet is less geo-restricted than
-    # a typical issuer, but standard sanctions/AML blocks still apply. Adjust
-    # as card issuance terms are confirmed for Nonbank.
+    # Card issuance allowance — same issuer as Kolo (card is Kolo under the hood).
+    # Wallet itself is global DeFi (no geo restrictions). Card has issuer restrictions.
+    # Source: Kolo Hex "Card Issuance & Spend Restrictions" — updated 2026-03-12.
     "card_allowance": {
         "can_issue": {
             "europe": [
-                "GBR", "FRA", "DEU", "NLD", "ITA", "ESP", "PRT", "POL", "CHE",
-                "CZE", "AUT", "ROU", "BGR", "SWE", "NOR", "FIN", "LTU", "LVA",
-                "EST", "CYP", "LUX", "GRC", "HUN", "SRB", "SVK", "HRV", "SVN",
-                "MLT", "ISL", "AND", "LIE", "MCO", "MDA",
-            ],
-            "americas": [
-                "USA", "CAN", "MEX", "BRA", "ARG", "CHL", "COL", "PER", "URY", "CRI",
-            ],
-            "mena": [
-                "ARE", "BHR", "SAU", "QAT", "TUR", "EGY", "MAR", "JOR",
+                "FRA", "DEU", "GBR", "NLD", "POL", "FIN", "SWE", "ESP", "ITA", "CHE",
+                "CZE", "AUT", "ROU", "BGR", "NOR", "PRT", "LTU", "CYP", "LUX", "EST",
+                "GRC", "HUN", "SRB", "SVK", "HRV", "SVN", "MLT", "ISL", "AND", "LIE",
+                "MCO", "MDA",
             ],
             "asia_pacific": [
-                "SGP", "JPN", "KOR", "MYS", "THA", "HKG", "AUS", "NZL", "IDN",
+                "IDN", "SGP", "JPN", "KOR", "MYS", "THA", "HKG", "AUS", "NZL",
+            ],
+            "latam_caribbean": [
+                "BRA", "ARG", "COL", "MEX", "PER", "CRI", "URY", "CHL",
+            ],
+            "central_asia_caucasus": [
+                "GEO", "AZE", "UZB", "KGZ", "ARM",
+            ],
+            "middle_east": [
+                "BHR", "ARE",
+            ],
+            "french_overseas": [
+                "REU", "GLP", "MTQ", "GUF",
             ],
         },
         "cannot_issue": [
-            "RUS", "BLR", "VEN", "CUB", "IRN", "SYR", "PRK",
+            "RUS", "BLR", "VEN", "CUB", "IRN", "SYR", "PRK", "UKR",
+            "TUR", "ISR", "CHN", "IND", "VNM", "NPL", "IRQ", "KAZ",
         ],
         "cannot_spend": [
-            "SYR", "IRN", "CUB", "PRK", "RUS",
+            "SYR", "IRN", "CUB", "PRK", "RUS", "UKR", "VEN",
         ],
-        "note": "Non-custodial wallet — self-custody funds are always user-controlled. "
-                "Card issuance subject to issuing partner's geo terms + sanctions.",
-        "updated": "—",
+        "note": "Wallet is global DeFi (no geo restrictions). Card uses Kolo issuer — "
+                "same geography. The US is NOT a supported market for card issuance.",
+        "updated": "2026-03-12",
     },
     # Outlet catalog — seeded from prior research; scores from Notion guide
     # (search %, DR, price efficiency, category fit, traffic, ai_citability).

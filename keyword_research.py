@@ -202,25 +202,11 @@ SEED_KEYWORDS: list[dict] = [
     {"q": "crypto card for digital nomads", "lang": "en", "market": "global"},
     {"q": "best way to spend crypto while traveling", "lang": "en", "market": "global"},
 
-    # ── GEO-TARGETED: UAE / MENA ─────────────────────────────────────────
-    {"q": "non-custodial crypto card UAE", "lang": "en", "market": "ARE"},
-    {"q": "crypto card Dubai expat", "lang": "en", "market": "ARE"},
-    {"q": "best crypto wallet UAE 2026", "lang": "en", "market": "ARE"},
-
-    # ── GEO-TARGETED: LATAM (SPANISH) ────────────────────────────────────
-    {"q": "tarjeta cripto no custodial", "lang": "es", "market": "LATAM"},
-    {"q": "mejor tarjeta cripto 2026", "lang": "es", "market": "LATAM"},
-    {"q": "billetera cripto con tarjeta Visa", "lang": "es", "market": "LATAM"},
-    {"q": "gastar cripto sin exchange", "lang": "es", "market": "LATAM"},
-
-    # ── GEO-TARGETED: LATAM (PORTUGUESE / BRAZIL) ────────────────────────
-    {"q": "carteira cripto com cartao visa", "lang": "pt", "market": "BRA"},
-    {"q": "melhor cartao cripto 2026", "lang": "pt", "market": "BRA"},
-    {"q": "gastar cripto sem exchange", "lang": "pt", "market": "BRA"},
-
-    # ── GEO-TARGETED: TURKEY ─────────────────────────────────────────────
-    {"q": "kripto kart Turkiye 2026", "lang": "tr", "market": "TUR"},
-    {"q": "en iyi kripto cuzdan", "lang": "tr", "market": "TUR"},
+    # ── DeFi IDENTITY / WEB3 UX ────────────────────────────────────────
+    {"q": "DeFi identity wallet", "lang": "en", "market": "global"},
+    {"q": "crypto username wallet", "lang": "en", "market": "global"},
+    {"q": "NFT identity crypto", "lang": "en", "market": "global"},
+    {"q": "replace wallet address with username", "lang": "en", "market": "global"},
 ]
 
 
