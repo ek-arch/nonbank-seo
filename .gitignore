@@ -1,0 +1,17 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.env
+
+# Streamlit
+.streamlit/secrets.toml
+
+# Archives / backups
+files.zip
+
+# macOS
+.DS_Store
+geo_audit_cache.json
+distribution_cache.json
+content_plan_cache.json
