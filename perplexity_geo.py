@@ -242,22 +242,10 @@ DEFAULT_GEO_PROMPTS = [
 # ── Geo-Targeted Prompt Templates ────────────────────────────────────────────
 # Generate prompts per market — the way real local users ask AI
 
+# Nonbank is global DeFi — wallet has no geo restrictions.
+# Single global market for GEO audit (EN-only content strategy).
 GEO_MARKETS = {
-    "GBR": {"name": "UK",          "lang": "en", "local_name": "United Kingdom", "currency": "GBP"},
-    "ARE": {"name": "UAE",          "lang": "en", "local_name": "Dubai / UAE",    "currency": "AED"},
-    "ITA": {"name": "Italy",        "lang": "it", "local_name": "Italia",         "currency": "EUR"},
-    "ESP": {"name": "Spain",        "lang": "es", "local_name": "España",         "currency": "EUR"},
-    "POL": {"name": "Poland",       "lang": "pl", "local_name": "Polska",         "currency": "PLN"},
-    "DEU": {"name": "Germany",      "lang": "en", "local_name": "Deutschland",    "currency": "EUR"},
-    "IDN": {"name": "Indonesia",    "lang": "en", "local_name": "Indonesia",      "currency": "IDR"},
-    "LVA": {"name": "Latvia",       "lang": "en", "local_name": "Latvia",         "currency": "EUR"},
-    "ROU": {"name": "Romania",      "lang": "en", "local_name": "Romania",        "currency": "RON"},
-    "MNE": {"name": "Montenegro",   "lang": "en", "local_name": "Montenegro",     "currency": "EUR"},
-    "GEO": {"name": "Georgia",      "lang": "en", "local_name": "Georgia",        "currency": "GEL"},
-    "UZB": {"name": "Uzbekistan",   "lang": "ru", "local_name": "Узбекистан",     "currency": "UZS"},
-    "KGZ": {"name": "Kyrgyzstan",   "lang": "ru", "local_name": "Кыргызстан",     "currency": "KGS"},
-    "ARM": {"name": "Armenia",      "lang": "ru", "local_name": "Армения",        "currency": "AMD"},
-    "CYP": {"name": "Cyprus",       "lang": "en", "local_name": "Cyprus",         "currency": "EUR"},
+    "GLOBAL": {"name": "Global", "lang": "en", "local_name": "Global", "currency": "USD"},
 }
 
 # Templates per category — {market} and {local} get replaced

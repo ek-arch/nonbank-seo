@@ -79,22 +79,10 @@ DISCOVERY_CATEGORIES = {
 }
 
 # Markets to generate geo-specific prompts for
+# Nonbank is global DeFi — no geo-specific markets needed.
+# Keep a small set for geo-targeted prompt discovery (EN only).
 TARGET_MARKETS = {
-    "UAE": {"langs": ["en", "ru"], "local": "ОАЭ"},
-    "UK": {"langs": ["en"], "local": "UK"},
-    "Italy": {"langs": ["en", "it"], "local": "Italia"},
-    "Spain": {"langs": ["en", "ru", "es"], "local": "España"},
-    "Poland": {"langs": ["en", "pl"], "local": "Polska"},
-    "Georgia": {"langs": ["en", "ru"], "local": "Грузия"},
-    "Cyprus": {"langs": ["en", "ru"], "local": "Кипр"},
-    "Germany": {"langs": ["en"], "local": "Deutschland"},
-    "Latvia": {"langs": ["en", "ru"], "local": "Латвия"},
-    "Romania": {"langs": ["en"], "local": "Romania"},
-    "Indonesia": {"langs": ["en"], "local": "Indonesia"},
-    "Armenia": {"langs": ["ru"], "local": "Армения"},
-    "Uzbekistan": {"langs": ["ru"], "local": "Узбекистан"},
-    "Kyrgyzstan": {"langs": ["ru"], "local": "Кыргызстан"},
-    "Azerbaijan": {"langs": ["ru"], "local": "Азербайджан"},
+    "Global": {"langs": ["en"], "local": "Global"},
 }
 
 
@@ -273,9 +261,9 @@ def discover_prompts_claude(
     if categories is None:
         categories = list(DISCOVERY_CATEGORIES.keys())
     if markets is None:
-        markets = list(TARGET_MARKETS.keys())[:5]  # Top 5 by default
+        markets = list(TARGET_MARKETS.keys())
     if languages is None:
-        languages = ["en", "ru"]
+        languages = ["en"]
 
     cat_descriptions = "\n".join(
         f"- {k}: {v['description']} (e.g. \"{v['example']}\")"
@@ -321,7 +309,7 @@ Return ONLY the JSON array."""
             "content-type": "application/json",
         },
         json={
-            "model": "claude-3-5-haiku-20241022",
+            "model": "claude-haiku-4-5-20251001",
             "max_tokens": 4096,
             "system": DISCOVERY_SYSTEM_PROMPT,
             "messages": [{"role": "user", "content": user_msg}],
