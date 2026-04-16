@@ -100,14 +100,26 @@ def page_keyword_intel():
 
     # ── TAB 2: Discovery Pipeline ─────────────────────────────────
     with tab_discover:
+        # Auto-clear stale Kolo-era session state (keywords from old matrix with
+        # country markets like GBR/ARE/ITA/POL etc. — the new matrix uses 'global' only)
+        _stale = False
+        if "pipe_candidates" in st.session_state:
+            _cached = st.session_state["pipe_candidates"]
+            if _cached and getattr(_cached[0], "market", "") != "global":
+                _stale = True
+        if _stale:
+            for _k in ("pipe_candidates", "pipe_selected", "pipe_ac_results", "pipe_ai_results"):
+                st.session_state.pop(_k, None)
+            st.info("Cleared stale keywords from previous session. Click 'Generate Matrix' below for fresh Nonbank-focused keywords.")
+
         st.subheader("Keyword Discovery Pipeline")
         st.markdown("**One flow:** Generate → Select → Autocomplete validate → AI check → Final ranked list")
 
         with st.expander("ℹ️ How the pipeline works", expanded=False):
             st.markdown("""
 **5-step sequential pipeline** — each step feeds the next:
-1. **Generate Matrix** (free) — products × markets × languages × intent modifiers
-2. **Select & Filter** — narrow down by language, market, category
+1. **Generate Matrix** (free) — Nonbank products × competitors × personas × features × problems
+2. **Select & Filter** — narrow down by category, intent
 3. **Autocomplete Validation** (free) — Google Autocomplete API
 4. **AI Visibility Check** (~$0.005/query) — Perplexity AI
 5. **Final Ranked Results** — combined table with priority + autocomplete + AI visibility
