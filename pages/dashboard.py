@@ -70,6 +70,53 @@ def page_dashboard():
 
     st.divider()
 
+    # ── Section 3b: Technical SEO Audit (April 2026) ──────────────
+    st.subheader("🔧 Technical SEO Audit")
+    st.caption("Snapshot from April 2026 audit of nonbank.io. Re-run monthly.")
+
+    t1, t2, t3, t4 = st.columns(4)
+    t1.metric("🟥 Critical issues", "6", help="sitemap, JSON-LD, meta desc, image alts, llms.txt, sitemap robots directive")
+    t2.metric("🟨 Important gaps", "9", help="Article schema, hreflang, breadcrumbs, thin internal links, stale homepage, etc.")
+    t3.metric("🟩 Wins", "13", help="Title, meta desc (home), canonical, OG/Twitter, HTTPS+HSTS, CDN, fast TTFB <200ms, mobile, lang=en, 91 blog posts")
+    t4.metric("Indexed by Google", "~10 / 91", help="Big gap — most blog posts not indexed due to missing sitemap")
+
+    with st.expander("🟥 Critical issues (fix this week)", expanded=False):
+        st.markdown(
+            "- **No sitemap.xml** — `/sitemap.xml` → 404. Webflow auto-generates one; just enable in Project Settings → SEO\n"
+            "- **No JSON-LD structured data** anywhere — zero rich results, weak GEO citation signals\n"
+            "- **No meta descriptions** on `/blog` or blog posts — Google auto-generates (usually bad)\n"
+            "- **All 48 homepage images have empty `alt=\"\"`** — zero image SEO, fails Lighthouse\n"
+            "- **robots.txt missing `Sitemap:` directive** — circular with #1 above\n"
+            "- **No `/llms.txt`** — emerging AI crawler standard, quick GEO win"
+        )
+    with st.expander("🟨 Important gaps", expanded=False):
+        st.markdown(
+            "- No Article schema on 91 blog posts\n"
+            "- No hreflang tags (`hreflang=\"en\"` + `x-default`)\n"
+            "- No BreadcrumbList JSON-LD\n"
+            "- Only 6 internal links from homepage — very thin\n"
+            "- Homepage last published Dec 30, 2025 (~4 months stale)\n"
+            "- No `<article>` semantic HTML on blog posts\n"
+            "- Canonical on `/blog` is empty/self-referential\n"
+            "- No Organization / Product schema\n"
+            "- FAQ section on homepage exists but no FAQPage schema"
+        )
+    with st.expander("🟩 What's working well", expanded=False):
+        st.markdown(
+            "- Title tag + meta description on homepage (167 chars, keyword-rich)\n"
+            "- Canonical, Open Graph, Twitter Card all declared\n"
+            "- HTTPS + HSTS (`max-age=31536000`)\n"
+            "- Cloudflare CDN + HTTP/3, **TTFB < 200ms** globally\n"
+            "- Homepage 47 KB, blog post 34 KB — very lean\n"
+            "- Valid HTML5 + `lang=\"en\"`\n"
+            "- Mobile viewport configured\n"
+            "- Single H1 + 9 H2s (good hierarchy)\n"
+            "- 91 blog posts exist (just need sitemap + schema to unlock)\n"
+            "- Analytics stack: GA4, Google Ads, Hotjar, GTM, Finsweet Cookie Consent"
+        )
+
+    st.divider()
+
     # ── Section 4: Phased Weekly Actions ──────────────────────────
     st.subheader("Phased Weekly Actions")
 
