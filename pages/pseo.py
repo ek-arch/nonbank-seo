@@ -89,15 +89,30 @@ def page_programmatic_seo():
     st.title("🚀 Programmatic SEO — Long-Tail Keyword Factory")
     st.caption("Generate → Validate (free) → Score competition → Auto-build pages")
 
-    with st.expander("ℹ️ How programmatic SEO works", expanded=False):
-        st.markdown("""
-**Goal:** Auto-generate hundreds of long-tail landing pages like "crypto card for freelancers in UAE".
+    st.warning(
+        "⚠️ **This page is Kolo legacy.** The keyword matrix was built around "
+        "country × crypto × use-case combinations (e.g. 'crypto card for freelancers in UAE'). "
+        "Nonbank is global DeFi (no country-specific positioning) and EN-only — "
+        "so the Country Tiers and Russian keyword inputs have been removed. "
+        "The underlying generator still uses the Kolo pattern library; the resulting "
+        "keywords may not align with Nonbank's differentiator-driven strategy. "
+        "**Recommendation:** use the Keyword Intel and GEO Tracker pages instead, "
+        "or rebuild this page to generate keywords from Nonbank's content pillars "
+        "(gasless, hybrid DeFi+card, watch wallets) × use cases × user personas."
+    )
 
-**4-step pipeline:**
+    with st.expander("ℹ️ How programmatic SEO works (legacy pipeline)", expanded=False):
+        st.markdown("""
+**Original Kolo goal:** Auto-generate hundreds of long-tail landing pages like "crypto card for freelancers in UAE".
+
+**4-step pipeline (still functional):**
 1. **Keyword Matrix** — pattern-based generation, scored 0-0.75
 2. **Autocomplete Validation** (free) — checks Google Autocomplete, adds 0.25
 3. **Competition Check** (SerpAPI) — SERP analysis, max 1.0
 4. **Build Pages** — clusters → Claude content → HTML export with JSON-LD, hreflang, internal links
+
+**For Nonbank:** the pipeline works but generated keywords will skew to Kolo's country/crypto
+combinations. Review keyword output carefully before using downstream.
 """)
 
     serp_key = st.session_state.get("serpapi_key")
@@ -109,15 +124,17 @@ def page_programmatic_seo():
     # ── TAB 1: Keyword Matrix ─────────────────────────────────────
     with tab_matrix:
         st.subheader("Keyword Matrix Generator")
-        st.info("Combines countries × cryptos × use cases × modifiers. **Zero API cost.**")
+        st.info(
+            "Combines use cases × modifiers from the Kolo pattern library. "
+            "**Zero API cost.** Country/RU inputs removed for Nonbank (global EN-only)."
+        )
 
-        col1, col2, col3 = st.columns(3)
-        with col1:
-            tiers = st.multiselect("Country tiers", [1, 2, 3], default=[1, 2])
-        with col2:
-            include_ru = st.checkbox("Include Russian keywords", value=True, help="RU = 2x LTV")
-        with col3:
-            max_kw = st.number_input("Max keywords", 100, 5000, 2000, step=100)
+        # Hardcoded to neutral values — no country tiers, no RU keywords.
+        # The underlying generator still accepts these but we no longer expose them.
+        tiers = [1, 2]   # widest useful range so pattern generator has something to iterate
+        include_ru = False
+
+        max_kw = st.number_input("Max keywords", 100, 5000, 2000, step=100)
 
         col_s1, col_s2 = st.columns(2)
         with col_s1:
