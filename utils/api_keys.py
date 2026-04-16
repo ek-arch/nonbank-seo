@@ -1,8 +1,8 @@
 """
 utils/api_keys.py — Sidebar API key management
 ================================================
-Centralizes all API key loading (from Streamlit secrets + sidebar inputs)
-and Google Sheets credential handling.
+Auto-loads keys from Streamlit Cloud secrets. Shows status badges for
+connected keys. Only shows manual input for keys NOT in secrets.
 """
 from __future__ import annotations
 
@@ -23,69 +23,80 @@ def setup_sidebar() -> None:
     with st.sidebar:
         st.image("https://nonbank.io/favicon.ico", width=32)
         st.title("Nonbank SEO & GEO Agent")
-        st.caption("nonbank.io · non-custodial wallet + Visa card")
+        st.caption("nonbank.io · DeFi wallet + Visa card (hybrid)")
         st.divider()
 
-        # ── API Keys ──────────────────────────────────────────────
+        # ── API Keys: auto-load from secrets, show input only if missing ──
         st.subheader("🔑 API Keys")
-        collab_token = st.text_input(
-            "Collaborator.pro token", type="password",
-            placeholder="etVxo-...", help="collaborator.pro/user/api",
-        )
-        anthropic_token = st.text_input(
-            "Anthropic API key", type="password",
-            value=_try_secret("ANTHROPIC_API_KEY"),
-            placeholder="sk-ant-...", help="console.anthropic.com → API keys",
-        )
-        serpapi_key = st.text_input(
-            "SerpAPI key", type="password",
-            value=_try_secret("SERPAPI_KEY"),
-            placeholder="...", help="serpapi.com → free 100 searches/month",
-        )
-        perplexity_key = st.text_input(
-            "Perplexity API key", type="password",
-            value=_try_secret("PERPLEXITY_KEY"),
-            placeholder="pplx-...", help="perplexity.ai/settings/api · ~$0.005/query",
-        )
 
-        # Google Sheets creds from secrets
-        gsheets_creds = ""
+        # Define all keys: (session_state_key, secret_name, label, placeholder)
+        key_defs = [
+            ("anthropic_token", "ANTHROPIC_API_KEY", "Anthropic (Claude)", "sk-ant-..."),
+            ("perplexity_key",  "PERPLEXITY_KEY",    "Perplexity",         "pplx-..."),
+            ("serpapi_key",     "SERPAPI_KEY",        "SerpAPI",            "..."),
+            ("collab_token",    "COLLABORATOR_KEY",   "Collaborator.pro",   "etVxo-..."),
+        ]
+
+        for ss_key, secret_name, label, placeholder in key_defs:
+            secret_val = _try_secret(secret_name)
+            if secret_val:
+                # Key exists in Streamlit secrets — auto-load silently
+                st.session_state[ss_key] = secret_val
+                st.markdown(f"✅ **{label}** — connected")
+            else:
+                # Key not in secrets — show manual input
+                val = st.text_input(
+                    label, type="password", placeholder=placeholder,
+                    key=f"_input_{ss_key}",
+                )
+                if val:
+                    st.session_state[ss_key] = val
+
+        # Google Sheets creds from secrets (no manual input — too complex)
         try:
             gsheets_creds = json.dumps(dict(st.secrets["gsheets"]))
+            st.session_state["gsheets_json"] = gsheets_creds
+            st.markdown("✅ **Google Sheets** — connected")
         except Exception:
-            pass
+            st.markdown("⬜ **Google Sheets** — not configured")
 
-        # Store all keys in session state
-        key_map = {
-            "collab_token": collab_token,
-            "anthropic_token": anthropic_token,
-            "serpapi_key": serpapi_key,
-            "perplexity_key": perplexity_key,
-            "gsheets_json": gsheets_creds,
-        }
-        for k, v in key_map.items():
-            if v:
-                st.session_state[k] = v
+        # ── Key summary ───────────────────────────────────────────
+        connected = sum(1 for ss_key, _, _, _ in key_defs if st.session_state.get(ss_key))
+        has_sheets = bool(st.session_state.get("gsheets_json"))
+        total = len(key_defs) + (1 if has_sheets else 0)
+        st.caption(f"{connected + (1 if has_sheets else 0)}/{len(key_defs) + 1} keys connected")
 
         # ── Pipeline Status ───────────────────────────────────────
         st.divider()
         st.subheader("📋 Pipeline")
         stages = [
-            ("Stage 2 · Nonbank Metrics", "✅"),
-            ("Stage 3 · Content Plan", "✅"),
-            ("Stage 4 · Outlet Match", "✅"),
-            ("Stage 5 · Pub ROI", "✅"),
-            ("Stage 6 · PR Generator", "🆕"),
-            ("Stage 7 · Distribution", "🆕"),
-            ("Stage 8b · Keyword Intel", "🆕"),
-            ("Stage 9 · Monthly Eval", "🆕"),
-            ("Stage 10 · Monthly Planner", "🆕"),
+            ("Research", [
+                ("Competitor Intel", "🔍"),
+                ("Keyword Intel", "🧠"),
+            ]),
+            ("Strategy", [
+                ("Content Strategy", "✍️"),
+                ("Outlet Matching", "🗞️"),
+                ("Publication ROI", "💰"),
+            ]),
+            ("Execution", [
+                ("PR Generator", "📝"),
+                ("Distribution", "📣"),
+                ("Programmatic SEO", "🚀"),
+            ]),
+            ("Measure", [
+                ("GEO Tracker", "🎯"),
+                ("Monthly Eval", "📉"),
+                ("Monthly Planner", "🗓️"),
+            ]),
         ]
-        for name, status in stages:
-            st.markdown(f"{status} {name}")
+        for group, items in stages:
+            st.markdown(f"**{group}**")
+            for name, icon in items:
+                st.markdown(f"&nbsp;&nbsp;{icon} {name}")
 
         st.divider()
-        st.caption("Nonbank SEO Agent · starter data only (no legacy backfill)")
+        st.caption("Nonbank SEO Agent · research-first flow")
 
 
 def get_api_key(name: str) -> str:
