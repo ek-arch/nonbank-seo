@@ -475,215 +475,178 @@ def filter_keywords(
 # ── Keyword Matrix Generator ─────────────────────────────────────────────────
 # Systematic: [product] × [market] × [language] × [intent modifier]
 
+# ══════════════════════════════════════════════════════════════════════════
+# KEYWORD MATRIX — Nonbank-focused, EN-global, no country/RU legacy
+# Matrix dimensions: product × angle × modifier (no geo)
+# ══════════════════════════════════════════════════════════════════════════
+
+# Nonbank product terms (what users might call the thing they're looking for)
 PRODUCTS = [
-    "crypto card", "crypto Visa card", "USDT card", "crypto debit card",
-    "Bitcoin card", "stablecoin card", "TRC20 card", "crypto wallet card",
+    "DeFi wallet with card",
+    "non-custodial crypto card",
+    "crypto wallet with visa card",
+    "self-custody crypto card",
+    "gasless crypto wallet",
+    "hybrid crypto wallet",
+    "crypto portfolio tracker with card",
+    "watch-only wallet with card",
 ]
 
-PRODUCTS_RU = [
-    "крипто карта", "криптокарта Visa", "USDT карта", "крипто дебетовая карта",
-    "биткоин карта", "карта для стейблкоинов", "крипто кошелёк карта",
+# Competitor brands — for alternative/vs queries
+COMPETITOR_BRANDS_KW = [
+    "Gnosis Pay", "MetaMask Card", "Bleap", "COCA",
+    "Ether.fi Cash", "Crypto.com card", "Bitget wallet",
 ]
 
-MARKETS_EN = {
-    "GBR": ["UK", "United Kingdom", "Britain"],
-    "ARE": ["UAE", "Dubai"],
-    "ITA": ["Italy"],
-    "ESP": ["Spain"],
-    "POL": ["Poland"],
-    "IDN": ["Indonesia"],
-    "DEU": ["Germany"],
-    "EU":  ["Europe", "EU"],
-    "ROU": ["Romania"],
-    "LVA": ["Latvia"],
-    "CYP": ["Cyprus"],
-    "CHE": ["Switzerland"],
-    "MNE": ["Montenegro"],
-    "SRB": ["Serbia"],
-    "GEO": ["Georgia"],
-}
+# User personas (who searches) — EN-global, no geo
+PERSONAS_KW = [
+    "digital nomads", "crypto freelancers", "DeFi users",
+    "hardware wallet users", "stablecoin holders", "self-custody beginners",
+    "power users", "remote workers",
+]
 
-MARKETS_RU = {
-    "ARE": ["ОАЭ", "Дубай"],
-    "EU":  ["Европа"],
-    "GEO": ["Грузия"],
-    "ARM": ["Армения"],
-    "UZB": ["Узбекистан"],
-    "KGZ": ["Кыргызстан"],
-    "MDA": ["Молдова"],
-    "MNE": ["Черногория"],
-    "SRB": ["Сербия"],
-    "LVA": ["Латвия"],
-    "LTU": ["Литва"],
-    "CYP": ["Кипр"],
-    "ESP": ["Испания"],
-    "ITA": ["Италия"],
-    "POL": ["Польша"],
-    "DEU": ["Германия"],
-}
+# Nonbank differentiator-driven features
+FEATURES_KW = [
+    "gasless", "AML screening", "proxy address",
+    "watch wallet", "100+ countries", "no gas fees",
+    "hardware wallet integration",
+]
 
-INTENT_MODIFIERS_EN = {
+
+INTENT_MODIFIERS = {
     "transactional": [
-        "best {product} {market}", "best {product} {market} 2026",
-        "{product} {market}", "top {product} {market}",
-        "get {product} in {market}", "buy {product} {market}",
-    ],
-    "informational": [
-        "how to get {product} in {market}",
-        "how to use {product} in {market}",
-        "{product} {market} fees", "{product} {market} review",
-        "is {product} available in {market}",
+        "best {product}",
+        "best {product} 2026",
+        "top {product}",
+        "{product} review",
     ],
     "comparison": [
-        "best {product} {market} comparison",
-        "cheapest {product} {market}",
-        "{product} {market} vs",
+        "{product} vs {competitor}",
+        "{competitor} alternative",
+        "best alternative to {competitor}",
+        "{competitor} vs Nonbank",
     ],
-    "problem": [
-        "how to spend crypto in {market}",
-        "how to spend USDT in {market}",
-        "can I use crypto card in {market}",
+    "problem_solution": [
+        "how to {action}",
+        "how do I {action}",
+        "can I {action}",
+    ],
+    "persona": [
+        "{product} for {persona}",
+        "best {product} for {persona} 2026",
+        "{product} for {persona} comparison",
+    ],
+    "feature": [
+        "crypto wallet with {feature}",
+        "crypto card with {feature}",
+        "DeFi wallet {feature}",
+        "{feature} crypto wallet",
     ],
     "long_tail": [
-        "{product} for freelancers in {market}",
-        "{product} for digital nomads {market}",
-        "{product} for expats in {market}",
-        "{product} for business in {market}",
-        "{product} without KYC {market}",
-        "{product} with cashback {market}",
-        "{product} low fees {market}",
-        "{product} for online shopping {market}",
+        "spend crypto without giving up keys",
+        "crypto wallet that doesn't require gas",
+        "send USDT without paying gas fees",
+        "spend crypto from hardware wallet",
+        "non-custodial card 100 countries",
+        "DeFi wallet with integrated visa card",
+        "crypto card from self custody",
+        "wallet with built-in AML screening",
     ],
 }
 
-INTENT_MODIFIERS_RU = {
-    "transactional": [
-        "лучшая {product} {market}", "лучшая {product} {market} 2026",
-        "{product} {market}", "топ {product} {market}",
-        "заказать {product} {market}", "купить {product} {market}",
-    ],
-    "informational": [
-        "как получить {product} в {market}",
-        "как пользоваться {product} в {market}",
-        "{product} {market} комиссии", "{product} {market} отзывы",
-    ],
-    "problem": [
-        "как потратить крипту в {market}",
-        "как потратить USDT в {market}",
-        "можно ли расплатиться криптокартой в {market}",
-    ],
-    "long_tail": [
-        "{product} для фрилансеров {market}",
-        "{product} для бизнеса {market}",
-        "{product} для экспатов {market}",
-        "{product} без верификации {market}",
-        "{product} с кэшбэком {market}",
-        "{product} низкие комиссии {market}",
-    ],
-}
-
-# B2B-specific templates (language-independent seeds)
-B2B_EN = [
-    "crypto card for business expenses",
-    "corporate crypto Visa card",
-    "crypto payment solution for business {market}",
-    "business USDT card {market}",
-    "crypto card for companies {market}",
-    "manage business expenses with crypto card {market}",
-    "B2B crypto payments {market}",
-    "crypto corporate card {market} 2026",
-]
-
-B2B_RU = [
-    "криптокарта для бизнеса",
-    "корпоративная крипто карта Visa",
-    "крипто платежи для бизнеса {market}",
-    "USDT корпоративная карта {market}",
-    "криптокарта для компаний {market}",
-    "B2B крипто платежи {market}",
+PROBLEM_ACTIONS = [
+    "spend crypto without giving up self-custody",
+    "send USDT without paying gas fees",
+    "get a crypto visa card without an exchange",
+    "track multiple wallets in one app",
+    "spend crypto from a hardware wallet",
+    "use a DeFi wallet with a visa card",
+    "avoid sanctioned wallet transfers",
+    "connect my bank and crypto wallet in one app",
 ]
 
 
 def generate_keyword_matrix(
     *,
-    include_en: bool = True,
-    include_ru: bool = True,
-    include_b2b: bool = True,
-    markets_en: Optional[dict] = None,
-    markets_ru: Optional[dict] = None,
-    max_per_market: int = 30,
+    include_comparisons: bool = True,
+    include_personas: bool = True,
+    include_features: bool = True,
+    include_problems: bool = True,
+    include_longtail: bool = True,
+    products: Optional[list[str]] = None,
+    competitors: Optional[list[str]] = None,
+    personas: Optional[list[str]] = None,
+    features: Optional[list[str]] = None,
 ) -> list[dict]:
     """
-    Generate keyword matrix: product × market × language × intent.
-    Returns list of dicts ready for build_taxonomy().
+    Generate Nonbank-focused keyword matrix.
+
+    Axes: product × (competitor | persona | feature | problem | intent).
+    No country or language combinations — wallet is global DeFi, EN-only.
+
+    Returns list of dicts with fields: q, lang, market, category, intent.
+    `market` is always 'global' and `lang` is always 'en'.
     """
-    if markets_en is None:
-        markets_en = MARKETS_EN
-    if markets_ru is None:
-        markets_ru = MARKETS_RU
+    products = products or PRODUCTS
+    competitors = competitors or COMPETITOR_BRANDS_KW
+    personas = personas or PERSONAS_KW
+    features = features or FEATURES_KW
 
     results = []
     seen = set()
 
-    def _add(q: str, lang: str, market: str, category: str, intent: str):
+    def _add(q: str, category: str, intent: str):
         q = q.strip()
         key = q.lower()
         if key in seen or len(q) < 5:
             return
         seen.add(key)
         results.append({
-            "q": q, "lang": lang, "market": market,
+            "q": q, "lang": "en", "market": "global",
             "category": category, "intent": intent,
         })
 
-    if include_en:
-        for market_code, market_names in markets_en.items():
-            count = 0
-            for market_name in market_names:
-                for intent_type, templates in INTENT_MODIFIERS_EN.items():
-                    for template in templates:
-                        for product in PRODUCTS[:4]:  # top 4 products to limit explosion
-                            kw = template.format(product=product, market=market_name)
-                            _add(kw, "en", market_code, intent_type, intent_type)
-                            count += 1
-                            if count >= max_per_market:
-                                break
-                        if count >= max_per_market:
-                            break
-                    if count >= max_per_market:
-                        break
-                if count >= max_per_market:
-                    break
+    # Transactional: "best {product}", etc.
+    for product in products:
+        for tmpl in INTENT_MODIFIERS["transactional"]:
+            _add(tmpl.format(product=product), "transactional", "transactional")
 
-    if include_ru:
-        for market_code, market_names in markets_ru.items():
-            count = 0
-            for market_name in market_names:
-                for intent_type, templates in INTENT_MODIFIERS_RU.items():
-                    for template in templates:
-                        for product in PRODUCTS_RU[:3]:  # top 3 RU products
-                            kw = template.format(product=product, market=market_name)
-                            _add(kw, "ru", market_code, intent_type, intent_type)
-                            count += 1
-                            if count >= max_per_market:
-                                break
-                        if count >= max_per_market:
-                            break
-                    if count >= max_per_market:
-                        break
-                if count >= max_per_market:
-                    break
+    # Comparison × competitor
+    if include_comparisons:
+        for product in products[:4]:  # cap explosion
+            for competitor in competitors:
+                for tmpl in INTENT_MODIFIERS["comparison"]:
+                    _add(
+                        tmpl.format(product=product, competitor=competitor),
+                        "comparison", "comparison",
+                    )
 
-    if include_b2b:
-        for market_code, market_names in markets_en.items():
-            for template in B2B_EN[:4]:
-                kw = template.format(market=market_names[0])
-                _add(kw, "en", market_code, "b2b", "transactional")
+    # Persona
+    if include_personas:
+        for product in products[:4]:
+            for persona in personas:
+                for tmpl in INTENT_MODIFIERS["persona"]:
+                    _add(
+                        tmpl.format(product=product, persona=persona),
+                        "persona", "transactional",
+                    )
 
-        for market_code, market_names in markets_ru.items():
-            for template in B2B_RU[:3]:
-                kw = template.format(market=market_names[0])
-                _add(kw, "ru", market_code, "b2b", "transactional")
+    # Feature
+    if include_features:
+        for feature in features:
+            for tmpl in INTENT_MODIFIERS["feature"]:
+                _add(tmpl.format(feature=feature), "feature", "informational")
+
+    # Problem / solution
+    if include_problems:
+        for action in PROBLEM_ACTIONS:
+            for tmpl in INTENT_MODIFIERS["problem_solution"]:
+                _add(tmpl.format(action=action), "problem", "informational")
+
+    # Pure long-tail
+    if include_longtail:
+        for q in INTENT_MODIFIERS["long_tail"]:
+            _add(q, "long_tail", "informational")
 
     return results
 

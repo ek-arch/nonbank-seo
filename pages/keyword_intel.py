@@ -115,21 +115,29 @@ def page_keyword_intel():
 
         # Step 1: Generate
         st.markdown("### Step 1 · Generate Keyword Matrix")
-        col1, col2, col3 = st.columns(3)
+        st.caption(
+            "Nonbank-focused matrix: product terms × competitors × personas × features × problems. "
+            "EN-global only (wallet is borderless DeFi)."
+        )
+        col1, col2 = st.columns(2)
         with col1:
-            incl_en = st.checkbox("English keywords", value=True, key="pipe_en")
-            incl_ru = st.checkbox("Russian keywords", value=True, key="pipe_ru", help="RU = 2x LTV")
+            incl_comp = st.checkbox("Competitor comparisons (vs / alternatives)", value=True, key="pipe_comp")
+            incl_pers = st.checkbox("Persona targeting (for digital nomads, etc.)", value=True, key="pipe_pers")
+            incl_feat = st.checkbox("Feature-driven (gasless, AML, watch wallet, etc.)", value=True, key="pipe_feat")
         with col2:
-            incl_b2b = st.checkbox("B2B keywords", value=True, key="pipe_b2b")
-            max_per = st.slider("Max per market", 10, 50, 30, key="pipe_max")
-        with col3:
-            st.caption("Markets: 15 EN + 16 RU")
-            st.caption("Products: 4 EN + 3 RU")
+            incl_prob = st.checkbox("Problem-solution (how to spend crypto, etc.)", value=True, key="pipe_prob")
+            incl_long = st.checkbox("Long-tail (specific high-intent queries)", value=True, key="pipe_long")
+            st.caption("Built from config.COMPETITORS + Nonbank differentiators")
 
         if st.button("🧮 Generate Matrix", type="primary", key="pipe_gen"):
             with st.spinner("Generating keyword combinations..."):
-                matrix = generate_kw_matrix(include_en=incl_en, include_ru=incl_ru,
-                                            include_b2b=incl_b2b, max_per_market=max_per)
+                matrix = generate_kw_matrix(
+                    include_comparisons=incl_comp,
+                    include_personas=incl_pers,
+                    include_features=incl_feat,
+                    include_problems=incl_prob,
+                    include_longtail=incl_long,
+                )
                 kws = []
                 for m in matrix:
                     kw = Keyword(keyword=m["q"], language=m["lang"], market=m["market"],
