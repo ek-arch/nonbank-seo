@@ -242,15 +242,27 @@ Target markets: {market_list}
 Languages: {lang_list}
 Total prompts needed: ~{count_per_category * len(categories)}
 
-For geo-specific category, generate prompts in LOCAL languages where specified.
-For other categories, use the specified languages.
+CRITICAL — prompts MUST be about Nonbank's differentiators:
+- Hybrid DeFi wallet + integrated Visa card (self-custody keys + card in one app)
+- Gasless transactions (no ETH/TRX needed for gas)
+- Built-in AML screening (sanctioned wallet blocking)
+- Watch wallets & proxy addresses
+- Alternatives to Gnosis Pay, MetaMask Card, Bleap, COCA
 
-Make prompts natural — the way real people type into ChatGPT or Perplexity.
+FORBIDDEN — do NOT generate these Kolo-era prompts:
+- Generic "best crypto card 2026" / "best crypto debit card"
+- USDT-specific or TRC20-specific prompts (Nonbank is multi-chain)
+- Geo-specific prompts (UAE, Dubai, Italy, Spain, UK, Poland, CIS, etc.)
+- Comparisons of Crypto.com vs Wirex vs Bybit vs Binance card
+- Cashback rates, conversion fees, hidden fees, monthly fees queries
+- KYC-avoidance prompts
+
+Make prompts natural — the way real DeFi-literate users type into ChatGPT or Perplexity.
 Include a mix of:
-- Short queries ("best crypto card italy")
-- Full questions ("What's the best way to spend USDT in Dubai without high fees?")
-- Problem statements ("I have USDT on Tron and need to pay rent in EUR")
-- Comparison requests ("crypto.com vs wirex vs bybit card which is cheapest")
+- Short queries ("defi wallet with card")
+- Full questions ("Is there a wallet where I hold my keys but can still spend with Visa?")
+- Problem statements ("I want to spend crypto without giving up self-custody")
+- Competitor-alternative requests ("Gnosis Pay alternative that works globally")
 {dedup_block}
 
 Return ONLY the JSON array."""

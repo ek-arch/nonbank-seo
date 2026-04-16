@@ -89,6 +89,12 @@ def page_geo_tracker():
                 st.session_state["geo_prompts"] = prompts
                 st.success(f"Loaded {len(prompts)} built-in prompts")
 
+        # Clear any old / stale prompts in session state
+        if st.session_state.get("geo_prompts"):
+            if st.button("🗑️ Clear prompts", help="Clear old prompts from session (including any Kolo-era cached ones)"):
+                st.session_state["geo_prompts"] = []
+                st.rerun()
+
         prompts = st.session_state.get("geo_prompts", [])
         if prompts:
             df = pd.DataFrame(prompts)
@@ -105,8 +111,8 @@ def page_geo_tracker():
                 custom = st.text_area("One prompt per line")
                 custom_cat = st.selectbox("Category", list(DISCOVERY_CATEGORIES.keys()),
                                           format_func=lambda x: DISCOVERY_CATEGORIES[x]["label"])
-                custom_lang = st.selectbox("Language", ["en", "ru", "it", "es", "pl"])
-                custom_market = st.text_input("Market", "global")
+                custom_lang = st.selectbox("Language", ["en"])
+                custom_market = st.text_input("Market", "Global")
                 if st.button("Add Custom") and custom.strip():
                     for line in custom.strip().split("\n"):
                         line = line.strip()
