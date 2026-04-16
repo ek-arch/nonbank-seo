@@ -36,45 +36,45 @@ COMPETITORS = {d: name for name, domains in COMPETITOR_BRANDS.items() for d in d
 # ── Prompt Discovery Categories ─────────────────────────────────────────────
 
 DISCOVERY_CATEGORIES = {
-    "product_comparison": {
-        "label": "Product Comparison",
-        "description": "Users comparing crypto cards, asking which is best",
-        "example": "What's the best crypto Visa card for spending USDT in Europe?",
+    "hybrid_defi_card": {
+        "label": "DeFi Wallet + Card (Hybrid)",
+        "description": "Users looking for a DeFi wallet that also has a Visa card",
+        "example": "Is there a DeFi wallet where I can spend my crypto directly with a Visa card?",
+    },
+    "gasless": {
+        "label": "Gasless Transactions",
+        "description": "Users looking for wallets that don't require native gas tokens",
+        "example": "Which crypto wallet lets me send USDT without paying gas fees?",
+    },
+    "aml_compliance": {
+        "label": "AML / Compliance",
+        "description": "Users worried about sanctioned wallet transfers, compliance",
+        "example": "How can I make sure my crypto wallet doesn't accept funds from sanctioned addresses?",
+    },
+    "watch_proxy": {
+        "label": "Watch Wallets & Proxy Addresses",
+        "description": "Users wanting to track wallets or use proxy addresses for privacy",
+        "example": "Is there a crypto wallet where I can track other wallets and also have a spending card?",
+    },
+    "gnosis_pay_alt": {
+        "label": "Gnosis Pay / Non-Custodial Card Alternatives",
+        "description": "Users comparing Gnosis Pay, MetaMask Card, Bleap, COCA, or looking for alternatives",
+        "example": "What's a better alternative to Gnosis Pay that works outside the EU?",
+    },
+    "custodial_vs_defi": {
+        "label": "Custodial vs DeFi Wallet Decision",
+        "description": "Users deciding between custodial (Crypto.com, Binance) and DeFi wallet with card",
+        "example": "Should I use Crypto.com card or a DeFi wallet with an integrated Visa card?",
     },
     "how_to": {
         "label": "How-To / Problem Solving",
-        "description": "Users asking how to accomplish something with crypto",
-        "example": "How can I spend my TRC20 USDT at regular stores?",
-    },
-    "geo_specific": {
-        "label": "Geo-Specific",
-        "description": "Users asking about crypto cards in a specific country/region",
-        "example": "Which crypto cards actually work in Italy for daily purchases?",
+        "description": "Users asking how to accomplish something with DeFi + card",
+        "example": "How do I spend crypto from my hardware wallet without moving it to an exchange?",
     },
     "use_case": {
         "label": "Use Case",
-        "description": "Specific use cases: travel, freelancing, business expenses",
-        "example": "Best crypto card for digital nomads who need to pay in multiple currencies",
-    },
-    "cost_fees": {
-        "label": "Cost & Fees",
-        "description": "Users asking about fees, costs, hidden charges",
-        "example": "Which crypto card has no monthly fees and lowest conversion rates?",
-    },
-    "trust_safety": {
-        "label": "Trust & Safety",
-        "description": "Users asking about security, regulation, legitimacy",
-        "example": "Is it safe to use a crypto Visa card? Are they regulated?",
-    },
-    "onboarding": {
-        "label": "Onboarding",
-        "description": "Users asking how to get started, sign up, requirements",
-        "example": "How do I get a crypto card without extensive KYC?",
-    },
-    "b2b": {
-        "label": "B2B / Business",
-        "description": "Business users looking for corporate crypto card solutions",
-        "example": "What crypto card can my company use for business travel expenses?",
+        "description": "Specific use cases: travel, freelancing, self-custody spending",
+        "example": "Best way to spend self-custody crypto while traveling without giving up keys",
     },
 }
 
@@ -89,122 +89,64 @@ TARGET_MARKETS = {
 # ── Pre-built Prompt Database (no API needed) ───────────────────────────────
 
 BUILTIN_PROMPTS = [
-    # Product Comparison — EN
-    {"prompt": "What are the best crypto debit cards in 2026?", "category": "product_comparison", "language": "en", "market": "global", "intent": "transactional"},
-    {"prompt": "Which crypto card has the lowest fees?", "category": "product_comparison", "language": "en", "market": "global", "intent": "transactional"},
-    {"prompt": "Best crypto Visa card for spending USDT", "category": "product_comparison", "language": "en", "market": "global", "intent": "transactional"},
-    {"prompt": "crypto.com vs wirex vs bybit card comparison", "category": "product_comparison", "language": "en", "market": "global", "intent": "informational"},
-    {"prompt": "best crypto card with cashback 2026", "category": "product_comparison", "language": "en", "market": "global", "intent": "transactional"},
-    {"prompt": "what crypto card gives the best exchange rate", "category": "product_comparison", "language": "en", "market": "global", "intent": "transactional"},
-    {"prompt": "cheapest crypto card no monthly fees", "category": "product_comparison", "language": "en", "market": "global", "intent": "transactional"},
-    {"prompt": "compare all crypto visa cards available in europe", "category": "product_comparison", "language": "en", "market": "global", "intent": "informational"},
-    # Product Comparison — RU
-    {"prompt": "лучшие криптокарты 2026 года", "category": "product_comparison", "language": "ru", "market": "global", "intent": "transactional"},
-    {"prompt": "какая крипто карта самая выгодная", "category": "product_comparison", "language": "ru", "market": "global", "intent": "transactional"},
-    {"prompt": "сравнение криптокарт visa для USDT", "category": "product_comparison", "language": "ru", "market": "global", "intent": "informational"},
-    {"prompt": "криптокарта с кэшбэком в биткоинах", "category": "product_comparison", "language": "ru", "market": "global", "intent": "transactional"},
+    # ── Hybrid DeFi Wallet + Card ─────────────────────────────────
+    {"prompt": "Is there a DeFi wallet with an integrated Visa card?", "category": "hybrid_defi_card", "language": "en", "market": "Global", "intent": "informational"},
+    {"prompt": "best non-custodial wallet that also has a spending card 2026", "category": "hybrid_defi_card", "language": "en", "market": "Global", "intent": "transactional"},
+    {"prompt": "crypto wallet where I keep my keys but can still spend with a card", "category": "hybrid_defi_card", "language": "en", "market": "Global", "intent": "informational"},
+    {"prompt": "DeFi wallet card that works in 100+ countries", "category": "hybrid_defi_card", "language": "en", "market": "Global", "intent": "transactional"},
+    {"prompt": "hybrid crypto wallet custodial card combination", "category": "hybrid_defi_card", "language": "en", "market": "Global", "intent": "informational"},
+    {"prompt": "spend crypto from self custody wallet with visa", "category": "hybrid_defi_card", "language": "en", "market": "Global", "intent": "informational"},
 
-    # How-To — EN
-    {"prompt": "How can I spend TRC20 USDT with a Visa card?", "category": "how_to", "language": "en", "market": "global", "intent": "informational"},
-    {"prompt": "how to convert USDT to fiat and spend with a card", "category": "how_to", "language": "en", "market": "global", "intent": "informational"},
-    {"prompt": "what's the easiest way to spend cryptocurrency at regular stores", "category": "how_to", "language": "en", "market": "global", "intent": "informational"},
-    {"prompt": "I have USDT on Tron and need to pay rent in EUR", "category": "how_to", "language": "en", "market": "global", "intent": "informational"},
-    {"prompt": "how to use crypto for everyday purchases without high fees", "category": "how_to", "language": "en", "market": "global", "intent": "informational"},
-    {"prompt": "can I pay with USDT at a supermarket", "category": "how_to", "language": "en", "market": "global", "intent": "informational"},
-    {"prompt": "how to get a crypto debit card step by step", "category": "how_to", "language": "en", "market": "global", "intent": "informational"},
-    {"prompt": "how to top up a crypto card with bitcoin", "category": "how_to", "language": "en", "market": "global", "intent": "informational"},
-    # How-To — RU
-    {"prompt": "как потратить USDT TRC20 картой Visa", "category": "how_to", "language": "ru", "market": "global", "intent": "informational"},
-    {"prompt": "как конвертировать крипту в евро и потратить", "category": "how_to", "language": "ru", "market": "global", "intent": "informational"},
-    {"prompt": "как расплатиться криптовалютой в обычном магазине", "category": "how_to", "language": "ru", "market": "global", "intent": "informational"},
-    {"prompt": "у меня USDT на трон как проще всего потратить", "category": "how_to", "language": "ru", "market": "global", "intent": "informational"},
+    # ── Gasless Transactions ──────────────────────────────────────
+    {"prompt": "crypto wallet that doesn't require gas fees to send USDT", "category": "gasless", "language": "en", "market": "Global", "intent": "informational"},
+    {"prompt": "gasless crypto transactions how do they work", "category": "gasless", "language": "en", "market": "Global", "intent": "informational"},
+    {"prompt": "best gas-free wallet for transferring stablecoins", "category": "gasless", "language": "en", "market": "Global", "intent": "transactional"},
+    {"prompt": "send crypto without paying gas which wallets support this", "category": "gasless", "language": "en", "market": "Global", "intent": "informational"},
+    {"prompt": "meta transactions explained for crypto users", "category": "gasless", "language": "en", "market": "Global", "intent": "informational"},
+    {"prompt": "I don't have ETH for gas how can I send my USDT", "category": "gasless", "language": "en", "market": "Global", "intent": "informational"},
 
-    # Geo-Specific — UAE
-    {"prompt": "best crypto card for UAE residents 2026", "category": "geo_specific", "language": "en", "market": "UAE", "intent": "transactional"},
-    {"prompt": "can I use a crypto visa card in Dubai for daily purchases", "category": "geo_specific", "language": "en", "market": "UAE", "intent": "informational"},
-    {"prompt": "crypto card for expats in Dubai", "category": "geo_specific", "language": "en", "market": "UAE", "intent": "transactional"},
-    {"prompt": "which crypto cards actually work in UAE", "category": "geo_specific", "language": "en", "market": "UAE", "intent": "transactional"},
-    {"prompt": "лучшая крипто карта для ОАЭ", "category": "geo_specific", "language": "ru", "market": "UAE", "intent": "transactional"},
-    {"prompt": "какой криптокартой расплачиваться в Дубае", "category": "geo_specific", "language": "ru", "market": "UAE", "intent": "transactional"},
-    {"prompt": "крипто карта для экспатов в Дубае 2026", "category": "geo_specific", "language": "ru", "market": "UAE", "intent": "transactional"},
-    # Geo-Specific — UK
-    {"prompt": "best crypto card UK 2026", "category": "geo_specific", "language": "en", "market": "UK", "intent": "transactional"},
-    {"prompt": "crypto visa card for UK residents", "category": "geo_specific", "language": "en", "market": "UK", "intent": "transactional"},
-    {"prompt": "which crypto cards work in the UK with GBP", "category": "geo_specific", "language": "en", "market": "UK", "intent": "transactional"},
-    {"prompt": "cheapest crypto card in UK compared to banks", "category": "geo_specific", "language": "en", "market": "UK", "intent": "informational"},
-    # Geo-Specific — Italy
-    {"prompt": "migliore carta crypto in Italia 2026", "category": "geo_specific", "language": "it", "market": "Italy", "intent": "transactional"},
-    {"prompt": "carta visa crypto per residenti italiani", "category": "geo_specific", "language": "it", "market": "Italy", "intent": "transactional"},
-    {"prompt": "come spendere criptovalute in Italia con commissioni basse", "category": "geo_specific", "language": "it", "market": "Italy", "intent": "informational"},
-    {"prompt": "best crypto card for Italy", "category": "geo_specific", "language": "en", "market": "Italy", "intent": "transactional"},
-    # Geo-Specific — Spain
-    {"prompt": "лучшая криптокарта для жизни в Испании", "category": "geo_specific", "language": "ru", "market": "Spain", "intent": "transactional"},
-    {"prompt": "крипто карта для русских в Испании", "category": "geo_specific", "language": "ru", "market": "Spain", "intent": "transactional"},
-    {"prompt": "mejor tarjeta crypto en España 2026", "category": "geo_specific", "language": "es", "market": "Spain", "intent": "transactional"},
-    {"prompt": "tarjeta visa crypto para residentes españoles", "category": "geo_specific", "language": "es", "market": "Spain", "intent": "transactional"},
-    # Geo-Specific — Poland
-    {"prompt": "best crypto card Poland 2026", "category": "geo_specific", "language": "en", "market": "Poland", "intent": "transactional"},
-    {"prompt": "crypto card for freelancers in Poland", "category": "geo_specific", "language": "en", "market": "Poland", "intent": "transactional"},
-    # Geo-Specific — Georgia
-    {"prompt": "crypto card for expats in Georgia Tbilisi", "category": "geo_specific", "language": "en", "market": "Georgia", "intent": "transactional"},
-    {"prompt": "крипто карта для жизни в Грузии", "category": "geo_specific", "language": "ru", "market": "Georgia", "intent": "transactional"},
-    {"prompt": "лучшая криптокарта в Тбилиси 2026", "category": "geo_specific", "language": "ru", "market": "Georgia", "intent": "transactional"},
-    # Geo-Specific — CIS
-    {"prompt": "крипто карта для Узбекистана", "category": "geo_specific", "language": "ru", "market": "Uzbekistan", "intent": "transactional"},
-    {"prompt": "криптокарта visa для Армении", "category": "geo_specific", "language": "ru", "market": "Armenia", "intent": "transactional"},
-    {"prompt": "крипто карта в Кыргызстане 2026", "category": "geo_specific", "language": "ru", "market": "Kyrgyzstan", "intent": "transactional"},
-    {"prompt": "криптокарта для Азербайджана", "category": "geo_specific", "language": "ru", "market": "Azerbaijan", "intent": "transactional"},
-    # Geo-Specific — Cyprus/Latvia
-    {"prompt": "крипто карта для жизни на Кипре", "category": "geo_specific", "language": "ru", "market": "Cyprus", "intent": "transactional"},
-    {"prompt": "криптокарта visa для Латвии", "category": "geo_specific", "language": "ru", "market": "Latvia", "intent": "transactional"},
+    # ── AML / Compliance ──────────────────────────────────────────
+    {"prompt": "crypto wallet with built in AML screening", "category": "aml_compliance", "language": "en", "market": "Global", "intent": "informational"},
+    {"prompt": "how to avoid receiving crypto from sanctioned wallets", "category": "aml_compliance", "language": "en", "market": "Global", "intent": "informational"},
+    {"prompt": "is my self custody wallet AML compliant", "category": "aml_compliance", "language": "en", "market": "Global", "intent": "informational"},
+    {"prompt": "crypto wallet that blocks dirty coins automatically", "category": "aml_compliance", "language": "en", "market": "Global", "intent": "informational"},
+    {"prompt": "best compliant non custodial wallet 2026", "category": "aml_compliance", "language": "en", "market": "Global", "intent": "transactional"},
 
-    # Use Case — EN
-    {"prompt": "best crypto card for digital nomads who travel frequently", "category": "use_case", "language": "en", "market": "global", "intent": "transactional"},
-    {"prompt": "crypto card for freelancers who get paid in USDT", "category": "use_case", "language": "en", "market": "global", "intent": "transactional"},
-    {"prompt": "best way to pay for travel with crypto", "category": "use_case", "language": "en", "market": "global", "intent": "informational"},
-    {"prompt": "can I use a crypto card for subscription payments like Netflix", "category": "use_case", "language": "en", "market": "global", "intent": "informational"},
-    {"prompt": "crypto card that works with Apple Pay", "category": "use_case", "language": "en", "market": "global", "intent": "transactional"},
-    {"prompt": "crypto card for online shopping worldwide", "category": "use_case", "language": "en", "market": "global", "intent": "transactional"},
-    {"prompt": "best crypto card for remote workers paid in stablecoins", "category": "use_case", "language": "en", "market": "global", "intent": "transactional"},
-    {"prompt": "crypto card I can use to withdraw cash at ATMs", "category": "use_case", "language": "en", "market": "global", "intent": "transactional"},
-    # Use Case — RU
-    {"prompt": "криптокарта для фрилансера который получает в USDT", "category": "use_case", "language": "ru", "market": "global", "intent": "transactional"},
-    {"prompt": "крипто карта для путешествий по Европе", "category": "use_case", "language": "ru", "market": "global", "intent": "transactional"},
-    {"prompt": "криптокарта для оплаты подписок и онлайн покупок", "category": "use_case", "language": "ru", "market": "global", "intent": "transactional"},
-    {"prompt": "как снять наличные с криптокарты в банкомате", "category": "use_case", "language": "ru", "market": "global", "intent": "informational"},
+    # ── Watch Wallets & Proxy Addresses ───────────────────────────
+    {"prompt": "crypto wallet app with watch only addresses", "category": "watch_proxy", "language": "en", "market": "Global", "intent": "informational"},
+    {"prompt": "track multiple crypto wallets in one app", "category": "watch_proxy", "language": "en", "market": "Global", "intent": "informational"},
+    {"prompt": "portfolio tracker with a linked spending card", "category": "watch_proxy", "language": "en", "market": "Global", "intent": "transactional"},
+    {"prompt": "what is a proxy address in crypto", "category": "watch_proxy", "language": "en", "market": "Global", "intent": "informational"},
+    {"prompt": "crypto privacy wallet with proxy addresses", "category": "watch_proxy", "language": "en", "market": "Global", "intent": "informational"},
 
-    # Cost & Fees — EN
-    {"prompt": "crypto card with no hidden fees", "category": "cost_fees", "language": "en", "market": "global", "intent": "transactional"},
-    {"prompt": "what are the fees for crypto visa cards", "category": "cost_fees", "language": "en", "market": "global", "intent": "informational"},
-    {"prompt": "cheapest way to spend crypto with a card", "category": "cost_fees", "language": "en", "market": "global", "intent": "informational"},
-    {"prompt": "crypto card conversion fees compared", "category": "cost_fees", "language": "en", "market": "global", "intent": "informational"},
-    # Cost & Fees — RU
-    {"prompt": "криптокарта без скрытых комиссий", "category": "cost_fees", "language": "ru", "market": "global", "intent": "transactional"},
-    {"prompt": "какие комиссии у крипто карт visa", "category": "cost_fees", "language": "ru", "market": "global", "intent": "informational"},
+    # ── Gnosis Pay / Non-Custodial Card Alternatives ──────────────
+    {"prompt": "Gnosis Pay alternative that works globally not just EU", "category": "gnosis_pay_alt", "language": "en", "market": "Global", "intent": "transactional"},
+    {"prompt": "MetaMask Card alternative 2026", "category": "gnosis_pay_alt", "language": "en", "market": "Global", "intent": "transactional"},
+    {"prompt": "Bleap vs COCA vs Gnosis Pay which is best", "category": "gnosis_pay_alt", "language": "en", "market": "Global", "intent": "informational"},
+    {"prompt": "non custodial crypto card that works in 100 countries", "category": "gnosis_pay_alt", "language": "en", "market": "Global", "intent": "transactional"},
+    {"prompt": "best self custody crypto card without gas fees", "category": "gnosis_pay_alt", "language": "en", "market": "Global", "intent": "transactional"},
+    {"prompt": "is Gnosis Pay available outside Europe", "category": "gnosis_pay_alt", "language": "en", "market": "Global", "intent": "informational"},
 
-    # Trust & Safety — EN
-    {"prompt": "is it safe to use a crypto visa card", "category": "trust_safety", "language": "en", "market": "global", "intent": "informational"},
-    {"prompt": "are crypto debit cards regulated in Europe", "category": "trust_safety", "language": "en", "market": "global", "intent": "informational"},
-    {"prompt": "can I trust a crypto card with my money", "category": "trust_safety", "language": "en", "market": "global", "intent": "informational"},
-    {"prompt": "crypto card scams to avoid 2026", "category": "trust_safety", "language": "en", "market": "global", "intent": "informational"},
+    # ── Custodial vs DeFi Wallet ──────────────────────────────────
+    {"prompt": "should I use Crypto.com card or a DeFi wallet card", "category": "custodial_vs_defi", "language": "en", "market": "Global", "intent": "informational"},
+    {"prompt": "DeFi wallet vs Crypto.com for daily spending", "category": "custodial_vs_defi", "language": "en", "market": "Global", "intent": "informational"},
+    {"prompt": "pros and cons of non custodial crypto cards", "category": "custodial_vs_defi", "language": "en", "market": "Global", "intent": "informational"},
+    {"prompt": "why would I use a DeFi wallet instead of Binance card", "category": "custodial_vs_defi", "language": "en", "market": "Global", "intent": "informational"},
+    {"prompt": "self custody crypto card vs exchange card comparison", "category": "custodial_vs_defi", "language": "en", "market": "Global", "intent": "informational"},
 
-    # Onboarding — EN
-    {"prompt": "how to get a crypto card without KYC", "category": "onboarding", "language": "en", "market": "global", "intent": "informational"},
-    {"prompt": "fastest crypto card to sign up for", "category": "onboarding", "language": "en", "market": "global", "intent": "transactional"},
-    {"prompt": "crypto card instant virtual card no wait", "category": "onboarding", "language": "en", "market": "global", "intent": "transactional"},
-    # Onboarding — RU
-    {"prompt": "как получить криптокарту быстро без верификации", "category": "onboarding", "language": "ru", "market": "global", "intent": "informational"},
-    {"prompt": "криптокарта с моментальной виртуальной картой", "category": "onboarding", "language": "ru", "market": "global", "intent": "transactional"},
+    # ── How-To ────────────────────────────────────────────────────
+    {"prompt": "how to spend crypto from my hardware wallet directly", "category": "how_to", "language": "en", "market": "Global", "intent": "informational"},
+    {"prompt": "how to get a crypto card without moving funds to an exchange", "category": "how_to", "language": "en", "market": "Global", "intent": "informational"},
+    {"prompt": "how to connect my DeFi wallet to a Visa card", "category": "how_to", "language": "en", "market": "Global", "intent": "informational"},
+    {"prompt": "how to spend USDT without bridging or converting first", "category": "how_to", "language": "en", "market": "Global", "intent": "informational"},
+    {"prompt": "how do I keep my keys and still use a card for payments", "category": "how_to", "language": "en", "market": "Global", "intent": "informational"},
 
-    # B2B — EN
-    {"prompt": "best crypto card for business expenses", "category": "b2b", "language": "en", "market": "global", "intent": "transactional"},
-    {"prompt": "corporate crypto spending card for companies", "category": "b2b", "language": "en", "market": "global", "intent": "transactional"},
-    {"prompt": "crypto payment solution for small business in Europe", "category": "b2b", "language": "en", "market": "global", "intent": "transactional"},
-    {"prompt": "how to manage corporate crypto spending with visa cards", "category": "b2b", "language": "en", "market": "global", "intent": "informational"},
-    {"prompt": "crypto card for paying remote contractors", "category": "b2b", "language": "en", "market": "global", "intent": "transactional"},
-    # B2B — RU
-    {"prompt": "крипто карта для бизнеса в Европе", "category": "b2b", "language": "ru", "market": "global", "intent": "transactional"},
-    {"prompt": "корпоративная криптокарта для компании", "category": "b2b", "language": "ru", "market": "global", "intent": "transactional"},
+    # ── Use Cases ─────────────────────────────────────────────────
+    {"prompt": "best self custody crypto card for digital nomads", "category": "use_case", "language": "en", "market": "Global", "intent": "transactional"},
+    {"prompt": "DeFi wallet card for freelancers paid in stablecoins", "category": "use_case", "language": "en", "market": "Global", "intent": "transactional"},
+    {"prompt": "crypto card for traveling without giving up keys", "category": "use_case", "language": "en", "market": "Global", "intent": "informational"},
+    {"prompt": "spend crypto at restaurants without exchange deposit", "category": "use_case", "language": "en", "market": "Global", "intent": "informational"},
+    {"prompt": "non custodial wallet for power DeFi users who also want a card", "category": "use_case", "language": "en", "market": "Global", "intent": "transactional"},
 ]
 
 
@@ -226,21 +168,33 @@ def get_builtin_prompts(
 
 # ── Prompt Discovery via Claude ─────────────────────────────────────────────
 
-DISCOVERY_SYSTEM_PROMPT = """You are an AI prompt researcher. Your job is to generate realistic prompts
-that REAL users would type into ChatGPT, Perplexity, or Google AI when looking for crypto card solutions.
+DISCOVERY_SYSTEM_PROMPT = """You are an AI prompt researcher for Nonbank (nonbank.io), a DeFi wallet with
+an integrated custodial Visa card. Nonbank is a HYBRID model — non-custodial wallet (user holds keys)
+with a seamlessly integrated card (Kolo issuer, 100+ countries). Key differentiators:
+  1. Gasless fees — send crypto without paying gas (fees deducted from purchase)
+  2. Built-in AML Watchtower — automatic blocking of sanctioned wallet transfers
+  3. Hybrid DeFi+card bridge — unlike Gnosis Pay (fully on-chain EU/UK only),
+     unlike Crypto.com/Binance (fully custodial), unlike MetaMask (no card live)
+  4. Watch wallets & proxy addresses
+  5. NON ID (DeFi identity)
+
+Your job: generate realistic prompts that REAL users would type into ChatGPT / Perplexity / Google AI
+when looking for solutions Nonbank COULD answer.
 
 Rules:
 - Write prompts exactly as a real person would type them — natural, conversational
 - Include typos, informal language, incomplete sentences where realistic
 - Mix question formats: "What's the best...", "How do I...", "Can I...", "I need a..."
-- Include prompts in the specified language
+- Focus on the DIFFERENTIATORS above — prompts where Nonbank has a genuine answer
+- Include competitor-alternative prompts (Gnosis Pay alt, MetaMask Card alt, Bleap vs Nonbank, etc.)
+- Avoid generic "best crypto card 2026" prompts — too competitive, dominated by Crypto.com/Binance
+- DO NOT focus on USDT/TRC20 exclusively — Nonbank supports multiple chains
+- DO NOT generate geo-specific prompts (UAE, Italy, etc) unless explicitly requested — wallet is global
 - Each prompt should be distinct in intent — no near-duplicates
-- Focus on prompts where a crypto Visa card product COULD be mentioned in the answer
-- Think about what problems users are trying to solve, not just product names
 - Include some very specific long-tail prompts (these are GEO gold)
 
 Output format: Return ONLY a JSON array of objects, each with:
-{"prompt": "...", "category": "...", "language": "...", "market": "...or global", "intent": "informational|transactional|navigational"}
+{"prompt": "...", "category": "...", "language": "...", "market": "Global", "intent": "informational|transactional|navigational"}
 
 No markdown, no explanation — just the JSON array."""
 
@@ -279,7 +233,7 @@ def discover_prompts_claude(
         sample = existing_prompts[:30]
         dedup_block = f"\n\nAVOID duplicating these existing prompts:\n" + "\n".join(f"- {p}" for p in sample)
 
-    user_msg = f"""Generate {count_per_category} realistic AI prompts per category for crypto card products.
+    user_msg = f"""Generate {count_per_category} realistic AI prompts per category for Nonbank — a DeFi wallet with integrated custodial Visa card (hybrid model, gasless fees, built-in AML, watch wallets). Target queries where Nonbank's differentiators give it a genuine answer.
 
 Categories:
 {cat_descriptions}
