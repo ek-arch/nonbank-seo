@@ -20,15 +20,15 @@ from __future__ import annotations
 # Import these in perplexity_geo.py, geo_visibility.py, geo_prompt_research.py
 # ═══════════════════════════════════════════════════════════════════════════════
 
-NONBANK_DOMAINS: set[str] = {"nonbank.io", "www.nonbank.io", "t.me/nonbankers"}
+NONBANK_DOMAINS = {"nonbank.io", "www.nonbank.io", "t.me/nonbankers"}
 
-NONBANK_BRAND_TERMS: set[str] = {
+NONBANK_BRAND_TERMS = {
     "nonbank", "nonbank.io", "nonbank wallet", "nonbank visa",
     "nonbank card", "nonbank crypto", "non×card", "nonxcard", "nons",
 }
 
 # Full competitor dict — used by all GEO/visibility modules
-COMPETITOR_BRANDS: dict[str, set[str]] = {
+COMPETITOR_BRANDS = {
     "Gnosis Pay":  {"gnosispay.com", "gnosis pay", "gnosispay"},
     "MetaMask":    {"metamask.io", "metamask", "metamask card"},
     "COCA":        {"coca.xyz", "coca wallet", "coca card"},
@@ -44,7 +44,7 @@ COMPETITOR_BRANDS: dict[str, set[str]] = {
 }
 
 # Flat domain list for Ahrefs/SerpAPI competitor keyword pulls
-COMPETITOR_DOMAINS_FLAT: list[str] = [
+COMPETITOR_DOMAINS_FLAT = [
     "gnosispay.com", "metamask.io", "coca.xyz", "bleap.finance",
     "crypto.com", "bitget.com", "cypher.com", "bybit.com", "nexo.com",
     "redotpay.com", "holyheld.com", "paywithmoon.com",
