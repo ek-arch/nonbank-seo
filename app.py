@@ -11,7 +11,8 @@ from utils.api_keys import setup_sidebar
 
 # ── Page imports ──────────────────────────────────────────────────────────────
 from pages.dashboard import page_dashboard
-from pages.nonbank_metrics import page_nonbank_metrics
+from pages.competitor_intel import page_competitor_intel
+from pages.keyword_intel import page_keyword_intel
 from pages.content_plan import page_content_plan
 from pages.outlet_matching import page_outlet_matching
 from pages.pub_roi import page_publication_roi
@@ -19,7 +20,6 @@ from pages.pr_generator import page_pr_generator
 from pages.distribution import page_content_distribution
 from pages.monthly_eval import page_monthly_eval
 from pages.monthly_planner import page_monthly_planner
-from pages.keyword_intel import page_keyword_intel
 from pages.pseo import page_programmatic_seo
 from pages.geo_tracker import page_geo_tracker
 
@@ -37,24 +37,26 @@ setup_sidebar()
 # ── Navigation ────────────────────────────────────────────────────────────────
 pg = st.navigation({
     "": [
-        st.Page(page_dashboard,        title="Dashboard",        icon="🤖", default=True),
+        st.Page(page_dashboard,          title="Dashboard",          icon="🤖", default=True),
     ],
-    "Stages": [
-        st.Page(page_nonbank_metrics,     title="Nonbank Metrics",     icon="📈"),
-        st.Page(page_content_plan,     title="Content Plan",     icon="✍️"),
-        st.Page(page_outlet_matching,  title="Outlet Matching",  icon="🗞️"),
-        st.Page(page_publication_roi,  title="Publication ROI",  icon="💰"),
+    "Research": [
+        st.Page(page_competitor_intel,   title="Competitor Intel",   icon="🔍"),
+        st.Page(page_keyword_intel,      title="Keyword Intel",      icon="🧠"),
     ],
-    "Actions": [
-        st.Page(page_pr_generator,           title="PR Generator",     icon="📝"),
-        st.Page(page_content_distribution,   title="Distribution",     icon="📣"),
-        st.Page(page_monthly_eval,           title="Monthly Eval",     icon="📉"),
-        st.Page(page_monthly_planner,        title="Monthly Planner",  icon="🗓️"),
+    "Strategy": [
+        st.Page(page_content_plan,       title="Content Strategy",   icon="✍️"),
+        st.Page(page_outlet_matching,    title="Outlet Matching",    icon="🗞️"),
+        st.Page(page_publication_roi,    title="Publication ROI",    icon="💰"),
     ],
-    "Growth": [
-        st.Page(page_keyword_intel,          title="Keyword Intel",    icon="🧠"),
-        st.Page(page_programmatic_seo,       title="Programmatic SEO", icon="🚀"),
-        st.Page(page_geo_tracker,            title="GEO Tracker",      icon="🎯"),
+    "Execution": [
+        st.Page(page_pr_generator,       title="PR Generator",       icon="📝"),
+        st.Page(page_content_distribution, title="Distribution",     icon="📣"),
+        st.Page(page_programmatic_seo,   title="Programmatic SEO",   icon="🚀"),
+    ],
+    "Measure": [
+        st.Page(page_geo_tracker,        title="GEO Tracker",        icon="🎯"),
+        st.Page(page_monthly_eval,       title="Monthly Eval",       icon="📉"),
+        st.Page(page_monthly_planner,    title="Monthly Planner",    icon="🗓️"),
     ],
 })
 pg.run()

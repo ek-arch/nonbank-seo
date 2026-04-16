@@ -150,97 +150,85 @@ def score_keyword(kw: Keyword) -> float:
 
 
 # ── Seed Keywords ────────────────────────────────────────────────────────────
-# Curated from: Nonbank market data, competitor analysis, product features
-# Organized by category and market for systematic expansion
+# Derived from Nonbank's 3 differentiators + competitive positioning.
+# Categories: differentiator-led, competitor comparison, market-specific, long-tail.
 
 SEED_KEYWORDS: list[dict] = [
-    # ── HEAD TERMS (high volume, high competition) ───────────────────────
+    # ── DIFFERENTIATOR 1: NON-CUSTODIAL CARD ─────────────────────────────
+    {"q": "non-custodial crypto card", "lang": "en", "market": "global"},
+    {"q": "best non-custodial crypto card 2026", "lang": "en", "market": "global"},
+    {"q": "self-custody visa card", "lang": "en", "market": "global"},
+    {"q": "spend crypto without exchange deposit", "lang": "en", "market": "global"},
+    {"q": "crypto card without giving up keys", "lang": "en", "market": "global"},
+
+    # ── DIFFERENTIATOR 2: GASLESS FEES ───────────────────────────────────
+    {"q": "gasless crypto transactions", "lang": "en", "market": "global"},
+    {"q": "send crypto without gas fees", "lang": "en", "market": "global"},
+    {"q": "no gas fee wallet", "lang": "en", "market": "global"},
+    {"q": "gasless USDT transfer", "lang": "en", "market": "global"},
+    {"q": "meta-transactions crypto wallet", "lang": "en", "market": "global"},
+
+    # ── DIFFERENTIATOR 3: AML COMPLIANCE ─────────────────────────────────
+    {"q": "AML crypto wallet", "lang": "en", "market": "global"},
+    {"q": "self-custody AML compliance", "lang": "en", "market": "global"},
+    {"q": "sanctioned wallet checker", "lang": "en", "market": "global"},
+    {"q": "compliant non-custodial wallet", "lang": "en", "market": "global"},
+
+    # ── UNIFIED PORTFOLIO ────────────────────────────────────────────────
+    {"q": "all-in-one crypto portfolio app", "lang": "en", "market": "global"},
+    {"q": "connect bank and crypto wallet", "lang": "en", "market": "global"},
+    {"q": "manage crypto and bank in one app", "lang": "en", "market": "global"},
+    {"q": "portfolio tracker with card", "lang": "en", "market": "global"},
+
+    # ── COMPETITOR COMPARISONS ───────────────────────────────────────────
+    {"q": "Nonbank vs Gnosis Pay", "lang": "en", "market": "global"},
+    {"q": "Gnosis Pay alternative", "lang": "en", "market": "global"},
+    {"q": "Nonbank vs MetaMask wallet", "lang": "en", "market": "global"},
+    {"q": "MetaMask card alternative", "lang": "en", "market": "global"},
+    {"q": "Nonbank vs COCA wallet", "lang": "en", "market": "global"},
+    {"q": "Nonbank vs Bleap card", "lang": "en", "market": "global"},
+    {"q": "non-custodial card comparison 2026", "lang": "en", "market": "global"},
+    {"q": "custodial vs non-custodial crypto card", "lang": "en", "market": "global"},
     {"q": "best crypto card 2026", "lang": "en", "market": "global"},
+
+    # ── HEAD TERMS ───────────────────────────────────────────────────────
     {"q": "crypto debit card", "lang": "en", "market": "global"},
-    {"q": "USDT Visa card", "lang": "en", "market": "global"},
-    {"q": "crypto card", "lang": "en", "market": "global"},
-    {"q": "best crypto card", "lang": "en", "market": "global"},
-
-    # ── GEO-TARGETED: ENGLISH ────────────────────────────────────────────
-    {"q": "crypto card Europe", "lang": "en", "market": "EU"},
-    {"q": "crypto card UK", "lang": "en", "market": "GBR"},
-    {"q": "best crypto card UK 2026", "lang": "en", "market": "GBR"},
-    {"q": "crypto card UAE", "lang": "en", "market": "ARE"},
-    {"q": "crypto Visa card Dubai", "lang": "en", "market": "ARE"},
-    {"q": "crypto card digital nomad", "lang": "en", "market": "global"},
-    {"q": "crypto card for freelancers", "lang": "en", "market": "global"},
-
-    # ── GEO-TARGETED: RUSSIAN (2x LTV!) ──────────────────────────────────
-    {"q": "криптокарта Visa 2026", "lang": "ru", "market": "global"},
-    {"q": "лучшая крипто карта", "lang": "ru", "market": "global"},
-    {"q": "USDT карта Visa", "lang": "ru", "market": "global"},
-    {"q": "крипто карта Европа", "lang": "ru", "market": "EU"},
-    {"q": "крипто карта ОАЭ", "lang": "ru", "market": "ARE"},
-    {"q": "крипто карта Дубай", "lang": "ru", "market": "ARE"},
-    {"q": "криптокарта для бизнеса", "lang": "ru", "market": "global"},
-    {"q": "как потратить USDT картой", "lang": "ru", "market": "global"},
-    {"q": "крипто карта с кэшбэком", "lang": "ru", "market": "global"},
-
-    # ── GEO-TARGETED: ITALIAN ────────────────────────────────────────────
-    {"q": "carta crypto Italia 2026", "lang": "it", "market": "ITA"},
-    {"q": "migliore carta crypto", "lang": "it", "market": "ITA"},
-    {"q": "carta Visa crypto", "lang": "it", "market": "ITA"},
-
-    # ── GEO-TARGETED: SPANISH ────────────────────────────────────────────
-    {"q": "tarjeta crypto España 2026", "lang": "es", "market": "ESP"},
-    {"q": "mejor tarjeta crypto Visa", "lang": "es", "market": "ESP"},
-    {"q": "tarjeta USDT Visa", "lang": "es", "market": "ESP"},
-
-    # ── GEO-TARGETED: POLISH ─────────────────────────────────────────────
-    {"q": "karta krypto Polska 2026", "lang": "pl", "market": "POL"},
-    {"q": "najlepsza karta kryptowalutowa", "lang": "pl", "market": "POL"},
-
-    # ── GEO-TARGETED: INDONESIAN ─────────────────────────────────────────
-    {"q": "kartu crypto terbaik Indonesia", "lang": "id", "market": "IDN"},
-    {"q": "kartu Visa USDT", "lang": "id", "market": "IDN"},
-
-    # ── PRODUCT-SPECIFIC ─────────────────────────────────────────────────
-    {"q": "TRC20 USDT card", "lang": "en", "market": "global"},
+    {"q": "best crypto wallet 2026", "lang": "en", "market": "global"},
     {"q": "crypto card low fees", "lang": "en", "market": "global"},
-    {"q": "crypto card BTC cashback", "lang": "en", "market": "global"},
-    {"q": "multi-currency crypto wallet card", "lang": "en", "market": "global"},
-    {"q": "spend stablecoins with Visa", "lang": "en", "market": "global"},
 
-    # ── COMPARISON ───────────────────────────────────────────────────────
-    {"q": "Nonbank vs Wirex", "lang": "en", "market": "global"},
-    {"q": "Nonbank vs Crypto.com card", "lang": "en", "market": "global"},
-    {"q": "Nonbank vs Bybit card", "lang": "en", "market": "global"},
-    {"q": "crypto card comparison 2026", "lang": "en", "market": "global"},
-    {"q": "Wirex vs Binance card vs Nonbank", "lang": "en", "market": "global"},
-
-    # ── PROBLEM-SOLVING / LONG-TAIL ──────────────────────────────────────
-    {"q": "how to spend USDT with a Visa card", "lang": "en", "market": "global"},
-    {"q": "cheapest way to convert USDT to fiat", "lang": "en", "market": "global"},
-    {"q": "can I use crypto card in Europe without KYC", "lang": "en", "market": "EU"},
+    # ── LONG-TAIL / PROBLEM-SOLVING ──────────────────────────────────────
+    {"q": "how to spend crypto without custodian", "lang": "en", "market": "global"},
+    {"q": "spend stablecoins with Visa card", "lang": "en", "market": "global"},
+    {"q": "crypto card for digital nomads", "lang": "en", "market": "global"},
     {"q": "best way to spend crypto while traveling", "lang": "en", "market": "global"},
-    {"q": "crypto card that works in 60 countries", "lang": "en", "market": "global"},
-    {"q": "how to get Visa card funded by cryptocurrency", "lang": "en", "market": "global"},
 
-    # ── B2B (41% of Nonbank spend, growing 7x) ──────────────────────────────
-    {"q": "crypto card for business", "lang": "en", "market": "global"},
-    {"q": "corporate crypto Visa card", "lang": "en", "market": "global"},
-    {"q": "crypto payment solution for business Europe", "lang": "en", "market": "EU"},
-    {"q": "business expenses with crypto card", "lang": "en", "market": "global"},
-    {"q": "USDT corporate card", "lang": "en", "market": "global"},
+    # ── GEO-TARGETED: UAE / MENA ─────────────────────────────────────────
+    {"q": "non-custodial crypto card UAE", "lang": "en", "market": "ARE"},
+    {"q": "crypto card Dubai expat", "lang": "en", "market": "ARE"},
+    {"q": "best crypto wallet UAE 2026", "lang": "en", "market": "ARE"},
 
-    # ── CIS MARKETS (newly supported: UZB, KGZ, ARM, AZE) ───────────────
-    {"q": "крипто карта Узбекистан", "lang": "ru", "market": "UZB"},
-    {"q": "криптокарта Visa Кыргызстан", "lang": "ru", "market": "KGZ"},
-    {"q": "крипто карта Армения", "lang": "ru", "market": "ARM"},
-    {"q": "крипто карта Грузия", "lang": "ru", "market": "GEO"},
+    # ── GEO-TARGETED: LATAM (SPANISH) ────────────────────────────────────
+    {"q": "tarjeta cripto no custodial", "lang": "es", "market": "LATAM"},
+    {"q": "mejor tarjeta cripto 2026", "lang": "es", "market": "LATAM"},
+    {"q": "billetera cripto con tarjeta Visa", "lang": "es", "market": "LATAM"},
+    {"q": "gastar cripto sin exchange", "lang": "es", "market": "LATAM"},
+
+    # ── GEO-TARGETED: LATAM (PORTUGUESE / BRAZIL) ────────────────────────
+    {"q": "carteira cripto com cartao visa", "lang": "pt", "market": "BRA"},
+    {"q": "melhor cartao cripto 2026", "lang": "pt", "market": "BRA"},
+    {"q": "gastar cripto sem exchange", "lang": "pt", "market": "BRA"},
+
+    # ── GEO-TARGETED: TURKEY ─────────────────────────────────────────────
+    {"q": "kripto kart Turkiye 2026", "lang": "tr", "market": "TUR"},
+    {"q": "en iyi kripto cuzdan", "lang": "tr", "market": "TUR"},
 ]
 
 
 # ── Ahrefs Integration ───────────────────────────────────────────────────────
 
 COMPETITOR_DOMAINS = [
-    "crypto.com", "wirex.com", "bybit.com", "nexo.com",
-    "oobit.com", "bitget.com", "revolut.com",
+    "gnosispay.com", "metamask.io", "coca.xyz", "bleap.finance",
+    "crypto.com", "bitget.com", "cypher.com",
 ]
 
 
