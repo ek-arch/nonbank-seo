@@ -9,22 +9,9 @@ Free tier: 100 searches/month at serpapi.com.
 import requests
 from typing import Optional
 
-NONBANK_DOMAINS = {"nonbank.io", "nonbank.io", "t.me/nonbank"}
-NONBANK_BRAND_TERMS = {"nonbank", "nonbank.io", "nonbank.io", "nonbank card", "nonbank crypto"}
-
-COMPETITORS = {
-    "crypto.com": "Crypto.com",
-    "coinbase.com": "Coinbase",
-    "binance.com": "Binance",
-    "wirex.com": "Wirex",
-    "bybit.com": "Bybit",
-    "nexo.com": "Nexo",
-    "oobit.com": "Oobit",
-    "revolut.com": "Revolut",
-    "bitget.com": "Bitget",
-    "metamask.io": "MetaMask",
-    "gnosis-pay.com": "Gnosis Pay",
-}
+# Brand & competitor constants — single source of truth in config.py
+from config import NONBANK_DOMAINS, NONBANK_BRAND_TERMS, COMPETITOR_BRANDS
+COMPETITORS = {d: name for name, domains in COMPETITOR_BRANDS.items() for d in domains if "." in d}
 
 # Default queries to audit — mix of branded, generic, and geo-targeted
 DEFAULT_QUERIES = [

@@ -16,6 +16,42 @@ from __future__ import annotations
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
+# BRAND CONSTANTS — single source of truth for all engine modules
+# Import these in perplexity_geo.py, geo_visibility.py, geo_prompt_research.py
+# ═══════════════════════════════════════════════════════════════════════════════
+
+NONBANK_DOMAINS: set[str] = {"nonbank.io", "www.nonbank.io", "t.me/nonbankers"}
+
+NONBANK_BRAND_TERMS: set[str] = {
+    "nonbank", "nonbank.io", "nonbank wallet", "nonbank visa",
+    "nonbank card", "nonbank crypto", "non×card", "nonxcard", "nons",
+}
+
+# Full competitor dict — used by all GEO/visibility modules
+COMPETITOR_BRANDS: dict[str, set[str]] = {
+    "Gnosis Pay":  {"gnosispay.com", "gnosis pay", "gnosispay"},
+    "MetaMask":    {"metamask.io", "metamask", "metamask card"},
+    "COCA":        {"coca.xyz", "coca wallet", "coca card"},
+    "Bleap":       {"bleap.finance", "bleap", "bleap card"},
+    "Crypto.com":  {"crypto.com", "crypto.com card", "cryptocom"},
+    "Bitget":      {"bitget.com", "bitget wallet"},
+    "Cypher":      {"cypher.com", "cypher card"},
+    "Bybit":       {"bybit.com", "bybit card"},
+    "Nexo":        {"nexo.com", "nexo card"},
+    "RedotPay":    {"redotpay.com", "redotpay"},
+    "Holyheld":    {"holyheld.com", "holyheld"},
+    "Moon":        {"paywithmoon.com", "moon card"},
+}
+
+# Flat domain list for Ahrefs/SerpAPI competitor keyword pulls
+COMPETITOR_DOMAINS_FLAT: list[str] = [
+    "gnosispay.com", "metamask.io", "coca.xyz", "bleap.finance",
+    "crypto.com", "bitget.com", "cypher.com", "bybit.com", "nexo.com",
+    "redotpay.com", "holyheld.com", "paywithmoon.com",
+]
+
+
+# ═══════════════════════════════════════════════════════════════════════════════
 # PRODUCT PROFILE
 # ═══════════════════════════════════════════════════════════════════════════════
 
@@ -231,28 +267,21 @@ COMPETITORS = [
 # CONTENT PILLARS & SEED KEYWORDS
 # ═══════════════════════════════════════════════════════════════════════════════
 
+# Priorities validated by SERP/AI research (April 2026 audit).
+# See research notes in each pillar's `serp_notes` field.
 CONTENT_PILLARS = [
-    {
-        "id": "defi_wallet_card",
-        "label": "DeFi Wallet with Integrated Card",
-        "description": "Hybrid model: DeFi wallet + seamlessly integrated Visa card (100+ countries). Unlike Gnosis Pay (fully on-chain, EU/UK only) or Crypto.com (fully custodial).",
-        "differentiator": "hybrid_defi_card",
-        "priority": "High",
-        "seed_keywords": [
-            "DeFi wallet with card",
-            "crypto wallet with visa card",
-            "best crypto card 2026",
-            "DeFi wallet vs gnosis pay",
-            "crypto card 100 countries",
-            "crypto wallet card integration",
-        ],
-    },
     {
         "id": "gasless",
         "label": "Gasless Crypto Transactions",
-        "description": "Send crypto without gas fees — unique Nonbank feature no competitor has",
+        "description": "Send crypto without gas fees — unique Nonbank feature, no competitor has this",
         "differentiator": "gasless",
-        "priority": "High",
+        "priority": "P0 — Start here",
+        "serp_notes": (
+            "VALIDATED: Nonbank already appears in 'no gas fee wallet' SERP (nonbank.io/blog). "
+            "'Send crypto without gas fees' has fragmented low-DR competition. "
+            "Consumer-facing explainer gap — SERPs are developer/protocol-heavy. "
+            "Highest-leverage first move: amplify existing blog post + DR60+ outlet placement."
+        ),
         "seed_keywords": [
             "gasless crypto transactions",
             "send crypto without gas fees",
@@ -263,26 +292,16 @@ CONTENT_PILLARS = [
         ],
     },
     {
-        "id": "aml_compliance",
-        "label": "AML-Safe Self-Custody",
-        "description": "Built-in compliance screening — the responsible self-custody angle",
-        "differentiator": "aml",
-        "priority": "Medium",
-        "seed_keywords": [
-            "AML crypto wallet",
-            "self-custody AML compliance",
-            "sanctioned wallet checker",
-            "crypto wallet AML screening",
-            "compliant non-custodial wallet",
-            "safe self-custody crypto",
-        ],
-    },
-    {
         "id": "watch_proxy",
         "label": "Watch Wallets & Proxy Addresses",
         "description": "Track any wallet without exposing keys (watch-only). Proxy addresses for privacy. Unique for a wallet that also has a card.",
         "differentiator": "proxy_watch",
-        "priority": "Medium",
+        "priority": "P1 — Unclaimed niche",
+        "serp_notes": (
+            "VALIDATED: 'portfolio tracker with card' is COMPLETELY unclaimed — SERP returns stock "
+            "trackers, not crypto. 'Crypto watch wallet' is fragmented (no dominant brand). "
+            "Nonbank can own this query with one well-placed article on a DR65+ outlet."
+        ),
         "seed_keywords": [
             "crypto watch wallet",
             "proxy address crypto",
@@ -293,11 +312,58 @@ CONTENT_PILLARS = [
         ],
     },
     {
+        "id": "defi_wallet_card",
+        "label": "DeFi Wallet with Integrated Card",
+        "description": "Hybrid model: DeFi wallet + seamlessly integrated Visa card (100+ countries). Unlike Gnosis Pay (fully on-chain, EU/UK only) or Crypto.com (fully custodial).",
+        "differentiator": "hybrid_defi_card",
+        "priority": "P2 — Comparison angle",
+        "serp_notes": (
+            "VALIDATED: 'gnosis pay alternative' has moderate competition (Bleap owns it, thin field). "
+            "Nonbank's hybrid model is genuinely different from Bleap/Gnosis. "
+            "'Best crypto wallet with card' is saturated (MetaMask, Bleap, CoinGecko dominate). "
+            "Entry point: niche comparison articles, not head terms."
+        ),
+        "seed_keywords": [
+            "DeFi wallet with card",
+            "crypto wallet with visa card",
+            "best crypto card 2026",
+            "DeFi wallet vs gnosis pay",
+            "crypto card 100 countries",
+            "crypto wallet card integration",
+        ],
+    },
+    {
+        "id": "aml_compliance",
+        "label": "AML-Safe DeFi Wallet",
+        "description": "Built-in AML Watchtower — the responsible DeFi angle. First consumer wallet with compliance screening.",
+        "differentiator": "aml",
+        "priority": "P3 — PR/GEO only",
+        "serp_notes": (
+            "CAUTION: 'AML crypto wallet' intent = B2B compliance tools (TRM Labs, Elliptic, AMLBot). "
+            "Searchers want enterprise screening, not consumer wallets. "
+            "Better as thought-leadership / PR for AI citations than direct SEO ranking. "
+            "Target: fintech press, compliance newsletters, AI answer insertion."
+        ),
+        "seed_keywords": [
+            "AML crypto wallet",
+            "self-custody AML compliance",
+            "sanctioned wallet checker",
+            "crypto wallet AML screening",
+            "compliant non-custodial wallet",
+            "safe self-custody crypto",
+        ],
+    },
+    {
         "id": "defi_identity",
-        "label": "DeFi Identity & Web3 UX",
-        "description": "NON ID as a single DeFi handle — replaces long wallet addresses, mintable as NFT",
+        "label": "NON ID (DeFi Identity)",
+        "description": "NON ID as a single DeFi handle — replaces long wallet addresses, mintable as NFT. Feature mention only — ENS/Unstoppable Domains own this search space.",
         "differentiator": "non_id",
-        "priority": "Medium",
+        "priority": "P4 — Feature mention only",
+        "serp_notes": (
+            "NOT COMPETITIVE: ENS and Unstoppable Domains completely own the DeFi identity space. "
+            "NON ID is proprietary, not interoperable. No realistic SEO opportunity. "
+            "Mention NON ID within other pillar articles but do NOT create dedicated content."
+        ),
         "seed_keywords": [
             "DeFi identity wallet",
             "crypto username wallet",

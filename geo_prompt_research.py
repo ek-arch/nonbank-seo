@@ -29,26 +29,9 @@ import requests
 PERPLEXITY_CHAT_API = "https://api.perplexity.ai/chat/completions"
 ANTHROPIC_API = "https://api.anthropic.com/v1/messages"
 
-NONBANK_DOMAINS = {"nonbank.io", "nonbank.io", "nonbank.io"}
-NONBANK_TERMS = {"nonbank", "nonbank card", "nonbank crypto", "nonbank visa", "nonbank wallet", "nonbank.io", "nonbank.io"}
-
-COMPETITORS = {
-    "crypto.com": "Crypto.com",
-    "coinbase.com": "Coinbase",
-    "binance.com": "Binance",
-    "wirex.com": "Wirex",
-    "bybit.com": "Bybit",
-    "nexo.com": "Nexo",
-    "oobit.com": "Oobit",
-    "revolut.com": "Revolut",
-    "bitget.com": "Bitget",
-    "metamask.io": "MetaMask",
-    "gnosis-pay.com": "Gnosis Pay",
-    "holyheld.com": "Holyheld",
-    "club-swan.com": "Club Swan",
-    "redotpay.com": "RedotPay",
-    "paywithmoon.com": "Moon",
-}
+# Brand & competitor constants — single source of truth in config.py
+from config import NONBANK_DOMAINS, NONBANK_BRAND_TERMS as NONBANK_TERMS, COMPETITOR_BRANDS
+COMPETITORS = {d: name for name, domains in COMPETITOR_BRANDS.items() for d in domains if "." in d}
 
 # ── Prompt Discovery Categories ─────────────────────────────────────────────
 

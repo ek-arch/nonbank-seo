@@ -138,12 +138,12 @@ def score_keyword(kw: Keyword) -> float:
     elif kw.nonbank_ranking > 10:
         score += 5  # ranking but not on page 1
 
-    # Category bonus
-    cat_bonus = {"comparison": 10, "problem": 8, "b2b": 8, "long_tail": 5, "mid_tail": 3, "branded": -5}
+    # Category bonus (branded terms valued during brand-building phase)
+    cat_bonus = {"comparison": 10, "problem": 8, "b2b": 8, "long_tail": 5, "mid_tail": 3, "branded": 2}
     score += cat_bonus.get(kw.category, 0)
 
-    # Language LTV weight
-    lang_multiplier = {"ru": 1.5, "en": 1.0, "it": 0.9, "es": 0.9, "pl": 0.8, "pt": 0.7, "id": 0.5, "ro": 0.8}
+    # Language weight — EN-only strategy for now (no RU/other content budget)
+    lang_multiplier = {"en": 1.0}  # all non-EN languages get 1.0 default
     score *= lang_multiplier.get(kw.language, 1.0)
 
     return round(score, 1)
@@ -213,10 +213,7 @@ SEED_KEYWORDS: list[dict] = [
 
 # ── Ahrefs Integration ───────────────────────────────────────────────────────
 
-COMPETITOR_DOMAINS = [
-    "gnosispay.com", "metamask.io", "coca.xyz", "bleap.finance",
-    "crypto.com", "bitget.com", "cypher.com",
-]
+from config import COMPETITOR_DOMAINS_FLAT as COMPETITOR_DOMAINS
 
 
 def fetch_ahrefs_organic_keywords(
@@ -408,7 +405,7 @@ def get_competitor_keywords(
                 if not q or q.lower() in all_kws:
                     continue
                 # Filter: only crypto/card related
-                if not any(term in q.lower() for term in ["crypto", "card", "usdt", "visa", "debit", "wallet", "stablecoin", "bitcoin"]):
+                if not any(term in q.lower() for term in ["crypto", "card", "usdt", "visa", "debit", "wallet", "stablecoin", "bitcoin", "gasless", "aml", "non-custodial", "defi", "self-custody", "watch wallet", "proxy"]):
                     continue
                 kw = Keyword(
                     keyword=q,
