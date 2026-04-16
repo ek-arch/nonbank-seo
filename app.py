@@ -51,7 +51,7 @@ pg = st.navigation({
     "Execution": [
         st.Page(page_pr_generator,       title="PR Generator",       icon="📝"),
         st.Page(page_content_distribution, title="Distribution",     icon="📣"),
-        st.Page(page_programmatic_seo,   title="Programmatic SEO",   icon="🚀"),
+        st.Page(page_programmatic_seo,   title="Comparison Pages",   icon="🚀"),
     ],
     "Measure": [
         st.Page(page_geo_tracker,        title="GEO Tracker",        icon="🎯"),

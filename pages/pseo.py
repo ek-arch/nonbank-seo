@@ -1,375 +1,386 @@
-"""Page 11 — Programmatic SEO: keyword matrix → validate → compete → build pages."""
+"""
+pages/pseo.py — Comparison Page Factory
+========================================
+Replaces Kolo's country × crypto × use-case programmatic SEO with a
+tool that actually fits Nonbank's research-first strategy:
+
+Generate "Nonbank vs [competitor]" and "[competitor] alternative"
+comparison page briefs at scale. Uses the COMPETITOR_BRANDS feature
+matrix from config.py so every page is grounded in real differences.
+
+Why this, not the old pseo:
+- Research showed "gnosis pay alternative" and similar comparison queries
+  have moderate competition with a real entry point for Nonbank
+- Comparison pages are high-intent (transactional SEO)
+- Leverages existing competitor matrix data — no new content invention needed
+- Scales to 10-20 pages from one click
+"""
 from __future__ import annotations
 
-import os
-import csv
 import json
+import os
 from datetime import date
 import streamlit as st
 import pandas as pd
 
-from programmatic_seo import (
-    generate_keyword_matrix, score_and_filter_keywords,
-    validate_keywords_autocomplete,
-    enrich_with_serp_viability, COUNTRIES,
-)
-from seo_builder import (
-    cluster_keywords_to_pages, generate_content_batch,
-    build_all_pages, build_manifest, build_sitemap_fragment,
-    export_pages_local,
-)
+from config import COMPETITORS, FEATURE_DIMENSIONS, CONTENT_PILLARS, PRODUCT_PROFILE
 
 
-def _generate_designer_brief(clusters, base_dir):
-    """Generate a plug-and-play brief for the Webflow Designer."""
-    manifest = build_manifest(clusters)
-    sitemap_frag = build_sitemap_fragment(clusters)
+# ── Brief templates ────────────────────────────────────────────────────────
 
-    page_table = "\n".join(
-        f"| `/crypto-card/{c.slug}` | {c.lang} | {c.country_name} | {c.primary_keyword} | +{len(c.secondary_keywords)} keywords |"
-        for c in clusters
+ANGLE_TEMPLATES = {
+    "versus": {
+        "label": "Head-to-head (Nonbank vs X)",
+        "title_tmpl": "Nonbank vs {competitor}: {year} Comparison",
+        "kw_tmpl":    "nonbank vs {comp_slug}",
+        "intent":     "Comparison / transactional",
+        "outline": [
+            "Quick verdict (who wins for whom)",
+            "Feature comparison table (custody, card, fees, chains, AML, regions)",
+            "Where Nonbank wins: {wins_list}",
+            "Where {competitor} wins: {losses_list}",
+            "Pricing breakdown",
+            "Which one to choose — user scenarios",
+            "FAQ (5–7 Qs)",
+        ],
+    },
+    "alternative": {
+        "label": "Alternative to X",
+        "title_tmpl": "{competitor} Alternative: Why Nonbank Fits Better",
+        "kw_tmpl":    "{comp_slug} alternative",
+        "intent":     "Transactional / high-intent",
+        "outline": [
+            "Why people look for {competitor} alternatives",
+            "Key problems with {competitor}: {competitor_gaps}",
+            "How Nonbank solves them: {nonbank_advantages}",
+            "Feature comparison snapshot",
+            "When to stick with {competitor} (honest trade-offs)",
+            "How to migrate from {competitor} to Nonbank",
+            "FAQ",
+        ],
+    },
+    "roundup": {
+        "label": "Category roundup (Nonbank included)",
+        "title_tmpl": "Best {category} in {year}: {competitor_list}",
+        "kw_tmpl":    "best {category} {year}",
+        "intent":     "Informational / comparison",
+        "outline": [
+            "What to look for in a {category}",
+            "Top picks with pros/cons (Nonbank + 4-5 competitors)",
+            "Side-by-side feature table",
+            "Recommendation by use case",
+            "FAQ",
+        ],
+    },
+}
+
+CATEGORY_LABELS = [
+    "non-custodial crypto card",
+    "DeFi wallet with Visa card",
+    "hybrid DeFi+card crypto app",
+    "crypto wallet with integrated card",
+    "self-custody crypto card",
+]
+
+
+# ── Helpers ────────────────────────────────────────────────────────────────
+
+def _slug(s: str) -> str:
+    return s.lower().replace(" ", "-").replace(".", "").replace(",", "")
+
+
+def _competitor_gaps_vs_nonbank(comp: dict, nonbank: dict) -> tuple[list[str], list[str]]:
+    """Return (nonbank_wins, competitor_wins) — dimensions where each has advantage."""
+    nonbank_wins = []
+    comp_wins = []
+    for dim in FEATURE_DIMENSIONS:
+        nb_val = str(nonbank.get(dim, "")).lower()
+        cp_val = str(comp.get(dim, "")).lower()
+        # Simple heuristic: "yes" / "live" / "100+" vs "no" / "pilot" / "limited"
+        nb_positive = any(x in nb_val for x in ["yes", "live", "100+", "multi", "global"])
+        nb_negative = any(x in nb_val for x in ["no ", "no\"", "pilot", "limited", "planned"])
+        cp_positive = any(x in cp_val for x in ["yes", "live", "100+", "multi", "global"])
+        cp_negative = any(x in cp_val for x in ["no ", "no\"", "pilot", "limited", "planned"])
+        if nb_positive and cp_negative:
+            nonbank_wins.append(f"**{dim}**: {nonbank.get(dim)}")
+        elif cp_positive and nb_negative:
+            comp_wins.append(f"**{dim}**: {comp.get(dim)}")
+    return nonbank_wins, comp_wins
+
+
+def _build_brief(competitor: dict, angle: str, nonbank: dict, year: int = 2026) -> dict:
+    """Assemble a single comparison brief dict."""
+    tmpl = ANGLE_TEMPLATES[angle]
+    comp_name = competitor["name"]
+    comp_slug = _slug(comp_name)
+    wins, losses = _competitor_gaps_vs_nonbank(competitor, nonbank)
+    wins_list = ", ".join(w.split(":")[0].strip("*") for w in wins[:5]) or "(run analysis)"
+    losses_list = ", ".join(l.split(":")[0].strip("*") for l in losses[:5]) or "(run analysis)"
+
+    outline_filled = [
+        o.format(
+            competitor=comp_name,
+            comp_slug=comp_slug,
+            year=year,
+            wins_list=wins_list,
+            losses_list=losses_list,
+            competitor_gaps=losses_list,
+            nonbank_advantages=wins_list,
+            category="non-custodial crypto card",
+            competitor_list=f"Nonbank, {comp_name}, ...",
+        )
+        for o in tmpl["outline"]
+    ]
+
+    title = tmpl["title_tmpl"].format(
+        competitor=comp_name,
+        comp_slug=comp_slug,
+        year=year,
+        category="non-custodial crypto card",
+        competitor_list="",
+    )
+    kw = tmpl["kw_tmpl"].format(
+        competitor=comp_name, comp_slug=comp_slug, year=year,
+        category="non-custodial crypto card",
     )
 
-    brief = f"""# Webflow Designer Brief — Programmatic SEO Pages
-## Plug & Play Setup Guide
+    return {
+        "Competitor": comp_name,
+        "Angle": tmpl["label"],
+        "Title": title,
+        "Primary Keyword": kw,
+        "Slug": f"/compare/nonbank-vs-{comp_slug}" if angle == "versus" else f"/{comp_slug}-alternative",
+        "Intent": tmpl["intent"],
+        "Nonbank Wins": len(wins),
+        "Competitor Wins": len(losses),
+        "Outline": " · ".join(outline_filled),
+        "Outline Full": outline_filled,
+        "Wins Detail": wins,
+        "Losses Detail": losses,
+    }
 
-### What This Is
-{len(clusters)} pre-built SEO pages for nonbank.io/crypto-card/{{slug}}.
-All content, titles, meta descriptions, and HTML are pre-generated.
 
----
-
-### Step 1: Create CMS Collection (5 min)
-1. Open Webflow Designer → **CMS** → **+ New Collection**
-2. Name: **Crypto Card Pages** / Slug prefix: **crypto-card**
-3. Add fields: Name, Slug, SEO Title, SEO Description, H1, Hero Subtitle, Body Content (Rich Text), Language, Country, Primary Keyword, Related Pages
-
-### Step 2: Design the Template Page (15 min)
-1. Build layout: Nav → Hero (H1 + subtitle) → Body Content → CTA → Related pages → Footer
-2. Bind SEO Title + Description. Publish template.
-
-### Step 3: Import Content (10 min)
-**Option A — Manual:** Copy from `pages/{{slug}}/index.html`
-**Option B — CSV Import:** Upload `pages/cms_import.csv` to Webflow CMS
-**Option C — Webflow API:** Run deploy script from SEO agent
-
-### Step 4: Publish
-Review a few pages → Publish all → Check nonbank.io/crypto-card/uae
-
----
-
-### Page Summary
-{page_table}
-
----
-Generated by Nonbank SEO Agent · {date.today().isoformat()}
-"""
-
-    brief_path = os.path.join(base_dir, "DESIGNER_BRIEF.md")
-    with open(brief_path, "w") as f:
-        f.write(brief)
-
-    csv_path = os.path.join(base_dir, "cms_import.csv")
-    with open(csv_path, "w", newline="") as f:
-        w = csv.writer(f)
-        w.writerow(["Name", "Slug", "SEO Title", "SEO Description", "H1", "Hero Subtitle", "Language", "Country", "Primary Keyword"])
-        for c in clusters:
-            w.writerow([c.h1, c.slug, c.title, c.meta_description, c.h1, c.hero_subtitle, c.lang, c.country_name, c.primary_keyword])
-
-    manifest_path = os.path.join(base_dir, "manifest.json")
-    with open(manifest_path, "w") as f:
-        json.dump(manifest, f, indent=2, ensure_ascii=False)
-
-    sitemap_path = os.path.join(base_dir, "sitemap_fragment.xml")
-    with open(sitemap_path, "w") as f:
-        f.write(sitemap_frag)
-
+# ── Main page ──────────────────────────────────────────────────────────────
 
 def page_programmatic_seo():
-    st.title("🚀 Programmatic SEO — Long-Tail Keyword Factory")
-    st.caption("Generate → Validate (free) → Score competition → Auto-build pages")
+    st.title("🚀 Comparison Page Factory")
+    st.caption("Generate 'Nonbank vs X' and 'X alternative' briefs at scale from the competitor matrix")
 
-    st.warning(
-        "⚠️ **This page is Kolo legacy.** The keyword matrix was built around "
-        "country × crypto × use-case combinations (e.g. 'crypto card for freelancers in UAE'). "
-        "Nonbank is global DeFi (no country-specific positioning) and EN-only — "
-        "so the Country Tiers and Russian keyword inputs have been removed. "
-        "The underlying generator still uses the Kolo pattern library; the resulting "
-        "keywords may not align with Nonbank's differentiator-driven strategy. "
-        "**Recommendation:** use the Keyword Intel and GEO Tracker pages instead, "
-        "or rebuild this page to generate keywords from Nonbank's content pillars "
-        "(gasless, hybrid DeFi+card, watch wallets) × use cases × user personas."
+    st.info(
+        "**Research finding:** queries like 'gnosis pay alternative' and 'metamask card vs' "
+        "have moderate competition with a real entry point. This tool auto-generates "
+        "comparison article briefs for each competitor × angle, grounded in the feature "
+        "matrix from Competitor Intel."
     )
 
-    with st.expander("ℹ️ How programmatic SEO works (legacy pipeline)", expanded=False):
-        st.markdown("""
-**Original Kolo goal:** Auto-generate hundreds of long-tail landing pages like "crypto card for freelancers in UAE".
+    nonbank = next((c for c in COMPETITORS if c.get("is_self")), None)
+    competitors = [c for c in COMPETITORS if not c.get("is_self")]
 
-**4-step pipeline (still functional):**
-1. **Keyword Matrix** — pattern-based generation, scored 0-0.75
-2. **Autocomplete Validation** (free) — checks Google Autocomplete, adds 0.25
-3. **Competition Check** (SerpAPI) — SERP analysis, max 1.0
-4. **Build Pages** — clusters → Claude content → HTML export with JSON-LD, hreflang, internal links
+    if not nonbank:
+        st.error("No self-marked competitor row in config.py COMPETITORS")
+        return
 
-**For Nonbank:** the pipeline works but generated keywords will skew to Kolo's country/crypto
-combinations. Review keyword output carefully before using downstream.
-""")
-
-    serp_key = st.session_state.get("serpapi_key")
-
-    tab_matrix, tab_validate, tab_compete, tab_build = st.tabs([
-        "1️⃣ Keyword Matrix", "2️⃣ Autocomplete Validation", "3️⃣ Competition Check", "4️⃣ Build Pages"
+    tab_generate, tab_preview, tab_export = st.tabs([
+        "1️⃣ Generate Briefs", "2️⃣ Preview & Refine", "3️⃣ Export"
     ])
 
-    # ── TAB 1: Keyword Matrix ─────────────────────────────────────
-    with tab_matrix:
-        st.subheader("Keyword Matrix Generator")
-        st.info(
-            "Combines use cases × modifiers from the Kolo pattern library. "
-            "**Zero API cost.** Country/RU inputs removed for Nonbank (global EN-only)."
-        )
+    # ── TAB 1 ────────────────────────────────────────────────────────────
+    with tab_generate:
+        st.subheader("Select Comparisons")
 
-        # Hardcoded to neutral values — no country tiers, no RU keywords.
-        # The underlying generator still accepts these but we no longer expose them.
-        tiers = [1, 2]   # widest useful range so pattern generator has something to iterate
-        include_ru = False
+        col1, col2 = st.columns(2)
+        with col1:
+            selected_comps = st.multiselect(
+                "Competitors", options=[c["name"] for c in competitors],
+                default=[c["name"] for c in competitors[:4]],
+                help="Each selected competitor produces 1 brief per angle below",
+            )
+        with col2:
+            selected_angles = st.multiselect(
+                "Angles", options=list(ANGLE_TEMPLATES.keys()),
+                default=["versus", "alternative"],
+                format_func=lambda a: ANGLE_TEMPLATES[a]["label"],
+            )
 
-        max_kw = st.number_input("Max keywords", 100, 5000, 2000, step=100)
+        total_briefs = len(selected_comps) * len(selected_angles)
+        st.caption(f"**{total_briefs}** briefs will be generated.")
 
-        col_s1, col_s2 = st.columns(2)
-        with col_s1:
-            min_score = st.slider("Min keyword score", 0.3, 0.75, 0.45, 0.05)
-        with col_s2:
-            min_pattern_avg = st.slider("Min pattern avg score", 0.3, 0.75, 0.5, 0.05)
+        if st.button("🔧 Generate Briefs", type="primary", disabled=not (selected_comps and selected_angles)):
+            briefs = []
+            for comp_name in selected_comps:
+                comp = next((c for c in competitors if c["name"] == comp_name), None)
+                if not comp:
+                    continue
+                for angle in selected_angles:
+                    briefs.append(_build_brief(comp, angle, nonbank))
+            st.session_state["comp_briefs"] = briefs
+            st.success(f"Generated {len(briefs)} briefs")
 
-        if st.button("🔧 Generate → Score → Dedup → Filter", type="primary"):
-            with st.spinner("Generating keyword combinations..."):
-                raw_matrix = generate_keyword_matrix(tiers=tiers, include_ru=include_ru, max_combos=max_kw)
-            with st.spinner(f"Scoring → deduplicating → evaluating ({len(raw_matrix):,} keywords)..."):
-                result = score_and_filter_keywords(raw_matrix, min_score=min_score, min_pattern_avg=min_pattern_avg)
-                st.session_state["pseo_matrix"] = result["kept"]
-                st.session_state["pseo_score_result"] = result
-
-        if "pseo_score_result" in st.session_state:
-            result = st.session_state["pseo_score_result"]
-            stats = result["stats"]
-
-            st.success(f"**{stats['kept']}** keywords kept · **{stats['rejected']}** rejected ({stats['rejection_rate']}% filtered)")
-
-            st.subheader("Pipeline Funnel")
-            col_a, col_b, col_c, col_d = st.columns(4)
-            col_a.metric("Raw Generated", stats["total_raw"])
-            col_b.metric("After Scoring", stats["after_scoring"])
-            col_c.metric("After Dedup", stats["after_dedup"], delta=f"-{result['dedup_stats']['duplicates_removed']} dupes")
-            col_d.metric("After Pattern Eval", stats["after_pattern_eval"])
-
-            col_e, col_f, col_g = st.columns(3)
-            col_e.metric("Avg Score", stats["avg_score"])
-            col_f.metric("Filter Rate", f"{stats['rejection_rate']}%")
-            col_g.metric("Intent Clusters", result["dedup_stats"]["clusters"])
-
-            st.subheader("Score Distribution")
-            dist = stats["score_distribution"]
-            dist_df = pd.DataFrame([{"range": k, "count": v} for k, v in dist.items()])
-            st.bar_chart(dist_df.set_index("range"))
-
-            st.subheader("Pattern Evaluation")
-            pat_eval = result.get("pattern_eval", {})
-            pat_rows = [{"Pattern": p, "Keywords": ps["count"], "Avg Score": ps["avg_score"],
-                         "Top": ps["top_score"], "Bottom": ps["bottom_score"],
-                         "Status": "✅" if ps["avg_score"] >= min_pattern_avg else "❌ dropped"}
-                        for p, ps in sorted(pat_eval.items(), key=lambda x: -x[1]["avg_score"])]
-            st.dataframe(pd.DataFrame(pat_rows), hide_index=True)
-
-            st.subheader("Kept Keywords by Pattern")
-            for pattern, count in sorted(stats["by_pattern_count"].items(), key=lambda x: -x[1]):
-                with st.expander(f"**{pattern}** — {count} keywords"):
-                    pat_df = pd.DataFrame(result["by_pattern"][pattern])
-                    display_cols = [c for c in ["keyword", "lang", "country", "quality_score",
-                                                "intent_score", "natural_score", "scale_score",
-                                                "market_score", "cluster_size", "alternates"] if c in pat_df.columns]
-                    st.dataframe(pat_df[display_cols].head(40), height=300)
-
-            with st.expander(f"Rejected keywords ({len(result['rejected'])} total)", expanded=False):
-                rej_df = pd.DataFrame(result["rejected"])
-                display_cols = [c for c in ["keyword", "quality_score", "reject_reason", "intent_score", "natural_score"] if c in rej_df.columns]
-                st.dataframe(rej_df[display_cols].head(40), height=200)
-
-    # ── TAB 2: Autocomplete Validation ────────────────────────────
-    with tab_validate:
-        st.subheader("Google Autocomplete Validation")
-        st.info("Checks if Google suggests these keywords → real demand. **100% free.**")
-
-        if "pseo_matrix" not in st.session_state:
-            st.warning("Generate & score a keyword matrix first (Tab 1)")
+    # ── TAB 2 ────────────────────────────────────────────────────────────
+    with tab_preview:
+        briefs = st.session_state.get("comp_briefs", [])
+        if not briefs:
+            st.info("Generate briefs first in Tab 1.")
         else:
-            matrix = st.session_state["pseo_matrix"]
-            st.write(f"**{len(matrix):,}** keywords ready for validation")
+            st.subheader(f"{len(briefs)} Briefs")
 
-            col1, col2 = st.columns(2)
-            with col1:
-                batch_size = st.number_input("Batch size", 10, 500, 100, step=10)
-            with col2:
-                start_from = st.number_input("Start from index", 0, len(matrix) - 1, 0, step=10)
+            # Summary table
+            summary_rows = [
+                {
+                    "Competitor": b["Competitor"],
+                    "Angle": b["Angle"],
+                    "Title": b["Title"],
+                    "Keyword": b["Primary Keyword"],
+                    "Intent": b["Intent"],
+                    "NB Wins": b["Nonbank Wins"],
+                    "Comp Wins": b["Competitor Wins"],
+                }
+                for b in briefs
+            ]
+            st.dataframe(pd.DataFrame(summary_rows), use_container_width=True, hide_index=True)
 
-            if st.button("✅ Validate via Autocomplete", type="primary"):
-                batch = matrix[start_from:start_from + batch_size]
-                progress = st.progress(0, text="Checking Google Autocomplete...")
-                def _update(i, total):
-                    progress.progress(i / total, text=f"Checking {i}/{total}...")
-                validated = validate_keywords_autocomplete(batch, delay=0.15, progress_callback=_update)
-                progress.progress(1.0, text="Done!")
-                existing = st.session_state.get("pseo_validated", [])
-                existing.extend(validated)
-                st.session_state["pseo_validated"] = existing
+            # Deep dive on selected brief
+            st.subheader("Brief Detail")
+            idx = st.selectbox(
+                "Select brief",
+                range(len(briefs)),
+                format_func=lambda i: f"{briefs[i]['Competitor']} — {briefs[i]['Angle']}",
+            )
+            sel = briefs[idx]
 
-        if "pseo_validated" in st.session_state:
-            validated = st.session_state["pseo_validated"]
-            vdf = pd.DataFrame(validated)
+            c1, c2 = st.columns([2, 1])
+            with c1:
+                st.markdown(f"### {sel['Title']}")
+                st.markdown(f"**Slug:** `{sel['Slug']}`  ·  **Keyword:** `{sel['Primary Keyword']}`")
+                st.markdown(f"**Intent:** {sel['Intent']}")
+                st.markdown("**Outline:**")
+                for i, item in enumerate(sel["Outline Full"], 1):
+                    st.markdown(f"{i}. {item}")
+            with c2:
+                st.markdown("**✅ Nonbank wins on:**")
+                for w in sel["Wins Detail"]:
+                    st.markdown(f"- {w}")
+                st.markdown("**⚠️ Competitor wins on:**")
+                for l in sel["Losses Detail"]:
+                    st.markdown(f"- {l}")
 
-            strong = vdf[vdf["demand_signal"] == "strong"]
-            medium = vdf[vdf["demand_signal"] == "medium"]
-            weak = vdf[vdf["demand_signal"] == "weak"]
-            none_ = vdf[vdf["demand_signal"] == "none"]
+            # Optional: full article generation via Claude
+            st.divider()
+            st.subheader("Expand to Full Article (optional)")
+            api_key = st.session_state.get("anthropic_token")
 
-            col_a, col_b, col_c, col_d = st.columns(4)
-            col_a.metric("🟢 Strong", len(strong))
-            col_b.metric("🟡 Medium", len(medium))
-            col_c.metric("🟠 Weak", len(weak))
-            col_d.metric("🔴 No Signal", len(none_))
+            if not api_key:
+                st.caption("Add Anthropic key in sidebar to enable full-article generation.")
+            else:
+                if st.button(f"✍️ Generate full article for: {sel['Title']}", type="primary"):
+                    from llm_client import _call_with_retry, _client
+                    system = (
+                        f"You are a senior SEO/GEO content writer for Nonbank (nonbank.io) — "
+                        f"{PRODUCT_PROFILE['description']}\n\n"
+                        "Write a detailed comparison article. Include: FAQ section, comparison "
+                        "table (markdown), 3-5 data-dense stat paragraphs AI engines can cite, "
+                        "clear verdict, honest trade-offs. Target 1500-2000 words. Return "
+                        "clean markdown only."
+                    )
+                    user_msg = (
+                        f"Article brief:\n"
+                        f"Title: {sel['Title']}\n"
+                        f"Primary keyword: {sel['Primary Keyword']}\n"
+                        f"Intent: {sel['Intent']}\n\n"
+                        f"Outline:\n" + "\n".join(f"- {o}" for o in sel["Outline Full"]) + "\n\n"
+                        f"Nonbank advantages to highlight:\n" +
+                        "\n".join(f"- {w}" for w in sel["Wins Detail"]) + "\n\n"
+                        f"{sel['Competitor']} advantages (be honest):\n" +
+                        "\n".join(f"- {l}" for l in sel["Losses Detail"]) + "\n\n"
+                        "Write the full article now."
+                    )
+                    try:
+                        with st.spinner("Generating article..."):
+                            resp = _call_with_retry(
+                                _client(api_key),
+                                model="claude-sonnet-4-6",
+                                max_tokens=4000,
+                                temperature=0.7,
+                                system=system,
+                                messages=[{"role": "user", "content": user_msg}],
+                            )
+                            article = resp.content[0].text
+                            st.session_state[f"article_{idx}"] = article
+                    except Exception as e:
+                        st.error(f"Generation failed: {e}")
 
-            winners = vdf[vdf["demand_signal"].isin(["strong", "medium"])].sort_values("autocomplete_hits", ascending=False)
-            st.write(f"**{len(winners)}** keywords with demand signal → ready for competition check")
-            with st.expander(f"Keywords with demand ({len(winners)})", expanded=True):
-                display_cols = ["keyword", "lang", "country", "demand_signal", "autocomplete_hits"]
-                extra = [c for c in ["autocomplete_suggestions"] if c in winners.columns]
-                st.dataframe(winners[display_cols + extra].head(100), height=400)
+                article = st.session_state.get(f"article_{idx}")
+                if article:
+                    st.markdown("### Generated Article")
+                    st.markdown(article)
+                    st.download_button(
+                        "⬇️ Download as Markdown",
+                        article.encode("utf-8"),
+                        file_name=f"{_slug(sel['Title'])}.md",
+                        mime="text/markdown",
+                    )
 
-    # ── TAB 3: Competition Check ──────────────────────────────────
-    with tab_compete:
-        st.subheader("SERP Viability & Competition Scoring")
-        st.info("1 SerpAPI credit per keyword.")
-
-        if not serp_key:
-            st.warning("Enter SerpAPI key in sidebar")
-        elif "pseo_validated" not in st.session_state:
-            st.warning("Validate keywords first (Tab 2)")
+    # ── TAB 3 ────────────────────────────────────────────────────────────
+    with tab_export:
+        briefs = st.session_state.get("comp_briefs", [])
+        if not briefs:
+            st.info("Generate briefs first in Tab 1.")
         else:
-            validated = st.session_state["pseo_validated"]
-            winners = [kw for kw in validated if kw.get("demand_signal") in ("strong", "medium")]
-            st.write(f"**{len(winners)}** validated keywords available")
+            st.subheader("Export All Briefs")
+            st.caption(f"{len(briefs)} briefs ready for export")
 
-            col1, col2 = st.columns(2)
-            with col1:
-                max_checks = st.number_input("Max SerpAPI checks", 5, 50, 20, step=5)
-            with col2:
-                st.caption(f"Budget: {max_checks} credits")
+            # CSV export
+            export_rows = [
+                {
+                    "Competitor": b["Competitor"],
+                    "Angle": b["Angle"],
+                    "Title": b["Title"],
+                    "Slug": b["Slug"],
+                    "Primary Keyword": b["Primary Keyword"],
+                    "Intent": b["Intent"],
+                    "Outline": b["Outline"],
+                    "Nonbank Advantages": " | ".join(b["Wins Detail"]),
+                    "Competitor Advantages": " | ".join(b["Losses Detail"]),
+                }
+                for b in briefs
+            ]
+            csv_data = pd.DataFrame(export_rows).to_csv(index=False).encode("utf-8")
+            st.download_button(
+                "⬇️ Download all briefs as CSV",
+                csv_data,
+                file_name=f"nonbank_comparison_briefs_{date.today().isoformat()}.csv",
+                mime="text/csv",
+            )
 
-            if st.button("🔍 Check Competition", type="primary"):
-                progress = st.progress(0)
-                def _update(i, total):
-                    progress.progress(i / total, text=f"SERP check {i}/{total}...")
-                scored = enrich_with_serp_viability(winners, serp_key, max_checks=max_checks, delay=2.0, progress_callback=_update)
-                progress.progress(1.0, text="Done!")
-                st.session_state["pseo_scored"] = scored
+            # JSON export
+            json_data = json.dumps(export_rows, indent=2).encode("utf-8")
+            st.download_button(
+                "⬇️ Download as JSON",
+                json_data,
+                file_name=f"nonbank_comparison_briefs_{date.today().isoformat()}.json",
+                mime="application/json",
+            )
 
-        if "pseo_scored" in st.session_state:
-            scored = st.session_state["pseo_scored"]
-            sdf = pd.DataFrame(scored)
-
-            if "competition_score" in sdf.columns:
-                high_opp = sdf[sdf["opportunity"] == "high"] if "opportunity" in sdf.columns else pd.DataFrame()
-                med_opp = sdf[sdf["opportunity"] == "medium"] if "opportunity" in sdf.columns else pd.DataFrame()
-
-                col_a, col_b, col_c, col_d = st.columns(4)
-                col_a.metric("🎯 High Opportunity", len(high_opp))
-                col_b.metric("🟡 Medium", len(med_opp))
-                col_c.metric("Nonbank Already Ranks", len(sdf[sdf["nonbank_present"] == True]) if "nonbank_present" in sdf.columns else 0)
-                if "serp_score" in sdf.columns:
-                    col_d.metric("Avg SERP Viability", f"{sdf['serp_score'].mean():.2f}/0.25")
-
-                display_cols = [c for c in ["keyword", "lang", "country", "quality_score", "serp_score",
-                    "competition_score", "opportunity", "big_players", "weak_results", "forums_ugc",
-                    "nonbank_present", "top_3_domains"] if c in sdf.columns]
-                st.dataframe(sdf[display_cols].sort_values("quality_score", ascending=False), height=400)
-
-    # ── TAB 4: Build Pages ────────────────────────────────────────
-    with tab_build:
-        st.subheader("Build & Export Pages")
-        st.info("Clusters keywords → Claude content → ready-to-deploy package.")
-
-        api_key = st.session_state.get("anthropic_token")
-        source = st.session_state.get("pseo_scored") or st.session_state.get("pseo_matrix")
-
-        if not source:
-            st.warning("Run Tab 1 (Keyword Matrix) first")
-        else:
-            st.write(f"**{len(source)}** keywords available")
-
-            st.markdown("### Step 1 — Cluster into Pages")
-            if st.button("📦 Cluster Keywords → Pages", type="primary"):
-                clusters = cluster_keywords_to_pages(source)
-                st.session_state["pseo_clusters"] = clusters
-
-            if "pseo_clusters" in st.session_state:
-                clusters = st.session_state["pseo_clusters"]
-                st.success(f"**{len(clusters)}** pages (1 per country+language)")
-
-                cluster_rows = [{"slug": c.slug, "primary_keyword": c.primary_keyword,
-                    "secondary": len(c.secondary_keywords), "lang": c.lang,
-                    "country": c.country_name, "template": c.template, "score": c.avg_score}
-                    for c in clusters]
-                st.dataframe(pd.DataFrame(cluster_rows), height=350, hide_index=True)
-
-                st.markdown("### Step 2 — Generate Content (Claude API)")
-                if not api_key:
-                    st.warning("Enter Anthropic API key in sidebar")
-                else:
-                    model = st.selectbox("Model", ["claude-haiku-4-5-20251001", "claude-sonnet-4-6"], index=0,
-                                         help="Haiku ≈ $0.002/page, Sonnet ≈ $0.01/page")
-                    est_cost = len(clusters) * (0.002 if "haiku" in model else 0.01)
-                    st.caption(f"Estimated cost: ~${est_cost:.2f} for {len(clusters)} pages")
-
-                    if st.button("✍️ Generate All Content", type="primary"):
-                        progress = st.progress(0)
-                        def _update(i, total):
-                            progress.progress(i / total, text=f"Page {i}/{total}: {clusters[i-1].slug}")
-                        clusters = generate_content_batch(clusters, api_key, model=model, delay=1.0, progress_callback=_update)
-                        progress.progress(1.0, text="Done!")
-                        st.session_state["pseo_clusters"] = clusters
-                        st.session_state["pseo_content_generated"] = True
-
-                if st.session_state.get("pseo_content_generated"):
-                    st.markdown("### Step 3 — Assemble & Export")
-                    if st.button("🏗️ Build HTML Pages + Export Package", type="primary"):
-                        clusters = st.session_state["pseo_clusters"]
-                        clusters = build_all_pages(clusters)
-                        st.session_state["pseo_clusters"] = clusters
-
-                        base_dir = os.path.join(os.path.dirname(__file__) or ".", "..", "pages_export")
-                        count = export_pages_local(clusters, base_dir)
-                        _generate_designer_brief(clusters, base_dir)
-                        st.success(f"**{count}** pages exported to `pages_export/`")
-                        st.balloons()
-
-                    if st.session_state.get("pseo_clusters") and st.session_state["pseo_clusters"][0].full_html:
-                        clusters = st.session_state["pseo_clusters"]
-                        st.markdown("### Preview")
-                        preview_idx = st.selectbox("Select page", range(len(clusters)),
-                            format_func=lambda i: f"{clusters[i].slug} — {clusters[i].h1}")
-                        sel = clusters[preview_idx]
-                        col1, col2 = st.columns(2)
-                        with col1:
-                            st.markdown(f"**Slug:** `/crypto-card/{sel.slug}`")
-                            st.markdown(f"**Title:** {sel.title}")
-                            st.markdown(f"**Primary:** {sel.primary_keyword}")
-                            st.markdown(f"**Secondary:** {', '.join(sel.secondary_keywords[:5])}")
-                        with col2:
-                            st.markdown(f"**Lang:** {sel.lang}")
-                            st.markdown(f"**Country:** {sel.country_name}")
-                            st.markdown(f"**Template:** {sel.template}")
-                            st.markdown(f"**Score:** {sel.avg_score:.3f}")
-
-                        with st.expander("HTML Source", expanded=False):
-                            st.code(sel.full_html[:5000], language="html")
-                        st.components.v1.html(sel.full_html, height=700, scrolling=True)
+            st.markdown("### Push to Content Plan")
+            st.caption(
+                "Add these briefs as tasks in the **Content Strategy** page. Each brief "
+                "becomes a row in the publication calendar that you can assign to an outlet "
+                "and week."
+            )
+            if st.button("➕ Add all briefs to Content Plan", type="primary"):
+                current_plan = st.session_state.get("content_plan", [])
+                for b in briefs:
+                    current_plan.append({
+                        "Task": b["Title"],
+                        "Type": "SEO+GEO",
+                        "Market": "🌍 Global",
+                        "Outlet Options": "",
+                        "Price": "",
+                        "GEO": "Comparison table + FAQ + quotable stats",
+                        "Week": "",
+                        "Status": "To Do",
+                        "Publication URL": "",
+                        "Reddit/Quora URL": "",
+                    })
+                st.session_state["content_plan"] = current_plan
+                st.success(f"Added {len(briefs)} briefs to Content Plan. Go to **Content Strategy → Publication Calendar** to review.")

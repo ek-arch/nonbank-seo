@@ -82,7 +82,7 @@ def setup_sidebar() -> None:
             ("Execution", [
                 ("PR Generator", "📝"),
                 ("Distribution", "📣"),
-                ("Programmatic SEO", "🚀"),
+                ("Comparison Pages", "🚀"),
             ]),
             ("Measure", [
                 ("GEO Tracker", "🎯"),
