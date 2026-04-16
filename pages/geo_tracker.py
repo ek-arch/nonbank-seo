@@ -50,7 +50,7 @@ def page_geo_tracker():
         with col1:
             selected_categories = st.multiselect(
                 "Categories", options=list(DISCOVERY_CATEGORIES.keys()),
-                default=["product_comparison", "how_to", "geo_specific", "use_case"],
+                default=list(DISCOVERY_CATEGORIES.keys()),
                 format_func=lambda x: DISCOVERY_CATEGORIES[x]["label"],
             )
         with col2:
