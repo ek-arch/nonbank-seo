@@ -22,8 +22,8 @@ def page_dashboard():
         st.metric("Built-in AML", "Yes")
         st.caption(diffs["aml"]["description"])
     with c3:
-        st.metric("Card from Self-Custody", PRODUCT_PROFILE["card_name"])
-        st.caption(diffs["card_self_custody"]["description"])
+        st.metric("DeFi + Card Hybrid", PRODUCT_PROFILE["card_name"])
+        st.caption(diffs["hybrid_defi_card"]["description"])
 
     plat = PRODUCT_PROFILE["platforms"]
     st.markdown(
