@@ -22,6 +22,7 @@ from pages.monthly_eval import page_monthly_eval
 from pages.monthly_planner import page_monthly_planner
 from pages.pseo import page_programmatic_seo
 from pages.geo_tracker import page_geo_tracker
+from pages.gsc_dashboard import page_gsc_dashboard
 
 # ── App config ────────────────────────────────────────────────────────────────
 st.set_page_config(
@@ -54,6 +55,7 @@ pg = st.navigation({
         st.Page(page_programmatic_seo,   title="Content Brief Factory", icon="🚀"),
     ],
     "Measure": [
+        st.Page(page_gsc_dashboard,      title="Search Console",     icon="📊"),
         st.Page(page_geo_tracker,        title="GEO Tracker",        icon="🎯"),
         st.Page(page_monthly_eval,       title="Monthly Eval",       icon="📉"),
         st.Page(page_monthly_planner,    title="Monthly Planner",    icon="🗓️"),

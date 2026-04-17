@@ -60,6 +60,17 @@ def setup_sidebar() -> None:
         except Exception:
             st.markdown("⬜ **Google Sheets** — not configured")
 
+        # Google Search Console — explicit [gsc] block or falls back to [gsheets]
+        try:
+            gsc_creds = json.dumps(dict(st.secrets["gsc"]))
+            st.session_state["gsc_json"] = gsc_creds
+            st.markdown("✅ **Search Console** — connected")
+        except Exception:
+            if st.session_state.get("gsheets_json"):
+                st.markdown("⬜ **Search Console** — will try to reuse Sheets service account")
+            else:
+                st.markdown("⬜ **Search Console** — not configured")
+
         # ── Key summary ───────────────────────────────────────────
         connected = sum(1 for ss_key, _, _, _ in key_defs if st.session_state.get(ss_key))
         has_sheets = bool(st.session_state.get("gsheets_json"))
@@ -85,6 +96,7 @@ def setup_sidebar() -> None:
                 ("Content Brief Factory", "🚀"),
             ]),
             ("Measure", [
+                ("Search Console", "📊"),
                 ("GEO Tracker", "🎯"),
                 ("Monthly Eval", "📉"),
                 ("Monthly Planner", "🗓️"),
