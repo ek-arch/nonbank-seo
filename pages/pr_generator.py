@@ -109,7 +109,7 @@ def page_pr_generator():
             st.subheader("Revise with AI")
             revision_instructions = st.text_area(
                 "What should be changed?",
-                placeholder="e.g. Make it shorter, add more data about UAE market, change tone to more formal...",
+                placeholder="e.g. Make it shorter, add more detail on gasless transactions, change tone to more formal...",
                 height=100, key="revision_instructions",
             )
             if st.button("✏️ Revise Draft", type="primary", disabled=not api_key or not revision_instructions):

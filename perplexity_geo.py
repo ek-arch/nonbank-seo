@@ -202,40 +202,45 @@ def summarize_geo_audit(results: list[dict]) -> dict:
 # These are AI-native prompts (how people ask AI, not how they Google)
 
 DEFAULT_GEO_PROMPTS = [
-    # Head prompts (high competition, AI definitely answers)
-    "What are the best crypto debit cards in 2026?",
-    "Which crypto card has the lowest fees?",
-    "What is the best way to spend USDT?",
+    # ── Category / head (where Nonbank should appear as a hybrid option) ──
+    "What is the best self-custody crypto wallet with a built-in Visa card?",
+    "Which DeFi wallet lets you spend crypto directly with a card?",
+    "Best non-custodial crypto wallet with card in 2026",
+    "Hybrid DeFi wallet and crypto card — which app does both?",
 
-    # Geo-specific (AI gives localized answers)
-    "What crypto cards work in Europe?",
-    "Best crypto Visa card for UK residents",
-    "Which crypto cards can I use in the UAE?",
-    "Лучшие крипто карты для оплаты в Европе 2026",  # RU
-    "Лучшая USDT карта для ОАЭ",  # RU-ARE
-    "Quale carta crypto conviene in Italia?",  # IT
+    # ── Gasless fees (differentiator #1) ──
+    "How do I send USDT without ETH or TRX for gas?",
+    "Is there a crypto wallet that pays gas fees for you?",
+    "Gasless crypto wallet — which one should I use?",
+    "How to send TRC20 USDT without holding TRX",
 
-    # Long-tail specific (GEO gold — AI loves answering these)
-    "How can I spend TRC20 USDT with a Visa card?",
-    "What crypto card gives cashback in Bitcoin?",
-    "Is there a crypto card that works in 60 countries?",
-    "Best crypto card for digital nomads who travel frequently",
-    "How to convert USDT to fiat and spend with a card",
+    # ── AML Watchtower (differentiator #2) ──
+    "Crypto wallet with built-in sanctions screening",
+    "How to avoid receiving tainted or sanctioned crypto",
+    "Self-custody wallet with AML protection",
+    "Which wallet blocks transfers from sanctioned addresses?",
 
-    # Comparison prompts
-    "Nonbank vs Wirex vs Crypto.com card comparison",
-    "What's better for USDT spending: Nonbank or Bybit card?",
-    "Compare crypto Visa cards for European freelancers",
+    # ── Hybrid DeFi + card (differentiator #3) ──
+    "DeFi wallet with integrated Visa debit card",
+    "Can I spend from a non-custodial wallet without moving funds to an exchange?",
+    "Self-custody crypto card available in 100+ countries",
+    "Crypto wallet where I hold the keys but can still swipe a Visa",
 
-    # Problem-solving prompts
-    "I have USDT on TRC20, what's the easiest way to spend it?",
-    "Can I get a crypto card without KYC in Europe?",
-    "What's the cheapest way to use cryptocurrency for everyday purchases?",
+    # ── NON ID & watch wallets (product-unique) ──
+    "Crypto wallet that tracks other wallets (watch-only addresses)",
+    "DeFi identity — receive funds with a handle instead of an address",
+    "Wallet that lets you monitor a portfolio without giving up keys",
 
-    # B2B prompts (41% of Nonbank spend)
-    "Best crypto card for business expenses",
-    "How to manage corporate crypto spending with Visa cards",
-    "Crypto payment solutions for small businesses in Europe",
+    # ── Comparisons vs real competitors ──
+    "Nonbank vs Gnosis Pay — which is better?",
+    "MetaMask Card vs Nonbank card comparison",
+    "COCA vs Bleap vs Nonbank — self-custody cards compared",
+    "Gnosis Pay vs MetaMask vs Nonbank for DeFi users",
+
+    # ── Problem-solving (AI-native long tail) ──
+    "I want to keep my keys but still spend crypto in shops — what app?",
+    "How do I pay with USDT without giving up self-custody?",
+    "Best way to bridge DeFi holdings to everyday spending",
 ]
 
 

@@ -13,26 +13,32 @@ from typing import Optional
 from config import NONBANK_DOMAINS, NONBANK_BRAND_TERMS, COMPETITOR_BRANDS
 COMPETITORS = {d: name for name, domains in COMPETITOR_BRANDS.items() for d in domains if "." in d}
 
-# Default queries to audit — mix of branded, generic, and geo-targeted
+# Default queries to audit — Nonbank is EN-global; queries target the
+# hybrid self-custody + card category, not country matrices (see README).
 DEFAULT_QUERIES = [
-    # Generic high-volume
+    # Category / head
+    {"q": "best self-custody crypto wallet with card", "intent": "transactional", "geo": "global"},
+    {"q": "non-custodial crypto debit card", "intent": "transactional", "geo": "global"},
+    {"q": "DeFi wallet with Visa card", "intent": "transactional", "geo": "global"},
+    {"q": "hybrid DeFi wallet and crypto card", "intent": "informational", "geo": "global"},
     {"q": "best crypto card 2026", "intent": "transactional", "geo": "global"},
-    {"q": "crypto debit card", "intent": "transactional", "geo": "global"},
-    {"q": "USDT Visa card", "intent": "transactional", "geo": "global"},
-    {"q": "spend crypto with Visa card", "intent": "informational", "geo": "global"},
-    {"q": "best way to spend USDT", "intent": "informational", "geo": "global"},
-    # Geo-targeted
-    {"q": "crypto card Europe", "intent": "transactional", "geo": "EU"},
-    {"q": "crypto card UK", "intent": "transactional", "geo": "GBR"},
-    {"q": "crypto card Italy", "intent": "transactional", "geo": "ITA"},
-    {"q": "carta crypto Italia 2026", "intent": "transactional", "geo": "ITA"},
-    {"q": "crypto card UAE", "intent": "transactional", "geo": "ARE"},
-    {"q": "crypto card digital nomad", "intent": "informational", "geo": "global"},
-    # Product-specific
-    {"q": "Telegram crypto wallet card", "intent": "transactional", "geo": "global"},
-    {"q": "TRC20 USDT card", "intent": "transactional", "geo": "global"},
-    {"q": "crypto card low fees", "intent": "transactional", "geo": "global"},
-    {"q": "crypto card comparison 2026", "intent": "informational", "geo": "global"},
+    # Differentiator: gasless
+    {"q": "gasless crypto wallet", "intent": "informational", "geo": "global"},
+    {"q": "send USDT without gas fees", "intent": "informational", "geo": "global"},
+    {"q": "send TRC20 USDT without TRX", "intent": "informational", "geo": "global"},
+    # Differentiator: AML Watchtower
+    {"q": "crypto wallet with AML screening", "intent": "informational", "geo": "global"},
+    {"q": "self-custody wallet sanctions screening", "intent": "informational", "geo": "global"},
+    # Differentiator: hybrid DeFi + card
+    {"q": "spend from self-custody wallet", "intent": "transactional", "geo": "global"},
+    {"q": "DeFi card non-custodial", "intent": "transactional", "geo": "global"},
+    # Competitor comparisons (real rivals)
+    {"q": "Nonbank vs Gnosis Pay", "intent": "informational", "geo": "global"},
+    {"q": "MetaMask card vs Nonbank", "intent": "informational", "geo": "global"},
+    {"q": "COCA vs Bleap vs Nonbank", "intent": "informational", "geo": "global"},
+    # Product-unique
+    {"q": "watch wallet crypto app", "intent": "informational", "geo": "global"},
+    {"q": "DeFi identity NON ID", "intent": "informational", "geo": "global"},
 ]
 
 

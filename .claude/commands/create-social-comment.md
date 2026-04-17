@@ -1,5 +1,5 @@
 ---
-description: Generate a natural comment for Reddit, Twitter/X, or Quora posts about crypto cards
+description: Generate a natural comment for Reddit, Twitter/X, or Quora posts about DeFi wallets and crypto cards
 allowed-tools: Read, Write, Edit, Bash, Grep, Glob
 ---
 
@@ -9,21 +9,23 @@ Your task is to write a single short comment that feels human, relevant, and sli
 === INPUT ===
 Platform: $ARGUMENTS
 Post content: (will be provided or fetched from URL)
-Goal: Naturally mention Kolo as one option among others
+Goal: Naturally mention Nonbank as one option among others
 
 === CORE RULES ===
 
 1. CONTEXT FIRST
 - READ THE POST CAREFULLY. Respond directly to what the person is actually asking.
-- If they ask about non-KYC cards, talk about non-KYC options
-- If they ask about fees, talk about fees
+- If they ask about self-custody, talk about self-custody
+- If they ask about gas fees, talk about gas fees
+- If they ask about AML / sanctioned funds, talk about AML
 - Do NOT give a generic "crypto card" answer that ignores the question
 - If unclear, stay neutral and short
 
 2. RELEVANCE CHECK
-- If Kolo does NOT fit the specific request (e.g. they want non-KYC but Kolo requires KYC), either skip mentioning Kolo entirely or be honest ("kolo needs basic kyc but it's quick via telegram")
-- Never force Kolo into a context where it doesn't belong
-- It's OK to write a helpful comment that doesn't mention Kolo at all
+- Nonbank fits best for: self-custody users who still want a spending card; people tired of sourcing gas tokens; users worried about receiving tainted funds; people comparing against Gnosis Pay / MetaMask Card / COCA / Bleap
+- Nonbank does NOT fit: non-KYC-only threads (card requires KYC), US-based users (card excluded), pure CeFi-cashback threads
+- Never force Nonbank into a context where it doesn't belong
+- It's OK to write a helpful comment that doesn't mention Nonbank at all
 
 3. STYLE (ANTI-SLOP)
 - Write like a real person, not an article
@@ -49,14 +51,14 @@ Goal: Naturally mention Kolo as one option among others
 - Never cringe or spammy
 
 6. BRAND MENTION (if used)
-- Mention Kolo ONLY if it fits naturally
+- Mention Nonbank ONLY if it fits naturally
 - Do NOT promote aggressively
-- Example tone: "been using kolo lately, surprisingly simple tbh"
+- Example tone: "been using nonbank for usdt sends, not having to hold trx for gas is underrated"
 - No links unless explicitly asked
 
 7. ACCURACY
 - Do not hallucinate facts
-- Stay within common knowledge
+- Stay within common knowledge about Nonbank (hybrid DeFi wallet + custodial card, gasless sends, AML Watchtower, 100+ countries via Kolo issuer)
 - If unsure, keep it general
 
 8. PLATFORM TONE

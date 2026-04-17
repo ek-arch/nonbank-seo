@@ -958,11 +958,11 @@ def generate_page_specs(scored_keywords: List[dict], min_opportunity: str = "med
         elif template == "persona":
             persona = next((p for p in PERSONAS if p in keyword.lower()), "crypto user")
             title = f"Best Crypto Card for {persona.title()}s — Spend Anywhere | Nonbank"
-            meta = f"The best crypto Visa card for {persona}s. Spend USDT, BTC, ETH in 60+ countries with low fees. Instant conversion, no bank account required."
+            meta = f"The best crypto Visa card for {persona}s. Spend USDT, BTC, ETH in 100+ countries with low fees. Instant conversion, no bank account required."
             h1 = f"Best Crypto Card for {persona.title()}s"
         else:
             title = f"{keyword.title()} — Nonbank Crypto Visa Card"
-            meta = f"{keyword.title()}. Nonbank offers instant crypto-to-fiat conversion with a Visa card in 60+ countries. Low fees, multi-currency wallet."
+            meta = f"{keyword.title()}. Nonbank offers instant crypto-to-fiat conversion with a Visa card in 100+ countries. Low fees, multi-currency wallet."
             h1 = keyword.title()
 
         spec = PageSpec(
@@ -1113,28 +1113,28 @@ def _default_content_blocks(spec: PageSpec) -> str:
         payment method that works globally — Nonbank's Visa card is built for you.</p>
         <h3>Key Features</h3>
         <ul>
-            <li>Works in 60+ countries across {region or "multiple regions"}</li>
+            <li>Works in 100+ countries across {region or "multiple regions"}</li>
             <li>Instant USDT/BTC/ETH to fiat conversion</li>
             <li>Virtual card issued instantly — physical card available</li>
             <li>Multi-currency wallet in the app</li>
             <li>No traditional bank account required</li>
         </ul>
         <h3>Get Started</h3>
-        <p>Download Nonbank on iOS, Android, or use the Telegram mini-app.
+        <p>Download Nonbank on iOS, Android, or use the web app.
         Complete verification and get your card in minutes.</p>
     </section>"""
     else:
         return f"""
     <section>
         <h2>{spec.h1}</h2>
-        <p>Nonbank offers a crypto Visa card that works in 60+ countries. Convert USDT,
+        <p>Nonbank offers a crypto Visa card that works in 100+ countries. Convert USDT,
         Bitcoin, and Ethereum to local currency instantly at the point of sale.</p>
         <h3>Why Choose Nonbank?</h3>
         <ul>
             <li>Low conversion fees</li>
             <li>Instant virtual card issuance</li>
             <li>Multi-currency crypto wallet</li>
-            <li>Available on iOS, Android, Telegram, and web</li>
+            <li>Available on iOS, Android, and web</li>
             <li>No bank account required</li>
         </ul>
     </section>"""
