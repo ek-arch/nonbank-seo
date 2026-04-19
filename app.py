@@ -23,6 +23,7 @@ from pages.monthly_planner import page_monthly_planner
 from pages.pseo import page_programmatic_seo
 from pages.geo_tracker import page_geo_tracker
 from pages.gsc_dashboard import page_gsc_dashboard
+from pages.campaign_plan import page_campaign_plan
 
 # ── App config ────────────────────────────────────────────────────────────────
 st.set_page_config(
@@ -46,6 +47,7 @@ pg = st.navigation({
     ],
     "Strategy": [
         st.Page(page_content_plan,       title="Content Strategy",   icon="✍️"),
+        st.Page(page_campaign_plan,      title="Campaign Plan",      icon="🎯"),
         st.Page(page_outlet_matching,    title="Outlet Matching",    icon="🗞️"),
         st.Page(page_publication_roi,    title="Publication ROI",    icon="💰"),
     ],
