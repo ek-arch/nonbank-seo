@@ -206,14 +206,18 @@ off-ramp friction. Picked up for free by the same SEO/GEO assets.
         # ── Sub-tab: Aggregators & Marketplaces ────────────────────────────
         with sub_mkt:
             st.markdown(
-                "**Platforms that give you catalog access to hundreds of "
-                "outlets at once.** These are the workhorses for mid-tier "
-                "guest-post volume, tier-2/3 crypto PR distribution, and "
-                "backlink building. Each gives one login, one invoice, "
-                "unified reporting. Cheapest path to a lot of placements fast."
+                "**Volume guest-post marketplaces — the backbone of SEO/GEO "
+                "surface area.** For Nonbank we deliberately pick "
+                "**catalog-access marketplaces** (one login → hundreds of "
+                "outlets, pay-per-placement, no agency retainers) because "
+                "SEO/GEO needs **breadth of placements** — many different "
+                "domains, many different articles — not a handful of premium "
+                "tier-1 hits. Tier-1 direct outlets (Cointelegraph, Decrypt, "
+                "etc.) are covered separately in the **PR / Guest Posts** "
+                "sub-tab; PR wires in the section below."
             )
 
-            st.markdown("#### Guest-post & content marketplaces")
+            st.markdown("#### Volume guest-post marketplaces (catalog access, pay-per-placement)")
             marketplaces = pd.DataFrame([
                 {"Platform": "Collaborator.pro",
                  "Origin": "Ukraine/CIS",
@@ -345,6 +349,106 @@ off-ramp friction. Picked up for free by the same SEO/GEO assets.
                  "Crypto-friendly": "✅",
                  "Fit for Nonbank": "P2 — redundant with Collaborator/PRPosting",
                  "Priority": "P2"},
+                {"Platform": "Linkhouse.co",
+                 "Origin": "Poland / EU",
+                 "Catalog": "20,000+ sites across 30+ countries; active crypto vertical",
+                 "Model": "Pay per publication; self-serve catalog",
+                 "Price range (crypto)": "€40–1,500 / article",
+                 "Language": "Multi-EU + EN",
+                 "Quality control": "Verified metrics; editor pre-approval",
+                 "Crypto-friendly": "✅ Dedicated crypto category",
+                 "Fit for Nonbank": "**P0** — closest WhitePress alternative; often cheaper for same DR",
+                 "Priority": "P0"},
+                {"Platform": "Serpzilla.com",
+                 "Origin": "Global (crypto-focused)",
+                 "Catalog": "Smaller (~5K sites) but **crypto-weighted** selection",
+                 "Model": "Pay per placement; crypto-payment accepted (USDT/BTC)",
+                 "Price range (crypto)": "$40–900 / article",
+                 "Language": "EN + major EU",
+                 "Quality control": "Metrics + manual review",
+                 "Crypto-friendly": "✅ **Crypto-specialized** — most catalog is on-topic",
+                 "Fit for Nonbank": "**P0** — every outlet is topically relevant; less filtering needed",
+                 "Priority": "P0"},
+                {"Platform": "Authority Builders (ABC)",
+                 "Origin": "US",
+                 "Catalog": "Curated link marketplace; premium outlets only",
+                 "Model": "Pay per link; subscription tiers",
+                 "Price range (crypto)": "$200–1,200 / link",
+                 "Language": "EN",
+                 "Quality control": "High — vetted outlets, metrics-filtered",
+                 "Crypto-friendly": "⚠️ Mixed — subset supports crypto",
+                 "Fit for Nonbank": "P1 — smaller catalog but higher-quality US outlets",
+                 "Priority": "P1"},
+                {"Platform": "Fat Joe",
+                 "Origin": "UK",
+                 "Catalog": "Managed + self-serve blogger outreach",
+                 "Model": "Self-serve order → managed placement; DR-tiered pricing",
+                 "Price range (crypto)": "£60–500 / placement (DR 10–50+)",
+                 "Language": "EN",
+                 "Quality control": "Metrics-based tier selection",
+                 "Crypto-friendly": "⚠️ Ask for crypto-verified sites; available but not default",
+                 "Fit for Nonbank": "P1 — good for EN-UK/US DR30–50 volume",
+                 "Priority": "P1"},
+                {"Platform": "The HOTH",
+                 "Origin": "US",
+                 "Catalog": "Managed guest-post service (HOTH Blitz, HOTH Guest Post)",
+                 "Model": "Fixed-price packages; DR 20 / 30 / 40 / 50+ tiers",
+                 "Price range (crypto)": "$100–500 / placement",
+                 "Language": "EN primary",
+                 "Quality control": "DR-tiered; standardized",
+                 "Crypto-friendly": "⚠️ Request crypto-accepting sites explicitly",
+                 "Fit for Nonbank": "P1 — volume buy for DR30–50 US tier",
+                 "Priority": "P1"},
+                {"Platform": "OutreachZ",
+                 "Origin": "UK / Global",
+                 "Catalog": "Curated marketplace of niche sites",
+                 "Model": "Pay per placement; niche-matched",
+                 "Price range (crypto)": "$80–600 / article",
+                 "Language": "EN primary",
+                 "Quality control": "Manual match + editor review",
+                 "Crypto-friendly": "⚠️ Has crypto category on request",
+                 "Fit for Nonbank": "P2 — backup / test",
+                 "Priority": "P2"},
+                {"Platform": "SE Ranking Marketplace",
+                 "Origin": "Global (SE Ranking SEO tool)",
+                 "Catalog": "Integrated backlink/guest-post marketplace inside the SE Ranking platform",
+                 "Model": "Pay per placement; DR/traffic-filtered catalog",
+                 "Price range (crypto)": "$50–800 / article",
+                 "Language": "Multi-language",
+                 "Quality control": "Metrics-gated; needs SE Ranking subscription",
+                 "Crypto-friendly": "⚠️ Some crypto outlets",
+                 "Fit for Nonbank": "P2 — only if already using SE Ranking",
+                 "Priority": "P2"},
+                {"Platform": "Linkifier",
+                 "Origin": "US / Global",
+                 "Catalog": "Backlink marketplace",
+                 "Model": "Pay per link; DR-based pricing",
+                 "Price range (crypto)": "$50–500 / link",
+                 "Language": "EN",
+                 "Quality control": "Basic metrics filtering",
+                 "Crypto-friendly": "⚠️ Mixed",
+                 "Fit for Nonbank": "P2 — generic SEO link farm risk",
+                 "Priority": "P2"},
+                {"Platform": "Crypto-PR.io / Crypto-Guestposting.com",
+                 "Origin": "Global (crypto-niche resellers)",
+                 "Catalog": "Resold inventory across multiple wires + outlets",
+                 "Model": "Flat packages ($X for Y placements)",
+                 "Price range (crypto)": "$300–3,000 / package",
+                 "Language": "EN",
+                 "Quality control": "**Variable — verify each package**",
+                 "Crypto-friendly": "✅ Crypto-only by design",
+                 "Fit for Nonbank": "P2 — only if price-per-placement beats Collaborator/PRPosting on same DR",
+                 "Priority": "P2"},
+                {"Platform": "Prowly / BuzzStream / Muck Rack",
+                 "Origin": "US / EU",
+                 "Catalog": "NOT marketplaces — journalist & media CRM tools",
+                 "Model": "Subscription; you do the outreach yourself",
+                 "Price range (crypto)": "$100–500 / mo tool cost",
+                 "Language": "EN",
+                 "Quality control": "DIY outreach",
+                 "Crypto-friendly": "N/A",
+                 "Fit for Nonbank": "P2 — useful for earned PR, not volume guest posts",
+                 "Priority": "P2 (different use case)"},
             ])
             st.dataframe(marketplaces, use_container_width=True, hide_index=True)
 
@@ -460,15 +564,20 @@ off-ramp friction. Picked up for free by the same SEO/GEO assets.
 
             st.divider()
             st.success(
-                "**Recommended sprint stack (aggregators + wires, ~$4–5K total):**\n\n"
-                "1. **Collaborator.pro** — 2–3 placements on DR50+ crypto outlets (~$600–1,200)\n"
-                "2. **PRPosting** — 2–3 placements on outlets Collaborator doesn't stock (~$500–1,000)\n"
-                "3. **WhitePress** — 1 placement on a European outlet for geo-diversity (~$300–800)\n"
-                "4. **Chainwire** — 1 release (~$450–900) for multi-outlet syndication\n"
-                "5. **AccessWire** — 1 release (~$500–1,200) for Yahoo Finance / MarketWatch backlink\n\n"
-                "**Result:** ~8–10 placements across 30+ outlets in 2 weeks, "
-                "strong backlink profile, heavy GEO-citation footprint, no "
-                "dependence on ad platforms."
+                "**Recommended sprint stack — volume marketplaces + wires (~$4–5K total, 12–18 placements):**\n\n"
+                "**Core P0 marketplaces (run in parallel — don't pick one, use all five):**\n"
+                "1. **Collaborator.pro** — 3–4× DR50+ crypto outlets (~$700–1,400). Already wired into the app.\n"
+                "2. **PRPosting** — 3–4× outlets Collaborator doesn't stock, often cheaper at same DR (~$500–1,000).\n"
+                "3. **WhitePress** — 2× European outlets for geo-diversity / different language footprint (~$400–1,000).\n"
+                "4. **Linkhouse.co** — 2× Polish/EU crypto-category outlets, closest WhitePress alternative, often cheaper (~$300–700).\n"
+                "5. **Serpzilla** — 2× crypto-specialized outlets (every site is on-topic → less filtering, faster approval) (~$300–700).\n\n"
+                "**Wires (add to above for syndication):**\n"
+                "6. **Chainwire** — 1 release (~$450–900) → 20+ outlets from one filing.\n"
+                "7. **AccessWire** — 1 release (~$500–1,200) → Yahoo Finance / MarketWatch backlinks.\n\n"
+                "**Result:** 12–18 unique outlets **plus** 20+ syndicated "
+                "mentions from Chainwire, spread across UA/CIS + EU + crypto-"
+                "native networks. Mixes geos, languages, and outlet types — "
+                "strongest possible breadth signal for GEO/SEO in 2–3 weeks."
             )
             st.warning(
                 "**Quality gate:** before booking any outlet on a marketplace, "
