@@ -26,9 +26,11 @@ def page_campaign_plan():
     c4.metric("Card applications", "400")
 
     tab_overview, tab_audience, tab_messages, tab_channels, tab_outlets, \
-        tab_calendar, tab_assets, tab_metrics, tab_budget, tab_risks, tab_next = st.tabs([
+        tab_content, tab_calendar, tab_assets, tab_metrics, tab_budget, \
+        tab_risks, tab_next = st.tabs([
             "Overview", "Audience", "Messages", "Channels", "Media & Outlets",
-            "Calendar", "Assets", "Metrics", "Budget", "Risks", "Next Steps",
+            "Content to Publish", "Calendar", "Assets", "Metrics", "Budget",
+            "Risks", "Next Steps",
         ])
 
     # ── 1. Overview ──────────────────────────────────────────────────────────
@@ -914,6 +916,185 @@ off-ramp friction. Picked up for free by the same SEO/GEO assets.
             "Coinzilla + 1 micro-KOL. **Google/Meta/LinkedIn Ads are excluded "
             "at every budget tier — DeFi wallets require a license those "
             "platforms don't grant.**"
+        )
+
+    # ── 4c. Content to Publish ──────────────────────────────────────────────
+    with tab_content:
+        st.subheader("Content to Publish — Sprint Deliverables")
+        st.caption(
+            "Two content streams: **(A)** on-site comparison pages on "
+            "nonbank.io/blog (SEO/GEO anchor assets); **(B)** guest-post "
+            "articles pushed through marketplaces (Serpzilla + Collaborator "
+            "+ PRPosting + WhitePress + Linkhouse). Every guest-post brief "
+            "is **spun into 3–4 angle variants** so the same argument hits "
+            "different outlets without duplicate-content risk."
+        )
+
+        st.info(
+            "**Scoring model update:** `publication_roi.py` now takes a "
+            "`content_type` parameter — guest posts get 1.0× SEO/GEO weight, "
+            "link insertions get 0.45× SEO and **0.10× GEO** (no new article "
+            "to cite), PR wires get 0.55×/0.35×. Marketplaces that only sell "
+            "link insertions are now deprioritized automatically in the "
+            "Publication ROI tab."
+        )
+
+        st.markdown("### A · On-site comparison pages (nonbank.io/blog)")
+        st.markdown(
+            "Built in Content Brief Factory → PR Generator. These are the "
+            "**anchor pages** — everything else links back here."
+        )
+        onsite = pd.DataFrame([
+            {"#": 1, "URL slug": "/blog/gnosis-pay-alternative",
+             "Target keyword": "gnosis pay alternative", "Est. volume": "1.6K/mo",
+             "Angle": "Why EU-only isn't enough; 100+ country alternative with gasless + AML", "Length": "1,800w"},
+            {"#": 2, "URL slug": "/blog/metamask-card-alternative",
+             "Target keyword": "metamask card alternative", "Est. volume": "880/mo",
+             "Angle": "Pilot vs. live; full-release self-custody card", "Length": "1,800w"},
+            {"#": 3, "URL slug": "/blog/coca-wallet-alternative",
+             "Target keyword": "coca wallet alternative / vs nonbank", "Est. volume": "320/mo",
+             "Angle": "MPC vs. hybrid DeFi wallet; AML presence/absence", "Length": "1,500w"},
+            {"#": 4, "URL slug": "/blog/bleap-vs-nonbank",
+             "Target keyword": "bleap card vs nonbank / alternative", "Est. volume": "210/mo",
+             "Angle": "Mastercard+MPC vs. Visa+hybrid; KYC + AML comparison", "Length": "1,500w"},
+            {"#": 5, "URL slug": "/blog/crypto-com-card-self-custody-alternative",
+             "Target keyword": "crypto.com card alternative self custody", "Est. volume": "590/mo",
+             "Angle": "Fully custodial vs. hybrid; own your keys + still spend", "Length": "1,800w"},
+            {"#": 6, "URL slug": "/blog/best-self-custody-crypto-cards-2026",
+             "Target keyword": "best self custody crypto card 2026", "Est. volume": "720/mo",
+             "Angle": "Category listicle — Gnosis Pay / MetaMask Card / COCA / Bleap / Nonbank / Crypto.com", "Length": "2,400w"},
+            {"#": 7, "URL slug": "/blog/self-custody-crypto-cards-hub",
+             "Target keyword": "self custody crypto card (hub)", "Est. volume": "1.1K/mo",
+             "Angle": "**Category hub** — links to all 6 above; canonical pillar page", "Length": "2,800w"},
+        ])
+        st.dataframe(onsite, use_container_width=True, hide_index=True)
+
+        st.divider()
+        st.markdown("### B · Guest-post articles (marketplace placements)")
+        st.markdown(
+            "**6 master briefs × 3–4 angle variants each = ~18–24 "
+            "unique articles** to distribute across marketplaces. Anchor "
+            "text rotates per variant. Internal link always points back to "
+            "the relevant on-site comparison page."
+        )
+
+        briefs = pd.DataFrame([
+            {
+                "Brief #": "GP-1",
+                "Master title": "Why Gnosis Pay Isn't Enough Outside the EU",
+                "Primary message": "#1 Card inside wallet + #2 100+ countries",
+                "Outline": "1) Gnosis Pay's EU/UK limitation; 2) Card+wallet category explained; 3) What to look for in a 100+ country alternative; 4) Nonbank (NON×CARD) as a live example",
+                "Word count": "1,200–1,500",
+                "Anchor text variants": "gnosis pay alternative · best gnosis pay alternative · non-EU gnosis pay · self-custody card in 100+ countries",
+                "Internal link target": "/blog/gnosis-pay-alternative",
+                "Best marketplace": "Serpzilla (crypto-native) + WhitePress (EU geo)",
+                "Variants": "4 (EU-resident angle, APAC angle, LATAM angle, general global)",
+            },
+            {
+                "Brief #": "GP-2",
+                "Master title": "MetaMask Card Is Still a Pilot — Here's What's Already Live",
+                "Primary message": "#1 Card inside wallet + #2 live in 100+ countries (not pilot)",
+                "Outline": "1) MetaMask Card pilot state; 2) What 'live' means for a self-custody card; 3) Category explainer: DeFi wallet + card; 4) Live alternatives comparison",
+                "Word count": "1,200–1,500",
+                "Anchor text variants": "metamask card alternative · live metamask card alternative · self-custody visa card · defi wallet card",
+                "Internal link target": "/blog/metamask-card-alternative",
+                "Best marketplace": "Serpzilla + Collaborator + PRPosting",
+                "Variants": "3 (retail-user angle, ETH-native angle, card-first angle)",
+            },
+            {
+                "Brief #": "GP-3",
+                "Master title": "The Hybrid Model: Non-Custodial Wallet + Custodial Card",
+                "Primary message": "Core category education — hero angle #1",
+                "Outline": "1) Why fully on-chain cards (Gnosis Pay) are slow; 2) Why fully custodial cards (Crypto.com) give up self-custody; 3) The hybrid model; 4) What good hybrid looks like",
+                "Word count": "1,500–1,800",
+                "Anchor text variants": "hybrid defi wallet card · self-custody crypto card · defi wallet with card built in · crypto wallet with visa card",
+                "Internal link target": "/blog/self-custody-crypto-cards-hub",
+                "Best marketplace": "All 5 marketplaces — evergreen explainer",
+                "Variants": "4 (explainer, comparison, buyer's-guide, technical-deep-dive)",
+            },
+            {
+                "Brief #": "GP-4",
+                "Master title": "Gasless Crypto Transactions: Sending Without ETH for Gas",
+                "Primary message": "Differentiator #3 — supporting proof for hero",
+                "Outline": "1) Gas as friction; 2) Meta-tx / gas-sponsored models; 3) What gasless actually means for users; 4) Wallets shipping it today",
+                "Word count": "1,200–1,500",
+                "Anchor text variants": "gasless crypto wallet · no gas fee wallet · send crypto without gas · gasless usdt transfer",
+                "Internal link target": "nonbank.io/blog (existing gasless post) + link to hub",
+                "Best marketplace": "Serpzilla + Collaborator",
+                "Variants": "3 (technical, consumer, stablecoin-user)",
+            },
+            {
+                "Brief #": "GP-5",
+                "Master title": "AML in Self-Custody: Can You Have Both?",
+                "Primary message": "Differentiator #4 — trust / compliance angle",
+                "Outline": "1) Self-custody ≠ freedom from tainted funds; 2) Sanctioned-address exposure cases; 3) AML Watchtower pattern; 4) Wallets that screen inbound transfers",
+                "Word count": "1,200–1,500",
+                "Anchor text variants": "aml crypto wallet · compliant self-custody wallet · sanction-screening wallet · aml watchtower",
+                "Internal link target": "nonbank.io/blog (AML pillar) + link to hub",
+                "Best marketplace": "Collaborator + Linkhouse (EU compliance angle resonates)",
+                "Variants": "3 (compliance officer, retail trust, trader)",
+            },
+            {
+                "Brief #": "GP-6",
+                "Master title": "The 2026 Self-Custody Crypto Card Landscape",
+                "Primary message": "Category listicle — hero + proof for all 4 messages",
+                "Outline": "1) Category state in 2026; 2) Matrix: Gnosis Pay / MetaMask Card / COCA / Bleap / Crypto.com / Nonbank; 3) Pick-by-use-case (EU resident, global nomad, USDT spender, self-custody purist); 4) What to look for",
+                "Word count": "1,800–2,200",
+                "Anchor text variants": "best self-custody crypto card · crypto card comparison · defi card 2026 · crypto wallet with card list",
+                "Internal link target": "/blog/best-self-custody-crypto-cards-2026 + hub",
+                "Best marketplace": "Serpzilla (priority) + PRPosting + WhitePress",
+                "Variants": "4 (use-case, ranking, deep-comparison, beginner's-guide)",
+            },
+        ])
+        st.dataframe(briefs, use_container_width=True, hide_index=True)
+
+        st.divider()
+        st.markdown("### C · Distribution matrix — which brief goes to which marketplace")
+        dist = pd.DataFrame([
+            {"Marketplace": "Serpzilla",      "Placements": 4, "Briefs": "GP-2, GP-3, GP-4, GP-6",
+             "Why": "Crypto-native catalog → on-topic sites for every brief; accepts USDT/BTC."},
+            {"Marketplace": "Collaborator.pro", "Placements": 3, "Briefs": "GP-1, GP-3, GP-5",
+             "Why": "DR50+ curated; already wired in the app (collaborator_outlets.py)."},
+            {"Marketplace": "PRPosting",      "Placements": 3, "Briefs": "GP-2, GP-5, GP-6",
+             "Why": "Unique outlets Collaborator doesn't stock; often cheaper same-DR."},
+            {"Marketplace": "WhitePress",     "Placements": 2, "Briefs": "GP-1 (EU variant), GP-6 (EU variant)",
+             "Why": "EU + 40-country multi-language footprint."},
+            {"Marketplace": "Linkhouse",      "Placements": 2, "Briefs": "GP-3, GP-5",
+             "Why": "PL/EU crypto category; AML/compliance angle resonates in EU."},
+            {"Marketplace": "Chainwire (PR wire)", "Placements": "1 release → 20+ sites",
+             "Briefs": "Short-form syndication of GP-6 (category listicle)",
+             "Why": "One filing = multi-outlet mention blast."},
+            {"Marketplace": "AccessWire (PR wire)", "Placements": "1 release",
+             "Briefs": "Corporate-framed version of GP-3 (category explainer)",
+             "Why": "Yahoo Finance / MarketWatch backlink for DR."},
+        ])
+        st.dataframe(dist, use_container_width=True, hide_index=True)
+        st.caption(
+            "**Total: 15 unique guest-post placements + 20+ wire-syndicated "
+            "mentions**, covering 6 master briefs across 5 marketplaces and "
+            "2 wires. Every placement links to a nonbank.io comparison page — "
+            "so SEO/GEO juice concentrates on the anchor assets."
+        )
+
+        st.divider()
+        st.markdown("### D · Production workflow (Wk 1 sprint)")
+        workflow = pd.DataFrame([
+            {"Day": "Mon", "Step": "Draft all 6 master briefs in PR Generator (Claude)", "Output": "6 × 1,500w drafts"},
+            {"Day": "Tue", "Step": "Spin each master into 3–4 angle variants (PR Generator 'revise' mode)", "Output": "~20 unique variants"},
+            {"Day": "Wed", "Step": "Human edit pass + fact-check + anchor-text assignment", "Output": "Ready-to-submit articles"},
+            {"Day": "Thu", "Step": "Parallel submission: Serpzilla (4) + Collaborator (3) + PRPosting (3)", "Output": "10 placements queued"},
+            {"Day": "Fri", "Step": "WhitePress (2) + Linkhouse (2) + Chainwire release + AccessWire release", "Output": "5 more + wire syndication"},
+            {"Day": "Wk 2", "Step": "On-site: publish 6 comparison pages + hub", "Output": "nonbank.io anchor assets live"},
+            {"Day": "Wk 2–3", "Step": "Monitor indexation (GSC + Ahrefs) + GEO Tracker for Perplexity/ChatGPT citations", "Output": "Mid-sprint read"},
+        ])
+        st.dataframe(workflow, use_container_width=True, hide_index=True)
+
+        st.success(
+            "**Handoff:** click over to the **PR Generator** tab → paste "
+            "each master brief into Claude → generate → paste variants into "
+            "the **Distribution** queue. Every article you produce goes to "
+            "**one nonbank.io comparison page** as its internal link target — "
+            "that's the SEO/GEO concentration mechanism."
         )
 
     # ── 5. Calendar ─────────────────────────────────────────────────────────

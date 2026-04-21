@@ -125,6 +125,7 @@ def calculate_publication_roi(
     has_crypto_category: bool = True,
     ai_citability: int = 1,              # GEO: 0-3 AI citation score
     ai_share_of_search: float = 0.08,    # GEO: % of search now via AI engines
+    content_type: str = "guest_post",    # "guest_post" | "link_insertion" | "pr_wire"
 ) -> PublicationROI:
     """
     Calculate conservative / mid / optimistic ROI for one publication.
@@ -145,7 +146,19 @@ def calculate_publication_roi(
     has_crypto_category : whether outlet has crypto/finance category
     ai_citability       : GEO score 0-3 (how likely AI engines cite this outlet)
     ai_share_of_search  : fraction of search traffic now going through AI engines
+    content_type        : placement format — drives SEO/GEO multipliers
+                          "guest_post"     : full article (800-1500w), full weight (1.0)
+                          "link_insertion" : link added to existing article — weak SEO,
+                                             almost zero GEO (no new content to cite)
+                          "pr_wire"        : short syndicated release — partial weight
     """
+    # Content-type multipliers: guest posts get full SEO/GEO credit; link
+    # insertions are mostly link-juice only; PR wires sit in between.
+    ct_mult = {
+        "guest_post":     {"referral": 1.00, "seo": 1.00, "ai": 1.00},
+        "link_insertion": {"referral": 0.60, "seo": 0.45, "ai": 0.10},
+        "pr_wire":        {"referral": 0.80, "seo": 0.55, "ai": 0.35},
+    }.get(content_type, {"referral": 1.00, "seo": 1.00, "ai": 1.00})
     # LTV — prefer market-lang combo if available
     if market:
         ltv = LTV_BY_MARKET_LANG.get((market.upper(), lang.lower()),
@@ -157,7 +170,7 @@ def calculate_publication_roi(
 
     # ── Layer 1: Direct referral traffic ─────────────────────────────────────
     article_readers = outlet_traffic * (article_ctr_pct / 100)
-    referral_base = article_readers * (referral_to_site_pct / 100)
+    referral_base = article_readers * (referral_to_site_pct / 100) * ct_mult["referral"]
 
     # ── Layer 2: SEO compound traffic (90-day / seo_months) ──────────────────
     if keyword_volume > 0:
@@ -170,7 +183,7 @@ def calculate_publication_roi(
         dr_factor = min(outlet_dr / 55.0, 2.0)
         seo_base_monthly = outlet_traffic * 0.0003 * dr_factor
 
-    seo_base_90d = seo_base_monthly * seo_months
+    seo_base_90d = seo_base_monthly * seo_months * ct_mult["seo"]
 
     # ── Layer 3: AI citation traffic (GEO) ────────────────────────────────────
     # Model: AI engines (ChatGPT, Perplexity, Google AI Overviews) cite
@@ -180,7 +193,7 @@ def calculate_publication_roi(
         ai_base_monthly = keyword_volume * ai_share_of_search * ai_cite_prob
     else:
         ai_base_monthly = outlet_traffic * 0.0001 * ai_citability
-    ai_base_90d = ai_base_monthly * seo_months
+    ai_base_90d = ai_base_monthly * seo_months * ct_mult["ai"]
 
     # ── Scenarios ─────────────────────────────────────────────────────────────
     scenarios: dict[str, PublicationScenario] = {}
@@ -257,6 +270,7 @@ def batch_roi(
             has_crypto_category=bool(o.get("has_crypto", True)),
             ai_citability=int(o.get("ai_citability", 1)),
             ai_share_of_search=ai_share_of_search,
+            content_type=o.get("content_type", "guest_post"),
         ))
     results.sort(key=lambda r: r.mid().roi_x, reverse=True)
     return results
