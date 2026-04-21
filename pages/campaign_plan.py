@@ -197,10 +197,287 @@ off-ramp friction. Picked up for free by the same SEO/GEO assets.
             "ranges — confirm with outlet reps before booking."
         )
 
-        sub_pr, sub_adnet, sub_listing, sub_review, sub_news, sub_pod, sub_community = st.tabs([
-            "PR / Guest Posts", "Ad Networks", "Listings & Aggregators",
-            "Review / Comparison", "Newsletters", "Podcasts", "Community",
+        sub_mkt, sub_pr, sub_adnet, sub_listing, sub_review, sub_news, sub_pod, sub_community = st.tabs([
+            "Aggregators & Marketplaces", "PR / Guest Posts", "Ad Networks",
+            "Listings & Aggregators", "Review / Comparison", "Newsletters",
+            "Podcasts", "Community",
         ])
+
+        # ── Sub-tab: Aggregators & Marketplaces ────────────────────────────
+        with sub_mkt:
+            st.markdown(
+                "**Platforms that give you catalog access to hundreds of "
+                "outlets at once.** These are the workhorses for mid-tier "
+                "guest-post volume, tier-2/3 crypto PR distribution, and "
+                "backlink building. Each gives one login, one invoice, "
+                "unified reporting. Cheapest path to a lot of placements fast."
+            )
+
+            st.markdown("#### Guest-post & content marketplaces")
+            marketplaces = pd.DataFrame([
+                {"Platform": "Collaborator.pro",
+                 "Origin": "Ukraine/CIS",
+                 "Catalog": "40,000+ sites; ~300–500 crypto-relevant (DR 30–80)",
+                 "Model": "Pay per publication; fixed price per site",
+                 "Price range (crypto)": "$40–1,500 / article (avg ~$200–400)",
+                 "Language": "EN + RU + many others",
+                 "Quality control": "Editor review, sample articles visible",
+                 "Crypto-friendly": "✅ Huge crypto vertical",
+                 "Fit for Nonbank": "**P0** — already in the app (collaborator_outlets.py)",
+                 "Priority": "P0"},
+                {"Platform": "PRPosting.com",
+                 "Origin": "Ukraine/CIS",
+                 "Catalog": "35,000+ sites; strong crypto + fintech catalog",
+                 "Model": "Pay per publication; often cheaper than Collaborator for same DR",
+                 "Price range (crypto)": "$30–1,200 / article",
+                 "Language": "EN + RU + EU languages",
+                 "Quality control": "Manual moderation; dispute system",
+                 "Crypto-friendly": "✅ Large crypto/DeFi catalog",
+                 "Fit for Nonbank": "**P0** — complements Collaborator, often has unique outlets",
+                 "Priority": "P0"},
+                {"Platform": "WhitePress.com",
+                 "Origin": "Poland / EU",
+                 "Catalog": "100,000+ sites; 40+ countries; strong EU + LATAM coverage",
+                 "Model": "Pay per publication OR content-production bundle",
+                 "Price range (crypto)": "€50–2,000 / article",
+                 "Language": "30+ languages",
+                 "Quality control": "Editor approval; content quality scoring",
+                 "Crypto-friendly": "✅ Crypto section active in EU markets",
+                 "Fit for Nonbank": "**P0** for multi-geo push (Nonbank's 100+ country card)",
+                 "Priority": "P0"},
+                {"Platform": "Adsy.com",
+                 "Origin": "US",
+                 "Catalog": "15,000+ sites; curated guest-post inventory",
+                 "Model": "Pay per publication; managed service option",
+                 "Price range (crypto)": "$50–1,000 / article",
+                 "Language": "EN primary",
+                 "Quality control": "Editor pre-approval",
+                 "Crypto-friendly": "⚠️ Mixed — check outlet-level policy",
+                 "Fit for Nonbank": "P1 — US/EN-only angle, volume play",
+                 "Priority": "P1"},
+                {"Platform": "LinksManagement",
+                 "Origin": "US (SEO-focused)",
+                 "Catalog": "2,000+ verified outlets",
+                 "Model": "Subscription + per-link pricing",
+                 "Price range (crypto)": "$50–800 / link",
+                 "Language": "EN primary",
+                 "Quality control": "Metrics-vetted (DR/DA)",
+                 "Crypto-friendly": "⚠️ SEO-first — some crypto outlets",
+                 "Fit for Nonbank": "P2 — too SEO-farmy; risk of low-quality backlinks",
+                 "Priority": "P2"},
+                {"Platform": "Getfluence.com",
+                 "Origin": "France / EU",
+                 "Catalog": "10,000+ premium media outlets across EU",
+                 "Model": "Sponsored-content marketplace (premium tier)",
+                 "Price range (crypto)": "€200–5,000 / article",
+                 "Language": "FR, EN, ES, DE, IT + others",
+                 "Quality control": "Premium-only outlets",
+                 "Crypto-friendly": "✅ — but premium pricing",
+                 "Fit for Nonbank": "P1 stretch — premium EU reach",
+                 "Priority": "P1"},
+                {"Platform": "Miralinks",
+                 "Origin": "Russia/CIS",
+                 "Catalog": "10,000+ RU/EN sites; strong CIS crypto catalog",
+                 "Model": "Pay per publication",
+                 "Price range (crypto)": "$20–600 / article",
+                 "Language": "RU primary, some EN",
+                 "Quality control": "Manual editor check",
+                 "Crypto-friendly": "✅ Large CIS crypto catalog",
+                 "Fit for Nonbank": "P2 — CIS-skewed, Nonbank is EN-global",
+                 "Priority": "P2"},
+                {"Platform": "GoGetLinks",
+                 "Origin": "Russia/CIS",
+                 "Catalog": "Webmaster network, RU-heavy",
+                 "Model": "Monthly link rental OR guest post",
+                 "Price range (crypto)": "$10–300",
+                 "Language": "RU primary",
+                 "Quality control": "Auto + manual",
+                 "Crypto-friendly": "✅ Crypto category present",
+                 "Fit for Nonbank": "P3 — RU-only, skip for EN-global sprint",
+                 "Priority": "Skip"},
+                {"Platform": "Sape.ru",
+                 "Origin": "Russia/CIS",
+                 "Catalog": "Link-rental network",
+                 "Model": "Monthly link rental (NOT clean guest-post)",
+                 "Price range (crypto)": "Varies",
+                 "Language": "RU",
+                 "Quality control": "Weak; Google-penalty risk",
+                 "Crypto-friendly": "—",
+                 "Fit for Nonbank": "**SKIP** — rented-link risk, bad for SEO",
+                 "Priority": "Skip"},
+                {"Platform": "Rocketlink",
+                 "Origin": "Global",
+                 "Catalog": "Niche guest-post service",
+                 "Model": "Managed placements",
+                 "Price range (crypto)": "$100–800",
+                 "Language": "EN",
+                 "Quality control": "Depends on account manager",
+                 "Crypto-friendly": "⚠️ Case-by-case",
+                 "Fit for Nonbank": "P2 backup",
+                 "Priority": "P2"},
+                {"Platform": "PostWith.com",
+                 "Origin": "EU",
+                 "Catalog": "5,000+ content sites",
+                 "Model": "Sponsored content marketplace",
+                 "Price range (crypto)": "€80–1,500",
+                 "Language": "Multiple EU",
+                 "Quality control": "Editor review",
+                 "Crypto-friendly": "⚠️ Mixed",
+                 "Fit for Nonbank": "P2",
+                 "Priority": "P2"},
+                {"Platform": "Presspad",
+                 "Origin": "EU",
+                 "Catalog": "Niche publisher network",
+                 "Model": "Content placement marketplace",
+                 "Price range (crypto)": "€100–1,200",
+                 "Language": "EU langs",
+                 "Quality control": "Curated",
+                 "Crypto-friendly": "⚠️",
+                 "Fit for Nonbank": "P2",
+                 "Priority": "P2"},
+                {"Platform": "PublicFast",
+                 "Origin": "Ukraine/CIS",
+                 "Catalog": "Mid-tier outlets + influencer crossover",
+                 "Model": "Content placement + influencer",
+                 "Price range (crypto)": "$30–500",
+                 "Language": "RU/UA/EN",
+                 "Quality control": "Manual",
+                 "Crypto-friendly": "✅",
+                 "Fit for Nonbank": "P2 — redundant with Collaborator/PRPosting",
+                 "Priority": "P2"},
+            ])
+            st.dataframe(marketplaces, use_container_width=True, hide_index=True)
+
+            st.divider()
+            st.markdown("#### Press-release distribution wires")
+            wires = pd.DataFrame([
+                {"Wire": "Chainwire",
+                 "Type": "Crypto-native PR wire",
+                 "Distribution": "100+ crypto outlets incl. Cointelegraph, Decrypt, CryptoSlate, Bitcoinist, NewsBTC, CryptoPotato, U.Today",
+                 "Cost / release": "$450–900 (tiered packages)",
+                 "Speed": "24–48 hrs",
+                 "Best for": "Multi-outlet coverage from one filing",
+                 "Priority": "**P0**"},
+                {"Wire": "Cryptonews.com PR (PR wire)",
+                 "Type": "Crypto-native",
+                 "Distribution": "Cryptonews network + partner tier-2/3 sites",
+                 "Cost / release": "$300–800",
+                 "Speed": "24–72 hrs",
+                 "Best for": "Additional tier-2 coverage",
+                 "Priority": "P1"},
+                {"Wire": "CoinCodex PR",
+                 "Type": "Crypto-native",
+                 "Distribution": "CoinCodex + partnered aggregators",
+                 "Cost / release": "$200–600",
+                 "Speed": "24–48 hrs",
+                 "Best for": "Cheap tier-2 distribution",
+                 "Priority": "P1"},
+                {"Wire": "Blockchain PR Buzz",
+                 "Type": "Crypto PR aggregator",
+                 "Distribution": "50+ crypto outlets",
+                 "Cost / release": "$300–1,000",
+                 "Speed": "48–72 hrs",
+                 "Best for": "Budget multi-outlet distribution",
+                 "Priority": "P1"},
+                {"Wire": "CryptoPR.io",
+                 "Type": "Crypto PR marketplace",
+                 "Distribution": "Curated tier-1/2 placement",
+                 "Cost / release": "$500–3,000 (premium packages)",
+                 "Speed": "3–7 days",
+                 "Best for": "Higher-tier single placements",
+                 "Priority": "P1"},
+                {"Wire": "AccessWire (crypto tier)",
+                 "Type": "General + crypto wire",
+                 "Distribution": "Syndicates to Yahoo Finance, MarketWatch + crypto outlets",
+                 "Cost / release": "$500–1,200",
+                 "Speed": "24 hrs",
+                 "Best for": "SEO backlinks from high-DR mainstream finance sites",
+                 "Priority": "**P0** (one release for the Yahoo/MW backlink)"},
+                {"Wire": "GlobeNewswire",
+                 "Type": "Mainstream PR wire",
+                 "Distribution": "Reuters + mainstream finance + aggregators",
+                 "Cost / release": "$350–2,000",
+                 "Speed": "24 hrs",
+                 "Best for": "Mainstream finance media backlinks",
+                 "Priority": "P1"},
+                {"Wire": "PR Newswire",
+                 "Type": "Mainstream premier wire",
+                 "Distribution": "Premium syndication (Cision network)",
+                 "Cost / release": "$800–5,000",
+                 "Speed": "24 hrs",
+                 "Best for": "Corporate-grade announcements (product launches)",
+                 "Priority": "P2 (expensive for sprint)"},
+                {"Wire": "Business Wire",
+                 "Type": "Mainstream premier wire",
+                 "Distribution": "Berkshire Hathaway co; premium",
+                 "Cost / release": "$700–4,000",
+                 "Speed": "24 hrs",
+                 "Best for": "Enterprise-looking announcements",
+                 "Priority": "P2"},
+                {"Wire": "PRWeb (Cision)",
+                 "Type": "Mainstream wire",
+                 "Distribution": "Broad syndication, moderate reach",
+                 "Cost / release": "$99–389",
+                 "Speed": "24–72 hrs",
+                 "Best for": "Cheap mainstream wire coverage",
+                 "Priority": "P1"},
+                {"Wire": "EIN Presswire",
+                 "Type": "Mainstream wire (self-serve)",
+                 "Distribution": "Broad auto-syndication",
+                 "Cost / release": "$99–400",
+                 "Speed": "2–24 hrs",
+                 "Best for": "Cheapest wire option — SEO backlinks",
+                 "Priority": "P1"},
+            ])
+            st.dataframe(wires, use_container_width=True, hide_index=True)
+
+            st.divider()
+            st.markdown("#### Crypto PR agencies (for-reference, not sprint scope)")
+            agencies = pd.DataFrame([
+                {"Agency": "NinjaPromo", "Service": "Crypto PR + marketing retainer",
+                 "Retainer": "$8K–25K/mo", "Why consider": "Full-stack crypto campaigns, but retainer-scale not sprint.",
+                 "Sprint fit": "❌ Skip — Month 2+ option"},
+                {"Agency": "Guerrilla Buzz", "Service": "Crypto PR + Reddit + community",
+                 "Retainer": "$5K–15K/mo", "Why consider": "Community-first; aligned with our Reddit/Quora play.",
+                 "Sprint fit": "❌ Skip — Month 2+ option"},
+                {"Agency": "Lunar Strategy", "Service": "Web3 growth agency",
+                 "Retainer": "$5K–20K/mo", "Why consider": "Campaign strategy + execution",
+                 "Sprint fit": "❌ Skip"},
+                {"Agency": "Coinbound", "Service": "Crypto marketing + PR",
+                 "Retainer": "$5K–15K/mo", "Why consider": "Media relationships",
+                 "Sprint fit": "❌ Skip"},
+                {"Agency": "MarketAcross", "Service": "Crypto PR + content",
+                 "Retainer": "$10K+/mo", "Why consider": "Tier-1 placements",
+                 "Sprint fit": "❌ Skip — retainer scale"},
+            ])
+            st.dataframe(agencies, use_container_width=True, hide_index=True)
+            st.caption(
+                "**Why agencies are out of sprint scope:** they bill on "
+                "monthly retainer and need 4–6 weeks to warm up. The whole "
+                "sprint is 4 weeks. Re-evaluate for Month 2+ if the in-house "
+                "+ marketplaces path underperforms."
+            )
+
+            st.divider()
+            st.success(
+                "**Recommended sprint stack (aggregators + wires, ~$4–5K total):**\n\n"
+                "1. **Collaborator.pro** — 2–3 placements on DR50+ crypto outlets (~$600–1,200)\n"
+                "2. **PRPosting** — 2–3 placements on outlets Collaborator doesn't stock (~$500–1,000)\n"
+                "3. **WhitePress** — 1 placement on a European outlet for geo-diversity (~$300–800)\n"
+                "4. **Chainwire** — 1 release (~$450–900) for multi-outlet syndication\n"
+                "5. **AccessWire** — 1 release (~$500–1,200) for Yahoo Finance / MarketWatch backlink\n\n"
+                "**Result:** ~8–10 placements across 30+ outlets in 2 weeks, "
+                "strong backlink profile, heavy GEO-citation footprint, no "
+                "dependence on ad platforms."
+            )
+            st.warning(
+                "**Quality gate:** before booking any outlet on a marketplace, "
+                "check: (1) DR ≥ 40, (2) crypto/fintech articles published in "
+                "the last 30 days, (3) sample article is editorial (not PBN-"
+                "style thin content), (4) do-follow link permitted, (5) "
+                "article stays indexed ≥ 12 months. Use the app's **Outlet "
+                "Matching** tab to cross-reference Collaborator DR/price/score."
+            )
 
         # ── Sub-tab: PR / Guest Posts ──────────────────────────────────────
         with sub_pr:
@@ -247,8 +524,11 @@ off-ramp friction. Picked up for free by the same SEO/GEO assets.
             st.success(
                 "**Sprint pick (within $5–15K):** CryptoSlate **+** BeInCrypto **or** "
                 "CryptoPotato **+** 1× Chainwire release **+** 2–3× "
-                "Collaborator.pro DR50+ mid-tier. Total ≈ $4–6K, 5–6 placements, "
-                "strong backlink + GEO footprint."
+                "Collaborator.pro DR50+ mid-tier **+** 2–3× PRPosting DR40–60 "
+                "**+** 1× WhitePress EU outlet. Total ≈ $4–6K, 8–10 placements "
+                "across 30+ outlets (including Chainwire syndication), strong "
+                "backlink + GEO footprint. See **Aggregators & Marketplaces** "
+                "sub-tab for the full marketplace stack."
             )
 
         # ── Sub-tab: Ad Networks ───────────────────────────────────────────
@@ -500,8 +780,9 @@ off-ramp friction. Picked up for free by the same SEO/GEO assets.
         st.divider()
         st.subheader("Recommended sprint allocation across outlets ($10K midpoint)")
         alloc = pd.DataFrame([
-            {"Bucket": "PR placements", "Picks": "CryptoSlate + BeInCrypto + 1 Chainwire + 2× Collaborator DR50+",
-             "Amount": "$4,000", "Why": "Backlinks, GEO citations, mid-tier DR coverage. No ad-policy risk."},
+            {"Bucket": "PR placements (direct + marketplaces + wires)",
+             "Picks": "1× CryptoSlate or BeInCrypto direct + 2–3× Collaborator + 2–3× PRPosting + 1× WhitePress (EU) + 1× Chainwire + 1× AccessWire",
+             "Amount": "$4,000", "Why": "8–10 placements across 30+ outlets. Backlinks + GEO citations + no ad-policy risk."},
             {"Bucket": "Crypto-native paid ads", "Picks": "Coinzilla + Bitmedia + Cointraffic + A-ADS",
              "Amount": "$2,500", "Why": "Only compliant paid surface for DeFi wallet. Retargeting comparison-page visitors."},
             {"Bucket": "Newsletter sponsorship (direct-buy)", "Picks": "The Defiant slot or 2× smaller DeFi newsletters",
