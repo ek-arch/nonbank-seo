@@ -24,6 +24,7 @@ from pages.pseo import page_programmatic_seo
 from pages.geo_tracker import page_geo_tracker
 from pages.gsc_dashboard import page_gsc_dashboard
 from pages.campaign_plan import page_campaign_plan
+from pages.competitor_playbook import page_competitor_playbook
 
 # ── App config ────────────────────────────────────────────────────────────────
 st.set_page_config(
@@ -42,8 +43,9 @@ pg = st.navigation({
         st.Page(page_dashboard,          title="Dashboard",          icon="🤖", default=True),
     ],
     "Research": [
-        st.Page(page_competitor_intel,   title="Competitor Intel",   icon="🔍"),
-        st.Page(page_keyword_intel,      title="Keyword Intel",      icon="🧠"),
+        st.Page(page_competitor_intel,     title="Competitor Intel",     icon="🔍"),
+        st.Page(page_competitor_playbook,  title="Competitor Playbook",  icon="🎭"),
+        st.Page(page_keyword_intel,        title="Keyword Intel",        icon="🧠"),
     ],
     "Strategy": [
         st.Page(page_content_plan,       title="Content Strategy",   icon="✍️"),

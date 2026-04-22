@@ -26,11 +26,11 @@ def page_campaign_plan():
     c4.metric("Card applications", "400")
 
     tab_overview, tab_audience, tab_messages, tab_channels, tab_outlets, \
-        tab_content, tab_calendar, tab_assets, tab_metrics, tab_budget, \
-        tab_risks, tab_next = st.tabs([
+        tab_expansion, tab_content, tab_calendar, tab_assets, tab_metrics, \
+        tab_budget, tab_risks, tab_next = st.tabs([
             "Overview", "Audience", "Messages", "Channels", "Media & Outlets",
-            "Content to Publish", "Calendar", "Assets", "Metrics", "Budget",
-            "Risks", "Next Steps",
+            "🚀 Expansion Plays", "Content to Publish", "Calendar", "Assets",
+            "Metrics", "Budget", "Risks", "Next Steps",
         ])
 
     # ── 1. Overview ──────────────────────────────────────────────────────────
@@ -188,9 +188,20 @@ off-ramp friction. Picked up for free by the same SEO/GEO assets.
         st.info(
             "**Blocked/excluded channels:** Google Search Ads, Google Display "
             "Network, YouTube Ads, Meta (Facebook/Instagram) Ads, LinkedIn "
-            "Ads, TikTok Ads (crypto-restricted in most regions). Any paid "
-            "budget that would have gone here is **reallocated to crypto-"
-            "native networks, newsletters, KOLs, and PR** (see Budget tab)."
+            "Ads, TikTok Ads (crypto-restricted in most regions). Validated "
+            "by competitor research: **none of Gnosis Pay, MetaMask, Bleap, "
+            "COCA, Bybit, RedotPay, Holyheld, or Nexo use them either** — "
+            "the block is universal. Budget reallocates to crypto-native "
+            "networks, KOLs, and SEO guest posts."
+        )
+
+        st.success(
+            "**📌 See the 🚀 Expansion Plays tab** for 5 structural, mostly "
+            "**zero-cost** plays that layer on top of the paid channels "
+            "here — lifetime-revshare affiliate program, TikTok creator "
+            "network, pre-token rewards FOMO, programmatic country pages, "
+            "and a first-party comparison hub. These are what competitors "
+            "actually do to grow and cost little to nothing upfront."
         )
 
     # ── 4b. Media & Outlets ─────────────────────────────────────────────────
@@ -935,6 +946,269 @@ off-ramp friction. Picked up for free by the same SEO/GEO assets.
             "platforms don't grant.**"
         )
 
+    # ── 4b2. Expansion Plays ────────────────────────────────────────────────
+    with tab_expansion:
+        st.subheader("Expansion Plays — Layer on top of the Sprint")
+        st.caption(
+            "Four structural plays surfaced from competitor-marketing "
+            "research (see the **Competitor Playbook** page under Research). "
+            "These layer on top of the sprint — most are **low-cost / "
+            "self-funding** and compound past Month 1. They are what the "
+            "competitive set actually does to grow, and none of them "
+            "depend on Google/Meta ad platforms."
+        )
+
+        st.warning(
+            "**Cross-reference:** every play below cites the competitor "
+            "it's copied from. The full write-up lives in the **Competitor "
+            "Playbook** page (Research nav). This tab is the Nonbank-"
+            "specific execution brief."
+        )
+
+        ep1, ep2, ep3, ep4, ep5 = st.tabs([
+            "1. Lifetime-revshare affiliate",
+            "2. TikTok creator network (emerging markets)",
+            "3. Pre-token rewards FOMO",
+            "4. Programmatic country pages",
+            "5. Comparison hub (land grab)",
+        ])
+
+        # ── Play 1: Affiliate ─────────────────────────────────────────────
+        with ep1:
+            st.markdown(
+                "### 🎯 Lifetime-revshare affiliate program\n"
+                "**Copied from:** Bybit (50% lifetime + 10% sub-affiliate) · "
+                "RedotPay (40% order fee + txn % + L2 override) · "
+                "Nexo ($20/txn × 12 months retention kicker)."
+            )
+            st.markdown(
+                "**Thesis:** affiliates who get a **lifetime** (not CPA) cut "
+                "create evergreen content — YouTube reviews, Medium tutorials, "
+                '"best crypto card" listicles — and deliberately **let those '
+                'affiliates dominate the "Nonbank referral code" SERP**. '
+                "That's free acquisition content we didn't write. CPA-only "
+                "deals don't produce this because there's no retention "
+                "incentive for the affiliate."
+            )
+            st.markdown("**Proposed structure:**")
+            st.dataframe(pd.DataFrame([
+                {"Tier": "Micro (0–5K followers)",
+                 "Commission": "30% of first-month card spend revenue + 5 USDC at card activation",
+                 "Sub-affiliate": "—",
+                 "Why": "Low-barrier entry; seed broad reach"},
+                {"Tier": "Standard (affiliate)",
+                 "Commission": "**50% lifetime** revshare on card fees + exchange fees + any staking/token revenue",
+                 "Sub-affiliate": "+10% L2 (sub-referrals)",
+                 "Why": "Bybit-equivalent — industry benchmark; self-recruiting network"},
+                {"Tier": "Whale (audience >100K)",
+                 "Commission": "Flat bounty $50–150 per activated + funded card + 50% lifetime revshare",
+                 "Sub-affiliate": "+15% L2",
+                 "Why": "Nexo-style high-ceiling payouts justify dedicated video content"},
+                {"Tier": "Retention kicker (all tiers)",
+                 "Commission": "$10/card txn for 12 months (capped at 10 txns/mo per referee)",
+                 "Sub-affiliate": "—",
+                 "Why": "Nexo-copy: aligns affiliates with retention, not just signup"},
+            ]), use_container_width=True, hide_index=True)
+            st.markdown(
+                "**Cost to launch:** $0 upfront (payouts are revenue-share, paid from earned fees).\n\n"
+                "**Sprint tasks:**\n"
+                "- Wk 1: draft T&Cs, set up attribution (unique referral codes + UTMs)\n"
+                "- Wk 2: soft-launch to 10 hand-picked creators already mentioning competitors\n"
+                "- Wk 3: public program page on nonbank.io/affiliates\n"
+                "- Wk 4: outreach to 50 creators in target geos (see TikTok play below)\n\n"
+                "**Deprioritizes:** budget-funded KOL seeds (was $800 in sprint) — those creators "
+                "should be converted to affiliate-deal creators instead. **Keep $300 for 1 paid "
+                "seed creator who's specifically message-testing.**"
+            )
+
+        # ── Play 2: TikTok ────────────────────────────────────────────────
+        with ep2:
+            st.markdown(
+                "### 📱 TikTok creator network (emerging markets)\n"
+                "**Copied from:** RedotPay. 6M users, 100+ countries. "
+                'Filipino creators showing "how I pay for Shopee with USDT" '
+                "drive thousands of sign-ups per video. Highest-ROI play in "
+                "the competitive set."
+            )
+            st.markdown(
+                "**Why Nonbank specifically:** the NON×CARD card footprint "
+                "covers exactly the geos where USDT spenders live — LATAM, "
+                "SEA, MENA — and TikTok is the dominant surface in those "
+                "regions. Mainstream ad platforms won't work anyway, so TikTok "
+                "organic-via-creators is the **only scalable paid-reach path** "
+                "into these markets."
+            )
+            st.markdown("**Geo targeting (matched to Kolo issuer footprint):**")
+            st.dataframe(pd.DataFrame([
+                {"Region": "SEA",    "Countries": "PH, ID, MY, TH, SG",
+                 "Creator language": "English + Tagalog / Bahasa / Thai",
+                 "Content hook": '"Pay for Shopee / Lazada / Grab with USDT" demo',
+                 "Creator size": "5–50K followers (micro)",
+                 "Est. revshare pull": "$200–800/mo per creator"},
+                {"Region": "LATAM",  "Countries": "BR, MX, AR, CO, PE, CL",
+                 "Creator language": "Spanish + Portuguese",
+                 "Content hook": '"Freelancer paid in USDT" + Apple Pay / Google Pay demos',
+                 "Creator size": "10–100K followers",
+                 "Est. revshare pull": "$300–1,200/mo per creator"},
+                {"Region": "MENA",   "Countries": "UAE, Bahrain (Kolo-supported)",
+                 "Creator language": "Arabic + English",
+                 "Content hook": '"Spend USDT in Dubai / Bahrain without exchange"',
+                 "Creator size": "10–50K followers",
+                 "Est. revshare pull": "$200–600/mo per creator"},
+                {"Region": "Sub-Saharan Africa",
+                 "Countries": "— (card unsupported; community-only)",
+                 "Creator language": "—",
+                 "Content hook": "Skip paid activation until card launches",
+                 "Creator size": "—",
+                 "Est. revshare pull": "—"},
+            ]), use_container_width=True, hide_index=True)
+            st.info(
+                "**Important:** Nonbank card does NOT work in Nigeria, "
+                "Vietnam, Kazakhstan, Turkey, Israel, China, India, Russia, "
+                "Ukraine, Belarus, US. Don't seed creators there — wasted "
+                "spend and bad UX."
+            )
+            st.markdown(
+                "**Cost to launch:** $0 upfront — creators paid via the "
+                "affiliate program (Play 1). Budget only if production "
+                "support needed (~$500 for 3 hero-video templates).\n\n"
+                "**Sprint tasks:**\n"
+                "- Wk 2: build creator outreach list (20 per region × 3 regions = 60 creators)\n"
+                "- Wk 3: send them the Play 1 affiliate deal + 3 pre-built video script templates\n"
+                "- Wk 4: first videos go live; measure install attribution by creator"
+            )
+
+        # ── Play 3: Rewards FOMO ──────────────────────────────────────────
+        with ep3:
+            st.markdown(
+                "### 🪙 Pre-token rewards narrative (FOMO)\n"
+                "**Copied from:** MetaMask's $30M Linea rewards program tied "
+                "to a future token. *The token doesn't exist yet* — the "
+                '**narrative** is what drives the funnel. "Stakeholders, '
+                'not spenders."'
+            )
+            st.markdown(
+                "**Nonbank version:** announce a **NON points program** "
+                "where every card transaction + referral + gasless transfer "
+                "earns **NON Points** that will convert to **NON ID benefits** "
+                "and (potentially) future token rewards on an undisclosed "
+                "TBA date. No token commitment — just points."
+            )
+            st.dataframe(pd.DataFrame([
+                {"Action":         "Card spend $1",           "Points": "+1 point"},
+                {"Action":         "Successful referral",     "Points": "+500 points"},
+                {"Action":         "Gasless USDT transfer",   "Points": "+2 points per $1K"},
+                {"Action":         "Watch wallet added",      "Points": "+50 points"},
+                {"Action":         "Hold NON ID NFT",         "Points": "+10% multiplier on all earn"},
+                {"Action":         "30-day streak",           "Points": "+500 bonus"},
+            ]), use_container_width=True, hide_index=True)
+            st.markdown(
+                "**Cost to launch:** essentially $0 — it's accounting, not "
+                "spend. Points are a database column. Redemption rails "
+                "(Netflix rebates à la Crypto.com / future token airdrop / "
+                "card fee waivers) can be announced later.\n\n"
+                "**Sprint tasks:**\n"
+                "- Wk 1: decide on the program name + earn rules (product team)\n"
+                "- Wk 2: landing page (nonbank.io/rewards) with the earn table and FAQ\n"
+                "- Wk 3: press moment — one line in Chainwire release, founder X thread\n"
+                "- Wk 4: measure opt-in rate; keep points ledger live for real users"
+            )
+            st.success(
+                "**This is the single cheapest retention + referral lever.** "
+                "Competitors (MetaMask, Crypto.com, Nexo) all use variants. "
+                "Ignoring it is leaving free conversion on the table."
+            )
+
+        # ── Play 4: Programmatic country pages ─────────────────────────────
+        with ep4:
+            st.markdown(
+                "### 🌍 Programmatic country pages\n"
+                "**Copied from:** Crypto.com (baseline for any 30+ country "
+                "card product), partially Gnosis Pay's help-center-as-SEO. "
+                "Nonbank's card is live in 55+ countries; we currently have "
+                "zero country-specific landing pages. That's long-tail "
+                "search traffic we're leaving on the table."
+            )
+            st.markdown("**Template spec** (one page per supported country):")
+            st.markdown("""
+URL: `nonbank.io/[country-slug]` (e.g. `nonbank.io/brazil`, `nonbank.io/uae`, `nonbank.io/portugal`)
+
+Sections:
+1. H1: "Crypto card in [Country] — spend USDT / BTC / ETH from self-custody"
+2. Is Nonbank available in [Country]? ✅ with Kolo-issuer verification date
+3. Local use cases (USDT on TRON spending, freelance income, travel)
+4. Local payment rails (Apple Pay, Google Pay, local merchants where known)
+5. Fees + FX (local currency examples)
+6. FAQ (10 Qs — AI-friendly)
+7. Comparison table: Nonbank vs. **one locally-active competitor** (e.g.
+   vs. Gnosis Pay in Portugal, vs. Crypto.com in Brazil, vs. RedotPay in PH)
+8. CTA: "Get the NON×CARD" + local creator testimonial if available
+""")
+            st.markdown("**Geo priority tiers:**")
+            st.dataframe(pd.DataFrame([
+                {"Tier": "P0 (first 8)",
+                 "Countries": "Brazil, Mexico, Portugal, Spain, Philippines, Indonesia, UAE, Argentina",
+                 "Why": "High USDT spending; local competitor pressure; card live"},
+                {"Tier": "P1 (next 12)",
+                 "Countries": "Germany, France, Italy, Netherlands, Poland, Thailand, Malaysia, Singapore, Colombia, Peru, Chile, Japan",
+                 "Why": "Large EU markets + strong APAC crypto density"},
+                {"Tier": "P2 (long tail)",
+                 "Countries": "Remaining 30+ supported countries",
+                 "Why": "Template-driven — each page ~2 hrs of work"},
+            ]), use_container_width=True, hide_index=True)
+            st.markdown(
+                "**Cost to launch:** $0 if in-house — templated generation "
+                "via the **Content Brief Factory** tab (already in the app). "
+                "~2 hours per page × 20 P0+P1 pages = ~40 hrs.\n\n"
+                "**Sprint tasks:**\n"
+                "- Wk 1: build page template in Webflow + schema.org markup\n"
+                "- Wk 2: ship 4 P0 pages (Brazil, Mexico, Portugal, UAE)\n"
+                "- Wk 3: ship 4 more P0 pages (Philippines, Indonesia, Spain, Argentina)\n"
+                "- Wk 4: 4 P1 pages; monitor indexation + organic pickup"
+            )
+
+        # ── Play 5: Comparison hub ─────────────────────────────────────────
+        with ep5:
+            st.markdown(
+                "### 🏛️ First-party comparison hub (SEO land grab)\n"
+                "**The unclaimed land.** Competitor-marketing research "
+                "confirmed: **none of the 9 competitors rank for honest "
+                "multi-product comparison queries.** All comparison SERPs "
+                "are currently owned by affiliate farms (cryptocardhub, "
+                "coinsoncards, fintechdeepak) that rank thin content on "
+                "cheap DR. That's the opportunity."
+            )
+            st.markdown(
+                "**Play:** stand up `nonbank.io/compare/` as a hub, then "
+                "publish honest multi-product comparison pages for every "
+                "major competitor vs. every other (not just vs. Nonbank). "
+                "Rank for the competitor-vs-competitor queries **they "
+                "themselves don't rank for**."
+            )
+            st.markdown("**Page inventory** (20 pages):")
+            st.markdown("""
+- **Hub page:** `/compare/` — "Self-custody crypto cards in 2026"
+- **Primary vs-Nonbank** (6): Nonbank vs Gnosis Pay / MetaMask / COCA / Bleap / Crypto.com / RedotPay
+- **Competitor-vs-competitor (land-grab)** (10): Gnosis Pay vs MetaMask · Gnosis Pay vs Bleap · MetaMask vs COCA · Bleap vs COCA · Crypto.com vs Nexo · Bybit vs Crypto.com · RedotPay vs Crypto.com · Bleap vs Bybit · COCA vs RedotPay · MetaMask vs Crypto.com
+- **Use-case comparisons** (3): Best for LATAM / Best for USDT spenders / Best for self-custody purists
+""")
+            st.markdown(
+                "**Why this works:** when a user searches 'MetaMask Card "
+                "vs Bleap', they're considering two products neither of "
+                "which ranks its own comparison. We rank ours, we're the "
+                "only fair third party, and every page naturally mentions "
+                "Nonbank in the conclusion. **AI engines cite hub pages "
+                "with honest scorecards heavily** — this is the single "
+                "highest-GEO-leverage content play in the sprint.\n\n"
+                "**Cost to launch:** $0 in-house (Content Brief Factory). "
+                "~3 hours per page × 20 pages = ~60 hrs.\n\n"
+                "**Sprint tasks:**\n"
+                "- Wk 1: build `/compare/` hub + template\n"
+                "- Wk 2: publish 6 Nonbank-vs pages (already in Content to Publish)\n"
+                "- Wk 3: publish 5 competitor-vs-competitor pages\n"
+                "- Wk 4: publish 5 more + 3 use-case pages + re-check GEO citations"
+            )
+
     # ── 4c. Content to Publish ──────────────────────────────────────────────
     with tab_content:
         st.subheader("Content to Publish — Sprint Deliverables")
@@ -1201,11 +1475,16 @@ off-ramp friction. Picked up for free by the same SEO/GEO assets.
     with tab_budget:
         st.subheader("Budget Allocation ($10K midpoint)")
         st.info(
-            "**Concentrated mix — three channels only.** SEO guest-post "
+            "**Concentrated paid mix — three channels.** SEO guest-post "
             "marketplaces (primary, compounds past sprint) + crypto-native "
             "display ads (secondary, retargeting) + tiny KOL seed (tertiary, "
             "message test). **Newsletters and Telegram cut** — one-shot reach "
-            "at premium CPM, audiences already reachable organically."
+            "at premium CPM, audiences already reachable organically.\n\n"
+            "**🚀 Plus 5 structural zero-cost plays** (see Expansion Plays tab): "
+            "lifetime-revshare affiliate program · TikTok creator network · "
+            "pre-token rewards FOMO · programmatic country pages · comparison "
+            "hub. Paid spend gets you through the 4-week sprint; structural "
+            "plays compound through Month 2+."
         )
         budget = pd.DataFrame([
             {"Bucket": "🥇 SEO guest-post marketplaces (Serpzilla + Collaborator + PRPosting + Linkhouse + WhitePress)",
