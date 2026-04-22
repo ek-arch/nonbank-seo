@@ -35,6 +35,8 @@ def setup_sidebar() -> None:
             ("perplexity_key",  "PERPLEXITY_KEY",    "Perplexity",         "pplx-..."),
             ("serpapi_key",     "SERPAPI_KEY",        "SerpAPI",            "..."),
             ("collab_token",    "COLLABORATOR_KEY",   "Collaborator.pro",   "etVxo-..."),
+            ("serpzilla_login", "SERPZILLA_LOGIN",    "Serpzilla (email)",  "you@example.com"),
+            ("serpzilla_token", "SERPZILLA_API_TOKEN","Serpzilla API token","sz_..."),
         ]
 
         for ss_key, secret_name, label, placeholder in key_defs:
