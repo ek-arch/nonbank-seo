@@ -117,9 +117,13 @@ off-ramp friction. Picked up for free by the same SEO/GEO assets.
     with tab_channels:
         st.subheader("Channel Strategy")
         st.markdown(
-            "Multi-channel mix calibrated for $5–15K / 4 weeks. "
-            "**KOL is a seed test, not the hero.** SEO/GEO + founder X + "
-            "Reddit/Quora + PR do the heavy lifting."
+            "Concentrated mix for $5–15K / 4 weeks. **Three paid channels, "
+            "not ten.** Budget flows into what compounds (SEO guest posts) "
+            "and what has clean intent (crypto-native display retargeting), "
+            "with a tiny KOL seed for message testing. Telegram + newsletter "
+            "sponsorships cut — one-shot reach at premium CPMs, audiences "
+            "already reachable organically. Founder X + Reddit/Quora remain "
+            "the free organic backbone."
         )
 
         st.error(
@@ -154,18 +158,18 @@ off-ramp friction. Picked up for free by the same SEO/GEO assets.
              "Why it fits": "**Only compliant paid surface for DeFi wallets.** Crypto-specific, no license required.",
              "Format": "Native + display on tier-2/3 crypto sites; retarget comparison-page visitors",
              "Effort": "Low-medium", "Budget": "~$1.5–3K"},
-            {"Channel": "Crypto newsletter sponsorships (direct-buy)",
-             "Why it fits": "Direct-buy = no ad-policy gate. The Defiant / DeFi Prime / smaller lists.",
-             "Format": "1 slot in The Defiant or 2 in smaller newsletters",
-             "Effort": "Low", "Budget": "~$2–3K"},
-            {"Channel": "Micro-KOL seeds (direct-deal)",
-             "Why it fits": "Direct-to-creator = no ad-platform policy gate. Message testing.",
-             "Format": "2–3 Twitter micro-KOLs + 1 small YouTuber review",
-             "Effort": "Low", "Budget": "~$1.5–3K"},
-            {"Channel": "Telegram channel sponsorships (direct)",
-             "Why it fits": "Direct-buy; huge crypto audiences by geo; no platform-ad policy.",
-             "Format": "2–3 sponsored posts in niche DeFi / card-focused TG channels",
-             "Effort": "Low", "Budget": "~$500–1.5K"},
+            {"Channel": "Micro-KOL seeds (direct-deal, tiny)",
+             "Why it fits": "Direct-to-creator = no ad-platform policy gate. Message testing only — not brand-build.",
+             "Format": "1–2 Twitter micro-KOLs (5–20K followers)",
+             "Effort": "Low", "Budget": "~$800–1.2K"},
+            {"Channel": "Newsletter sponsorships — CUT",
+             "Why it fits": "One-shot reach, $130+ per install at typical funnel rates — 5–10× over target. Same audience reachable via founder X + Reddit for free.",
+             "Format": "Revisit Month 2 after sprint attribution baseline exists",
+             "Effort": "—", "Budget": "$0"},
+            {"Channel": "Telegram channel sponsorships — CUT",
+             "Why it fits": "Audience overlap with Crypto Twitter + Reddit; measurement opaque; CPM high vs. GEO-compounding alternatives.",
+             "Format": "Revisit Month 2",
+             "Effort": "—", "Budget": "$0"},
             {"Channel": "GEO optimization pass",
              "Why it fits": "Ensure Perplexity/ChatGPT cite the new comparison pages.",
              "Format": "llms.txt + schema + FAQ blocks on each page",
@@ -891,27 +895,40 @@ off-ramp friction. Picked up for free by the same SEO/GEO assets.
         st.divider()
         st.subheader("Recommended sprint allocation across outlets ($10K midpoint)")
         alloc = pd.DataFrame([
-            {"Bucket": "PR placements (direct + marketplaces + wires)",
-             "Picks": "1× CryptoSlate or BeInCrypto direct + 2–3× Collaborator + 2–3× PRPosting + 1× WhitePress (EU) + 1× Chainwire + 1× AccessWire",
-             "Amount": "$4,000", "Why": "8–10 placements across 30+ outlets. Backlinks + GEO citations + no ad-policy risk."},
-            {"Bucket": "Crypto-native paid ads", "Picks": "Coinzilla + Bitmedia + Cointraffic + A-ADS",
-             "Amount": "$2,500", "Why": "Only compliant paid surface for DeFi wallet. Retargeting comparison-page visitors."},
-            {"Bucket": "Newsletter sponsorship (direct-buy)", "Picks": "The Defiant slot or 2× smaller DeFi newsletters",
-             "Amount": "$1,500", "Why": "Direct-buy = bypasses ad-platform policy. High-engagement audience."},
-            {"Bucket": "Micro-KOL seeds (direct-deal)", "Picks": "2× Twitter micro + 1× small YouTuber review",
-             "Amount": "$1,500", "Why": "Direct-to-creator = no ad policy gate. Message testing."},
-            {"Bucket": "Telegram channel sponsorships", "Picks": "2–3 sponsored posts in niche DeFi TG channels",
-             "Amount": "$500", "Why": "Direct-buy; strong crypto-native reach by geo."},
-            {"Bucket": "Listings + community", "Picks": "Claim all P0 listings; Reddit/Quora/X effort",
-             "Amount": "$0 (time only)", "Why": "Highest long-run ROI. Labor-heavy."},
-            {"Bucket": "Production overflow", "Picks": "Design, comparison-table infographic, landing-page polish",
-             "Amount": "—", "Why": "Absorbed into PR / KOL line items"},
+            {"Bucket": "SEO guest-post marketplaces (primary)",
+             "Picks": "3–4× Collaborator + 3–4× PRPosting + 3–4× Serpzilla (crypto-native) + 1–2× Linkhouse + 1× WhitePress (EU)",
+             "Amount": "$6,000", "Why": "**Compounds past sprint** — every placement keeps ranking + fuels GEO citations for 12+ months. 12–15 unique outlets."},
+            {"Bucket": "Crypto-native paid ads (secondary)",
+             "Picks": "Coinzilla + Bitmedia only (skip Cointraffic, A-ADS unless surplus)",
+             "Amount": "$2,500", "Why": "Only compliant paid surface. **Retargeting comparison-page visitors** — high-intent second-touch."},
+            {"Bucket": "PR wires (syndication tail)",
+             "Picks": "1× Chainwire release",
+             "Amount": "$700", "Why": "One filing → 20+ tier-2 crypto outlets + GEO surface."},
+            {"Bucket": "Micro-KOL seeds (small)",
+             "Picks": "1–2× Twitter micro-KOL (5–20K followers) — message test only",
+             "Amount": "$800", "Why": "Cheap signal on which hook resonates. Not brand-build."},
+            {"Bucket": "Listings + community (free)",
+             "Picks": "Claim all P0 listings (CoinGecko, CMC, DappRadar, Alternativeto.net) + Reddit/Quora/X organic",
+             "Amount": "$0 (time only)", "Why": "Free, compounds forever, feeds LLM citations."},
+            {"Bucket": "Contingency / Wk 2 reallocation",
+             "Picks": "Held back; pour into whichever channel shows lowest CPA at end of Wk 2",
+             "Amount": "$1,000", "Why": "Don't dilute — concentrate on what's working."},
+            {"Bucket": "— CUT: Newsletter sponsorships",
+             "Picks": "Revisit Month 2",
+             "Amount": "$0", "Why": "$130+/install at typical funnel rates. Audience already reachable via organic."},
+            {"Bucket": "— CUT: Telegram channel sponsorships",
+             "Picks": "Revisit Month 2",
+             "Amount": "$0", "Why": "Audience overlap with Crypto Twitter; measurement opaque."},
         ])
         st.dataframe(alloc, use_container_width=True, hide_index=True)
         st.caption(
-            "Total: $10,000 ± contingency. If budget stretches to $15K: add "
-            "The Defiant primary slot ($3K), CryptoPotato as a second PR ($1K), "
-            "and 1 tier-1 TG channel sponsorship ($1K). If compressed to $5K: "
+            "Total: $11,000 ($10K operational + $1K contingency). If stretched "
+            "to $15K: +$2K more Serpzilla guest posts, +$1K AccessWire wire for "
+            "Yahoo Finance backlink, +$1K more Coinzilla retargeting. If "
+            "compressed to $5K: concentrate further — $3K SEO marketplaces "
+            "(Serpzilla + Collaborator only), $1.5K Coinzilla, $500 one micro-KOL. "
+            "**Hold newsletters and Telegram for Month 2 regardless of budget.** "
+            "*Original line below kept for reference — now deprecated.* If compressed to $5K: "
             "2 PR placements only (BeInCrypto + 1 Collaborator) + $1K "
             "Coinzilla + 1 micro-KOL. **Google/Meta/LinkedIn Ads are excluded "
             "at every budget tier — DeFi wallets require a license those "
@@ -1170,7 +1187,9 @@ off-ramp friction. Picked up for free by the same SEO/GEO assets.
             {"Metric": "Comparison-page organic sessions", "Target": "3,000+ in Wk 4", "Tracked via": "GA4 / GSC"},
             {"Metric": "Keyword rankings (6 target terms)", "Target": "Top-20 by end of sprint, top-10 by Day 60", "Tracked via": "GSC + Keyword Intel"},
             {"Metric": "LLM citations (Perplexity/ChatGPT)", "Target": "≥3 brand mentions for 'best self-custody crypto card'", "Tracked via": "GEO Tracker"},
-            {"Metric": "Crypto-native ad CPA (Coinzilla/Bitmedia)", "Target": "<$20 per install", "Tracked via": "Network dashboards + UTM to GA4"},
+            {"Metric": "Crypto-native ad CPA (Coinzilla/Bitmedia)",
+             "Target": "Wk 1–2: measure & baseline (no fixed target). Wk 3+: cap at 3× the lowest-CPA channel.",
+             "Tracked via": "Network dashboards + UTM to GA4 → join with app install + funded-wallet events"},
             {"Metric": "Reddit/Quora comment upvote ratio", "Target": "≥70% positive, ≥3 direct clicks per comment", "Tracked via": "Manual log"},
             {"Metric": "Founder X impressions", "Target": "500K cumulative across sprint", "Tracked via": "X analytics"},
             {"Metric": "PR referral traffic", "Target": "500+ sessions per placement", "Tracked via": "GA4"},
@@ -1181,13 +1200,30 @@ off-ramp friction. Picked up for free by the same SEO/GEO assets.
     # ── 8. Budget ───────────────────────────────────────────────────────────
     with tab_budget:
         st.subheader("Budget Allocation ($10K midpoint)")
+        st.info(
+            "**Concentrated mix — three channels only.** SEO guest-post "
+            "marketplaces (primary, compounds past sprint) + crypto-native "
+            "display ads (secondary, retargeting) + tiny KOL seed (tertiary, "
+            "message test). **Newsletters and Telegram cut** — one-shot reach "
+            "at premium CPM, audiences already reachable organically."
+        )
         budget = pd.DataFrame([
-            {"Bucket": "PR placements (tier-2 crypto + Collaborator + 1 wire)", "Amount": "$4,000", "%": "40%"},
-            {"Bucket": "Crypto-native ad networks (Coinzilla + Bitmedia + Cointraffic + A-ADS)", "Amount": "$2,500", "%": "25%"},
-            {"Bucket": "Newsletter sponsorship (The Defiant or 2× smaller)", "Amount": "$1,500", "%": "15%"},
-            {"Bucket": "Micro-KOL seeds (2–3 direct-deal)", "Amount": "$1,500", "%": "15%"},
-            {"Bucket": "Telegram channel sponsorships (2–3 direct posts)", "Amount": "$500", "%": "5%"},
-            {"Bucket": "Contingency (reserved)", "Amount": "+$1,000", "%": "—"},
+            {"Bucket": "🥇 SEO guest-post marketplaces (Serpzilla + Collaborator + PRPosting + Linkhouse + WhitePress)",
+             "Amount": "$6,000", "%": "60%"},
+            {"Bucket": "🥈 Crypto-native ad networks (Coinzilla + Bitmedia — retargeting)",
+             "Amount": "$2,500", "%": "25%"},
+            {"Bucket": "PR wire (1× Chainwire — syndication tail)",
+             "Amount": "$700", "%": "7%"},
+            {"Bucket": "🥉 Micro-KOL seeds (1–2 small Twitter micros)",
+             "Amount": "$800", "%": "8%"},
+            {"Bucket": "Listings + community (free, time-only)",
+             "Amount": "$0", "%": "—"},
+            {"Bucket": "— CUT: Newsletter sponsorships",
+             "Amount": "$0", "%": "cut"},
+            {"Bucket": "— CUT: Telegram channel sponsorships",
+             "Amount": "$0", "%": "cut"},
+            {"Bucket": "Contingency (hold for Wk 2 reallocation)",
+             "Amount": "+$1,000", "%": "—"},
         ])
         st.dataframe(budget, use_container_width=True, hide_index=True)
         st.warning(
@@ -1214,6 +1250,8 @@ off-ramp friction. Picked up for free by the same SEO/GEO assets.
              "Mitigation": "Structurally excluded from the plan. Budget reallocated to crypto-native networks (Coinzilla, Bitmedia) + direct-buy newsletters + KOLs + PR. Reach mainstream search via SEO, not ads."},
             {"Risk": "X/Reddit Ads reject Nonbank at review",
              "Mitigation": "Treat both as conditional (<$1K test). If rejected, reallocate to Coinzilla + Bitmedia on Day 1 of Wk 2."},
+            {"Risk": "Channel concentration (only 3 paid surfaces — SEO marketplaces, crypto ads, 1–2 micro-KOLs)",
+             "Mitigation": "Deliberate. Dilution across 6–8 channels at $10K buys noise, not signal. Concentration = readable attribution in 4 weeks. $1K contingency held back for Wk 2 reallocation if one channel underperforms."},
             {"Risk": "PR placements slip past Wk 4",
              "Mitigation": "Lock 2 outlets in Wk 1 with firm deadlines; keep backup outlet from Collaborator list."},
             {"Risk": "Reddit comments flagged as shilling",
