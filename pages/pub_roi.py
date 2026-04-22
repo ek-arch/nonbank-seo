@@ -175,6 +175,16 @@ def page_publication_roi():
             c_rank     = st.slider("Current rank for that keyword", 1, 30, default_rank)
             c_market   = st.text_input("Market override (e.g. ARE, ISR, KAZ — optional)", "")
             c_ai_cite  = st.slider("AI Citability (GEO)", 0, 3, 1, help="0=Never cited by AI, 3=Frequently cited")
+            c_content_type = st.selectbox(
+                "Content type",
+                options=["guest_post", "link_insertion", "pr_wire"],
+                format_func=lambda v: {
+                    "guest_post":     "📝 Guest post (full article, 1.0× SEO/GEO)",
+                    "link_insertion": "🔗 Link insertion (0.45× SEO / 0.10× GEO)",
+                    "pr_wire":        "📰 PR wire (0.55× SEO / 0.35× GEO)",
+                }[v],
+                help="Guest posts produce a full article AI engines can cite. Link insertions add a link to an existing page — weak GEO signal.",
+            )
 
         roi = calculate_publication_roi(
             outlet=c_outlet, lang=c_lang, price=c_price,
@@ -184,6 +194,7 @@ def page_publication_roi():
             seo_months=seo_months, market=c_market or None,
             has_crypto_category=c_crypto,
             ai_citability=c_ai_cite, ai_share_of_search=ai_search_frac,
+            content_type=c_content_type,
         )
 
         st.divider()
@@ -199,10 +210,16 @@ def page_publication_roi():
                 st.metric("Payback",         f"{s.payback_days} days")
                 st.caption(f"Referral: {s.referral_visits:,} · SEO: {s.seo_visits_90d:,} · AI: {s.ai_visits_90d:,} visits")
 
+        ct_label = {
+            "guest_post":     "📝 Guest post (full SEO/GEO weight)",
+            "link_insertion": "🔗 Link insertion (weak GEO — 0.10× multiplier)",
+            "pr_wire":        "📰 PR wire (moderate weight)",
+        }.get(c_content_type, c_content_type)
         st.info(
             f"**Assumptions:** LTV = ${roi.ltv:,}/user · "
             f"Conversion rate = {roi.cr*100:.2f}% · "
-            f"Article CTR = {article_ctr:.2f}% of outlet traffic"
+            f"Article CTR = {article_ctr:.2f}% of outlet traffic · "
+            f"**Content type:** {ct_label}"
         )
 
     # ── TAB 3: LTV BENCHMARK ─────────────────────────────────────

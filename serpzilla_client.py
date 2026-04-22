@@ -231,25 +231,50 @@ class SerpzillaClient:
                 f"got {link_type!r}"
             )
 
-        payload: dict[str, Any] = {}
+        # Build the fullest filter payload; if Serpzilla rejects unknown
+        # filter names (e.g. domainRatingFrom / trafficFrom are best-guesses
+        # not in the public /api/buy-permanent example), we fall back to
+        # price-only + client-side filtering for DR and traffic.
+        full: dict[str, Any] = {}
         if price_min is not None:
-            payload["priceArticleFrom"] = price_min
+            full["priceArticleFrom"] = price_min
         if price_max is not None:
-            payload["priceArticleTo"] = price_max
+            full["priceArticleTo"] = price_max
         if dr_min is not None:
-            payload["domainRatingFrom"] = dr_min
+            full["domainRatingFrom"] = dr_min
         if traffic_min is not None:
-            payload["trafficFrom"] = traffic_min
+            full["trafficFrom"] = traffic_min
         if extra_filters:
-            payload.update(extra_filters)
+            full.update(extra_filters)
+
+        url = f"{BASE_URL}/rest/SearchPermanent/projectId/{project_id}"
+        params = {"permanentLinkType": link_type, "projectId": project_id}
 
         r = self.session.post(
-            f"{BASE_URL}/rest/SearchPermanent/projectId/{project_id}",
-            params={"permanentLinkType": link_type, "projectId": project_id},
-            headers=self._headers(),
-            json=payload,
-            timeout=self.timeout,
+            url, params=params, headers=self._headers(),
+            json=full, timeout=self.timeout,
         )
+
+        # Graceful fallback: if server rejects the filter payload, retry
+        # with confirmed-safe price filters only and post-filter locally.
+        if r.status_code in (400, 422):
+            safe = {k: full[k] for k in ("priceArticleFrom", "priceArticleTo") if k in full}
+            r = self.session.post(
+                url, params=params, headers=self._headers(),
+                json=safe, timeout=self.timeout,
+            )
+            _raise_for_status(r, "SearchPermanent.searchPermanent (fallback)")
+            data = _safe_json(r)
+            items = data.get("items", []) or []
+            if dr_min is not None:
+                items = [it for it in items if (it.get("domainRating") or 0) >= dr_min]
+            if traffic_min is not None:
+                items = [it for it in items if (it.get("traffic") or 0) >= traffic_min]
+            data["items"] = items
+            data["nofItemsTotal"] = len(items)
+            data["_fallback_applied"] = True
+            return data
+
         _raise_for_status(r, "SearchPermanent.searchPermanent")
         return _safe_json(r)
 
